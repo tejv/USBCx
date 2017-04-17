@@ -1,0 +1,3 @@
+// Change this as per machine for publishing to maven-repo on githib
+// e.g =file:///home/sparta/maven-repo
+LOCAL_MAVEN_REPO_PATH=file:///D:/teju/projects/maven-repo

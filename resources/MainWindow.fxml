@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="1048.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ykc.usbcx.MainWindowController">
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane prefHeight="511.0" prefWidth="985.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <VBox AnchorPane.bottomAnchor="541.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ToolBar prefHeight="45.0" prefWidth="985.0">
+                           <items>
+                              <Button fx:id="bPopulate" mnemonicParsing="false" onAction="#populate" text="Populate" />
+                              <Button fx:id="bAboutMe" mnemonicParsing="false" onAction="#showAboutMe" text="About Me" />
+                           </items>
+                        </ToolBar>
+                     </children>
+                  </VBox>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="44.0" prefHeight="594.0" prefWidth="985.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0">
+                     <content>
+                        <TreeTableView fx:id="ttViewParseViewer" prefHeight="542.0" prefWidth="985.0" showRoot="false" tableMenuButtonVisible="true">
+                           <columns>
+                              <TreeTableColumn fx:id="ttColPVName" editable="false" prefWidth="75.0" sortable="false" text="Name" />
+                              <TreeTableColumn fx:id="ttColPVValue" editable="false" prefWidth="75.0" sortable="false" text="Value" />
+                              <TreeTableColumn fx:id="ttColPVDecimal" editable="false" prefWidth="75.0" sortable="false" text="Decimal" visible="false" />
+                              <TreeTableColumn fx:id="ttColPVHex" editable="false" prefWidth="75.0" sortable="false" text="Hex" visible="false" />
+                              <TreeTableColumn fx:id="ttColPVBinary" editable="false" prefWidth="75.0" sortable="false" text="Binary" visible="false" />
+                              <TreeTableColumn fx:id="ttColPVOffset" editable="false" prefWidth="75.0" sortable="false" text="Offset" visible="false" />
+                              <TreeTableColumn fx:id="ttColPVLength" editable="false" prefWidth="75.0" sortable="false" text="Length" visible="false" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TreeTableView>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

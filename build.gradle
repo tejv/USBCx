@@ -1,0 +1,258 @@
+buildscript {
+    dependencies {
+        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+import org.apache.tools.ant.taskdefs.condition.Os
+
+apply plugin: 'java'
+apply plugin: 'javafx-gradle-plugin'
+apply plugin: 'application'
+apply plugin: 'maven'
+
+def maj_ver
+def min_ver
+def build_no
+def versionPropsFile
+def Properties versionProps
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven{
+    	url "https://maven2repo.com/com.jfoenix/jfoenix"
+    	url "https://github.com/tejv/maven-repo/raw/master"
+
+    }
+}
+
+dependencies {
+
+	compile 'org.ykc:usbmanager:1.0.0'
+	compile 'org.controlsfx:controlsfx:8.40.12'
+	compile 'com.jfoenix:jfoenix:1.1.0'
+	compile 'org.apache.commons:commons-lang3:3.5'
+	// https://mvnrepository.com/artifact/commons-io/commons-io
+	compile group: 'commons-io', name: 'commons-io', version: '2.5'
+}
+
+build{
+
+ 	versionPropsFile = file('resources/version.properties')
+
+    if (versionPropsFile.canRead()) {
+        versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+        maj_ver = versionProps['MAJOR_VERSION'].toInteger()
+		min_ver = versionProps['MINOR_VERSION'].toInteger()
+		build_no = versionProps['BUILD_NO'].toInteger()
+
+        def runTasks = gradle.startParameter.taskNames
+        if ('major_release' in runTasks) {
+            min_ver = 0
+            build_no = 0
+            maj_ver = maj_ver + 1
+        }
+        else if('major_release_skip_ver_inc' in runTasks)
+        {
+        	min_ver = 0
+            build_no = 0
+        }
+        else if('minor_release' in runTasks)
+        {
+            min_ver = min_ver + 1
+            build_no = 0
+        }
+        else if('minor_release_skip_ver_inc' in runTasks)
+        {
+        	build_no = 0
+        }
+        else if('uploadArchives' in runTasks)
+        {
+        	//do_nothing
+        }
+        else
+        {
+        	build_no = build_no + 1
+        }
+
+        versionProps['MAJOR_VERSION']= maj_ver.toString()
+        versionProps['MINOR_VERSION']= min_ver.toString()
+        versionProps['BUILD_NO']= build_no.toString()
+        versionProps.store(versionPropsFile.newWriter(), null)
+
+		jar.version = "${maj_ver}.${min_ver}.${build_no}"
+
+    }
+    else {
+        throw new GradleException("Could not read version.properties!")
+	}
+
+}
+
+jar{
+	group 'build'
+
+	from('resources') {
+	   include '*.*'
+	}
+
+	manifest {
+	    attributes(
+				'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      			'Main-Class': 'org.ykc.usbcx.Main'
+	      )
+	}
+
+	from configurations.compile.collect {zipTree it}
+}
+
+jfx {
+    verbose = true
+    mainClass = 'org.ykc.usbcx.Main'
+    jfxAppOutputDir = "build/jfx/app"
+    jfxMainAppJarName = "USBCx.jar"
+    deployDir = "src/main/deploy"
+    useEnvironmentRelativeExecutables = true
+    libFolderName = "lib"
+
+    // gradle jfxJar
+    css2bin = false
+    preLoader = null // String
+    updateExistingJar = false
+    allPermissions = false
+    manifestAttributes = null // Map<String, String>
+    addPackagerJar = true
+    copyAdditionalAppResourcesToJar = true
+    skipCopyingDependencies = false
+    useLibFolderContentForManifestClasspath = false
+    fixedManifestClasspath = null
+
+    // gradle jfxNative
+    identifier = null  // String - setting this for windows-bundlers makes it possible to generate upgradeable installers (using same GUID)
+    vendor = "org.ykc"
+    nativeOutputDir = "build/jfx/native"
+    bundler = "ALL" // set this to some specific, if your don't want all bundlers running, examples "windows.app", "jnlp", ...
+    jvmProperties = null // Map<String, String>
+    jvmArgs = null // List<String>
+    userJvmArgs = null // Map<String, String>
+    launcherArguments = null // List<String>
+    nativeReleaseVersion = "1.0"
+    needShortcut = false
+    needMenu = false
+    bundleArguments = [
+        // dont bundle JRE (not recommended, but increases build-size/-speed)
+        runtime: null
+    ]
+    appName = "project" // this is used for files below "src/main/deploy", e.g. "src/main/deploy/windows/project.ico"
+    additionalBundlerResources = null // path to some additional resources for the bundlers when creating application-bundle
+    additionalAppResources = null // path to some additional resources when creating application-bundle
+    secondaryLaunchers = [[appName:"somethingDifferent"], [appName:"somethingDifferent2"]]
+    fileAssociations = null // List<Map<String, Object>>
+    noBlobSigning = false // when using bundler "jnlp", you can choose to NOT use blob signing
+    customBundlers = null // List<String>
+    failOnError = false
+    onlyCustomBundlers = false
+    skipJNLP = false
+    skipNativeVersionNumberSanitizing = false // anything than numbers or dots are removed
+    additionalJarsignerParameters = null // List<String>
+    skipMainClassScanning = false // set to true might increase build-speed
+
+    skipNativeLauncherWorkaround124 = false
+    skipNativeLauncherWorkaround167 = false
+    skipNativeLauncherWorkaround205 = false
+    skipJNLPRessourcePathWorkaround182 = false
+    skipSigningJarFilesJNLP185 = false
+    skipSizeRecalculationForJNLP185 = false
+    skipMacBundlerWorkaround = false
+
+    // gradle jfxRun
+    runJavaParameter = null // String
+    runAppParameter = null // String
+
+    // per default the outcome of the gradle "jarTask" will be used, set this to specify otherwise (like proguard-output)
+    alternativePathToJarFile = null // String
+
+    // to disable patching of ant-javafx.jar, set this to false
+    usePatchedJFXAntLib = true
+
+    // making it able to support absolute paths, defaults to "false" for maintaining old behaviour
+    checkForAbsolutePaths = false
+
+    // gradle jfxGenerateKeyStore
+    keyStore = "src/main/deploy/keystore.jks"
+    keyStoreAlias = "myalias"
+    keyStorePassword = "password"
+    keyPassword = null // will default to keyStorePassword
+    keyStoreType = "jks"
+    overwriteKeyStore = false
+
+    certDomain = null // required
+    certOrgUnit = null // defaults to "none"
+    certOrg = null // required
+    certState = null // required
+    certCountry = null // required
+}
+
+task min_rel(type: Copy) {
+    from jfxJar
+    into "release/${maj_ver}.0.0"
+}
+
+task maj_rel(type: Copy) {
+
+    from jfxJar
+    into "release/${maj_ver}.${min_ver}.${build_no}"
+}
+
+
+/* Use only on release */
+task minor_release() {
+    description "Generates output jar in release folder with auto increment of minor version"
+    group 'build'
+    dependsOn = ['min_rel']
+}
+
+task minor_release_skip_ver_inc() {
+    description "Generates output jar in release folder with no increment of minor version"
+    group 'build'
+    dependsOn = ['min_rel']
+}
+
+task major_release() {
+    description "Generates output jar in release folder with auto increment of major version"
+    group 'build'
+	dependsOn = ['maj_rel']
+}
+
+task major_release_skip_ver_inc() {
+    description "Generates output jar in release folder with no increment of major version"
+    group 'build'
+	dependsOn = ['maj_rel']
+}
+
+
+// Deploy to local maven-repo. If want to put on github push as a seprate step.
+// Path of local maven-repo needs to be specified in gradle.properties file and changed
+//   as per machine.
+uploadArchives {
+
+    repositories.mavenDeployer {
+
+		repository(url: LOCAL_MAVEN_REPO_PATH)
+        uniqueVersion = false
+
+        pom.project {
+            groupId = 'org.ykc'
+            version = jar.version
+            artifactId = 'USBCx'
+            packaging = 'jar'
+        }
+    }
+}
