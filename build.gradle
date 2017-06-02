@@ -22,22 +22,21 @@ def versionPropsFile
 def Properties versionProps
 
 repositories {
-    mavenLocal()
     mavenCentral()
+    mavenLocal()
     maven{
     	url "https://maven2repo.com/com.jfoenix/jfoenix"
     	url "https://github.com/tejv/maven-repo/raw/master"
-
     }
 }
 
 dependencies {
-
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.+'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.+'
 	compile 'org.ykc:usbmanager:1.0.0'
 	compile 'org.controlsfx:controlsfx:8.40.12'
 	compile 'com.jfoenix:jfoenix:1.1.0'
 	compile 'org.apache.commons:commons-lang3:3.5'
-	// https://mvnrepository.com/artifact/commons-io/commons-io
 	compile group: 'commons-io', name: 'commons-io', version: '2.5'
 }
 

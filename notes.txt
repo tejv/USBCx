@@ -1,0 +1,2 @@
+Add remember last folder and trigger settings.
+Support drag drop files

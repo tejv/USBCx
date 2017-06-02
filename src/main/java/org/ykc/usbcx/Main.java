@@ -1,5 +1,8 @@
 package org.ykc.usbcx;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -9,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
+	public static final Logger logger = LoggerFactory.getLogger(Main.class.getName());
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -28,6 +32,7 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
+		logger.info("Application starting");
 		launch(args);
 	}
 }

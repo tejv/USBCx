@@ -18,11 +18,17 @@
     }
 
 .button {
-    -fx-background-color : #29B6F6;
-    -fx-text-fill        : #E1F5FE;
+    -fx-background-color : #e0ffff;
+    -fx-text-fill        : #808080;
     -fx-font-weight      : 900;
     }
-
+ /*
+.label {
+    -fx-background-color : #e0ffff;
+    -fx-text-fill        : #808080;
+    -fx-font-weight      : 900;
+    }
+*/
 .button:hover {
-    -fx-background-color : #01579B;
+    -fx-background-color : #87cefa;
     }

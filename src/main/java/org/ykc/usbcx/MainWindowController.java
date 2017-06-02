@@ -7,12 +7,22 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableRow;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -21,6 +31,48 @@ import java.util.ResourceBundle;
 import org.ykc.usbcx.DetailsRow.BG;
 
 public class MainWindowController implements Initializable{
+
+	 @FXML
+    private TableView<MainViewRow> tViewMain;
+
+    @FXML
+    private TableColumn<MainViewRow, Integer> tColMViewSno;
+
+    @FXML
+    private TableColumn<MainViewRow, String> tColMViewOk;
+
+    @FXML
+    private TableColumn<MainViewRow, String> tColMViewSop;
+
+    @FXML
+    private TableColumn<MainViewRow, String> tColMViewMsg;
+
+    @FXML
+    private TableColumn<MainViewRow, Integer> tColMViewId;
+
+    @FXML
+    private TableColumn<MainViewRow, String> tColMViewDrole;
+
+    @FXML
+    private TableColumn<MainViewRow, String> tColMViewProle;
+
+    @FXML
+    private TableColumn<MainViewRow, Integer> tColMViewCount;
+
+    @FXML
+    private TableColumn<MainViewRow, Integer> tColMViewRev;
+
+    @FXML
+    private TableColumn<MainViewRow, Integer> tColMViewDuration;
+
+    @FXML
+    private TableColumn<MainViewRow, Long> tColMViewDelta;
+
+    @FXML
+    private TableColumn<MainViewRow, Integer> tColMViewVbus;
+
+    @FXML
+    private TableColumn<MainViewRow, String> tColMViewData;
 
     @FXML // fx:id="ttViewParseViewer"
     private TreeTableView<DetailsRow> ttViewParseViewer; // Value injected by FXMLLoader
@@ -46,11 +98,89 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="ttColPVLength"
     private TreeTableColumn<DetailsRow, String> ttColPVLength; // Value injected by FXMLLoader
 
-    @FXML // fx:id="bPopulate"
-    private Button bPopulate; // Value injected by FXMLLoader
+    @FXML // fx:id="txtAreaDataView"
+    private TextArea txtAreaDataView; // Value injected by FXMLLoader
+    
+    @FXML
+    private Button bOpen;
+
+    @FXML
+    private Button bSave;
+
+    @FXML
+    private Button bStartStop;
+
+    @FXML
+    private Button bReset;
+
+    @FXML
+    private Button bTrigger;
+
+    @FXML
+    private Button bGetVersion;
+
+    @FXML
+    private Button bDownload;
+
+    @FXML
+    private Button bAbout;
+    
+    @FXML // fx:id="cBoxDeviceList"
+    private ComboBox<String> cBoxDeviceList; // Value injected by FXMLLoader
+
+    @FXML // fx:id="lblStartDelta"
+    private Label lblStartDelta; // Value injected by FXMLLoader    
+    
+    @FXML // fx:id="chkStartSno"
+    private CheckBox chkStartSno; // Value injected by FXMLLoader
+
+    @FXML // fx:id="chkEndSno"
+    private CheckBox chkEndSno; // Value injected by FXMLLoader
+
+    @FXML // fx:id="chkSop"
+    private CheckBox chkSop; // Value injected by FXMLLoader
+
+    @FXML // fx:id="chkMsgId"
+    private CheckBox chkMsgId; // Value injected by FXMLLoader
+
+    @FXML // fx:id="chkMsgType"
+    private CheckBox chkMsgType; // Value injected by FXMLLoader
+
+    @FXML // fx:id="chkMsgClass"
+    private CheckBox chkMsgClass; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtStartSno"
+    private TextField txtStartSno; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtEndSno"
+    private TextField txtEndSno; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtCount"
+    private TextField txtCount; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtMsgId"
+    private TextField txtMsgId; // Value injected by FXMLLoader
+
+    @FXML // fx:id="cBoxSop"
+    private ComboBox<String> cBoxSop; // Value injected by FXMLLoader
+
+    @FXML // fx:id="cBoxMsgType"
+    private ComboBox<String> cBoxMsgType; // Value injected by FXMLLoader
+
+    @FXML // fx:id="cBoxMsgClass"
+    private ComboBox<String> cBoxMsgClass; // Value injected by FXMLLoader    
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+
+		bOpen.setGraphic(new ImageView(new Image("/open.png")));
+		bSave.setGraphic(new ImageView(new Image("/save.png")));
+		bStartStop.setGraphic(new ImageView(new Image("/start_stop.png")));
+		bReset.setGraphic(new ImageView(new Image("/reset.png")));
+		bTrigger.setGraphic(new ImageView(new Image("/trigger.png")));
+		bGetVersion.setGraphic(new ImageView(new Image("/version.png")));
+		bDownload.setGraphic(new ImageView(new Image("/download.png")));
+		bAbout.setGraphic(new ImageView(new Image("/info.png")));
 
 		ttColPVName.setCellValueFactory(new TreeItemPropertyValueFactory<DetailsRow, String>("name"));
 		ttColPVValue.setCellValueFactory(new TreeItemPropertyValueFactory<DetailsRow, String>("value"));
