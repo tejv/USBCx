@@ -38,6 +38,7 @@ dependencies {
 	compile 'com.jfoenix:jfoenix:1.1.0'
 	compile 'org.apache.commons:commons-lang3:3.5'
 	compile group: 'commons-io', name: 'commons-io', version: '2.5'
+	compile 'org.jdom:jdom2:2.0.6'
 }
 
 build{
@@ -97,6 +98,11 @@ build{
 
 jar{
 	group 'build'
+
+    // This file is needed for usbmanager to work
+	from('src/main/java') {
+	   include 'javax.usb.properties'
+	}
 
 	from('resources') {
 	   include '*.*'

@@ -4,6 +4,7 @@ package org.ykc.usbcx;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -14,6 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
@@ -22,15 +24,32 @@ import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
+
+import org.apache.commons.io.FileUtils;
+import org.controlsfx.control.StatusBar;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.ykc.usbcx.DetailsRow.BG;
 
 public class MainWindowController implements Initializable{
+
+	public static final Logger logger = LoggerFactory.getLogger(MainWindowController.class.getName());
+
+    @FXML
+    private BorderPane bPaneMainWindow;
 
 	 @FXML
     private TableView<MainViewRow> tViewMain;
@@ -100,7 +119,7 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="txtAreaDataView"
     private TextArea txtAreaDataView; // Value injected by FXMLLoader
-    
+
     @FXML
     private Button bOpen;
 
@@ -124,13 +143,28 @@ public class MainWindowController implements Initializable{
 
     @FXML
     private Button bAbout;
-    
+
+    @FXML // fx:id="bFirstPage"
+    private Button bFirstPage; // Value injected by FXMLLoader
+
+    @FXML // fx:id="bPrevPage"
+    private Button bPrevPage; // Value injected by FXMLLoader
+
+    @FXML // fx:id="bNextPage"
+    private Button bNextPage; // Value injected by FXMLLoader
+
+    @FXML // fx:id="bLastPage"
+    private Button bLastPage; // Value injected by FXMLLoader
+
+    @FXML
+    private StatusBar statusBar;
+
     @FXML // fx:id="cBoxDeviceList"
     private ComboBox<String> cBoxDeviceList; // Value injected by FXMLLoader
 
     @FXML // fx:id="lblStartDelta"
-    private Label lblStartDelta; // Value injected by FXMLLoader    
-    
+    private Label lblStartDelta; // Value injected by FXMLLoader
+
     @FXML // fx:id="chkStartSno"
     private CheckBox chkStartSno; // Value injected by FXMLLoader
 
@@ -140,14 +174,14 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="chkSop"
     private CheckBox chkSop; // Value injected by FXMLLoader
 
+    @FXML
+    private CheckBox chkCount;
+
     @FXML // fx:id="chkMsgId"
     private CheckBox chkMsgId; // Value injected by FXMLLoader
 
     @FXML // fx:id="chkMsgType"
     private CheckBox chkMsgType; // Value injected by FXMLLoader
-
-    @FXML // fx:id="chkMsgClass"
-    private CheckBox chkMsgClass; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtStartSno"
     private TextField txtStartSno; // Value injected by FXMLLoader
@@ -168,19 +202,40 @@ public class MainWindowController implements Initializable{
     private ComboBox<String> cBoxMsgType; // Value injected by FXMLLoader
 
     @FXML // fx:id="cBoxMsgClass"
-    private ComboBox<String> cBoxMsgClass; // Value injected by FXMLLoader    
+    private ComboBox<String> cBoxMsgClass; // Value injected by FXMLLoader
+
+    USBControl usbcontrol;
+    private Stage myStage;
+    Cordinator cordinator = new Cordinator();
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+		Preferences.genTempFolders();
+		Preferences.loadPreferences();
 		bOpen.setGraphic(new ImageView(new Image("/open.png")));
+		bOpen.setTooltip(new Tooltip("Open ucx1 file"));
 		bSave.setGraphic(new ImageView(new Image("/save.png")));
+		bSave.setTooltip(new Tooltip("Save ucx1 file"));
 		bStartStop.setGraphic(new ImageView(new Image("/start_stop.png")));
+		bStartStop.setTooltip(new Tooltip("Start/Stop Capture"));
 		bReset.setGraphic(new ImageView(new Image("/reset.png")));
+		bReset.setTooltip(new Tooltip("Reset and clear"));
 		bTrigger.setGraphic(new ImageView(new Image("/trigger.png")));
+		bTrigger.setTooltip(new Tooltip("Set Trigger"));
 		bGetVersion.setGraphic(new ImageView(new Image("/version.png")));
+		bGetVersion.setTooltip(new Tooltip("Get Version"));
 		bDownload.setGraphic(new ImageView(new Image("/download.png")));
+		bDownload.setTooltip(new Tooltip("Download FW"));
 		bAbout.setGraphic(new ImageView(new Image("/info.png")));
+		bAbout.setTooltip(new Tooltip("About USBCx"));
+		bFirstPage.setGraphic(new ImageView(new Image("/double_arrow_left.png")));
+		bFirstPage.setTooltip(new Tooltip("Go to First Page"));
+		bPrevPage.setGraphic(new ImageView(new Image("/arrow_left.png")));
+		bPrevPage.setTooltip(new Tooltip("Go to Previous Page"));
+		bNextPage.setGraphic(new ImageView(new Image("/arrow_right.png")));
+		bNextPage.setTooltip(new Tooltip("Go to Next Page"));
+		bLastPage.setGraphic(new ImageView(new Image("/double_arrow_right.png")));
+		bLastPage.setTooltip(new Tooltip("Go to Last Page"));
 
 		ttColPVName.setCellValueFactory(new TreeItemPropertyValueFactory<DetailsRow, String>("name"));
 		ttColPVValue.setCellValueFactory(new TreeItemPropertyValueFactory<DetailsRow, String>("value"));
@@ -240,8 +295,100 @@ public class MainWindowController implements Initializable{
             return cell;
         });
 
+	    cBoxMsgClass.getItems().addAll(PDUtils.MSG_CLASS);
+	    cBoxMsgClass.getSelectionModel().select(0);
+	    cBoxMsgType.getItems().addAll(PDUtils.CTRL_MSG_TYPE);
+	    cBoxMsgType.getSelectionModel().select(1);
+	    cBoxSop.getItems().addAll(PDUtils.SOP_TYPE);
+	    cBoxSop.getSelectionModel().select(0);
 
+
+	    usbcontrol = new USBControl(cBoxDeviceList, statusBar);
 	}
+
+    @FXML
+    void openOnDragOver(DragEvent event) {
+    	 Dragboard db = event.getDragboard();
+         if (db.hasFiles()) {
+             event.acceptTransferModes(TransferMode.ANY);
+         } else {
+             event.consume();
+         }
+    }
+
+    @FXML
+    void openOnDragDrop(DragEvent event) {
+    	Dragboard db = event.getDragboard();
+        boolean success = false;
+        if (db.hasFiles()) {
+
+            String filePath = null;
+            for (File file:db.getFiles()) {
+            	if(Utils.getFileExtension(file).equals("ucx1")){
+            		success = true;
+            		OpenRecord.open(file, usbcontrol, statusBar);
+            		break;
+            	}
+            }
+        }
+        event.setDropCompleted(success);
+        event.consume();
+    }
+
+    @FXML
+    void openRecord(ActionEvent event) {
+    	OpenRecord.open(bPaneMainWindow.getScene().getWindow(), usbcontrol, statusBar);
+    }
+
+    @FXML
+    void saveRecord(ActionEvent event) {
+    	SaveRecord.save(bPaneMainWindow.getScene().getWindow(), usbcontrol, statusBar);
+    }
+
+    @FXML
+    void startStopCapture(ActionEvent event) {
+    	usbcontrol.startStopCapture();
+    }
+
+
+    @FXML
+    void resetCapture(ActionEvent event) {
+    	usbcontrol.resetCapture();
+    }
+
+    @FXML
+    void trgMsgClassChanged(ActionEvent event) {
+    	cBoxMsgType.getItems().clear();
+    	int selIndex = cBoxMsgClass.getSelectionModel().getSelectedIndex();
+    	switch (selIndex){
+    	case 0:
+    		cBoxMsgType.getItems().addAll(PDUtils.CTRL_MSG_TYPE);
+    		break;
+    	case 1:
+    		cBoxMsgType.getItems().addAll(PDUtils.DATA_MSG_TYPE);
+    		break;
+    	default:
+    		cBoxMsgType.getItems().addAll(PDUtils.EXTD_MSG_TYPE);
+    			break;
+    	}
+    	cBoxMsgType.getSelectionModel().select(0);
+    }
+
+    @FXML
+    void setTrigger(ActionEvent event) {
+    	usbcontrol.setTrigger(chkStartSno, chkEndSno, chkSop, chkMsgType, chkCount, chkMsgId,
+    			              txtStartSno, txtEndSno, cBoxSop, cBoxMsgClass, cBoxMsgType, txtCount, txtMsgId);
+    }
+
+    @FXML
+    void getVersion(ActionEvent event) {
+    	usbcontrol.getVersion();
+    }
+
+    @FXML
+    void downloadFw(ActionEvent event) {
+    	usbcontrol.downloadFW();
+    }
 
     @FXML
     void showAboutMe(ActionEvent event) {
@@ -260,7 +407,7 @@ public class MainWindowController implements Initializable{
 			input = getClass().getResource("/version.properties").openStream();
 			prop.load(input);
 			String ver = prop.getProperty("MAJOR_VERSION") + "."+ prop.getProperty("MINOR_VERSION") + "." + prop.getProperty("BUILD_NO");
-			MsgBox.display("About Me", "USBCx -> USBPD Analyzer\nVersion: "+ ver +"\nAuthor: Tejender Sheoran\nEmail: tejendersheoran@gmail.com\nCopyright(C) (2016-2017) Tejender Sheoran\nThis program is free software. You can redistribute it and/or modify it\nunder the terms of the GNU General Public License Ver 3.\n<http://www.gnu.org/licenses/>");
+			MsgBox.display("About Me", "USBCx -> USBPD Analyzer\nVersion: "+ ver +"\nAuthor: Tejender Sheoran\nEmail: tejendersheoran@gmail.com\nCopyright(C) (2016-2018) Tejender Sheoran\nThis program is free software. You can redistribute it and/or modify it\nunder the terms of the GNU General Public License Ver 3.\n<http://www.gnu.org/licenses/>");
 
 		} catch (IOException e) {
 
@@ -316,5 +463,50 @@ public class MainWindowController implements Initializable{
 				.build());
 		DetailsLoader.run(xFields, ttViewParseViewer);
 	}
+
+	private void cleanUpTempFiles(){
+		try {
+			File logDir = new File(System.getProperty("user.home"), "USBCx/logs/");
+			if(logDir.exists()){
+				FileUtils.deleteDirectory(logDir);
+			}
+			File tempDir = new File(System.getProperty("user.home"), "USBCx/temp/");
+			if(tempDir.exists()){
+				FileUtils.deleteDirectory(tempDir);
+			}
+		} catch (IOException e) {
+			logger.error("IO Error while cleaning up logs and temp directory");
+		}
+	}
+
+	private void appClosing(){
+		try {
+			File logDir = Preferences.getLogDir();
+			if(logDir.exists()){
+				FileUtils.deleteDirectory(logDir);
+			}
+			File tempDir = Preferences.getTempDir();
+			if(tempDir.exists()){
+				FileUtils.deleteDirectory(tempDir);
+			}
+			Preferences.storePreferences();
+
+		} catch (Exception e) {
+			logger.error("IO Error while cleaning up logs and temp directory");
+		}
+	}
+
+	public void setStage(Stage stage) {
+	    myStage = stage;
+		myStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		      public void handle(WindowEvent we) {
+		    	  appClosing();
+		      }
+		  });
+	}
+
 }
+
+
+
 

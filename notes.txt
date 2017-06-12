@@ -1,2 +1,6 @@
 Add remember last folder and trigger settings.
 Support drag drop files
+Add hints to button
+Each entry should contain full message. Combine message at USB transfer level.
+Start delta
+Cleanup logger or set desired level for production
