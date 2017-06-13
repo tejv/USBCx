@@ -180,6 +180,10 @@ public class Utils {
 	
 	public static long getUnsignedInt(int x) {
 		return x & 0x00000000ffffffffL;
+	}
+	
+	public static long getUnsignedInt(short x) {
+		return x & 0x000000000000ffffL;
 	}	
 }
 

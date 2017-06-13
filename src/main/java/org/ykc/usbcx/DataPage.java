@@ -25,8 +25,9 @@ public class DataPage implements Serializable{
 		if((index + 1) >= maxPageSize){
 			return false;
 		}
+		int temp = index + 1;
+		packetList[temp] = item;
 		index++;
-		packetList[index] = item;
 		return true;
 	}
 

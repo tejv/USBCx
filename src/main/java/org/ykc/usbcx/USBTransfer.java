@@ -38,6 +38,10 @@ public class USBTransfer implements Runnable{
 	public PageSave getPageSave() {
 		return pageSave;
 	}
+	
+	public PageQueue getPageQueue() {
+		return pageQueue;
+	}	
 
 	USBTransfer()
 	{

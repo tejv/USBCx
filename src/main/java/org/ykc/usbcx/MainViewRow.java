@@ -3,30 +3,27 @@ package org.ykc.usbcx;
 
 public class MainViewRow {
 
-	private Integer sno;
-	private String ok;
-	private String sop;
-	private String msg;
-	private Integer id;
-	private String drole;
-	private String prole;
-	private Integer count;
-	private Integer rev;
-	private Integer duration;
-	private Long delta;
-	private Integer vbus;
-	private String data;
+	private String sno = "";
+	private String ok = "";
+	private String sop = "";
+	private String msg = "";
+	private String id = "";
+	private String drole = "";
+	private String prole = "";
+	private String count = "";
+	private String rev = "";
+	private String duration = "";
+	private String delta = "";
+	private String vbus = "";
+	private String data = "";
+	private String stime = "";
+	private String etime = "";
 
-	public MainViewRow(String ok, Integer duration, Long delta, Integer vbus) {
-		this.ok = ok;
-		this.duration = duration;
-		this.delta = delta;
-		this.vbus = vbus;
-	}
-	public Integer getSno() {
+
+	public String getSno() {
 		return sno;
 	}
-	public void setSno(Integer sno) {
+	public void setSno(String sno) {
 		this.sno = sno;
 	}
 	public String getOk() {
@@ -47,10 +44,10 @@ public class MainViewRow {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getDrole() {
@@ -65,34 +62,34 @@ public class MainViewRow {
 	public void setProle(String prole) {
 		this.prole = prole;
 	}
-	public Integer getCount() {
+	public String getCount() {
 		return count;
 	}
-	public void setCount(Integer count) {
+	public void setCount(String count) {
 		this.count = count;
 	}
-	public Integer getRev() {
+	public String getRev() {
 		return rev;
 	}
-	public void setRev(Integer rev) {
+	public void setRev(String rev) {
 		this.rev = rev;
 	}
-	public Integer getDuration() {
+	public String getDuration() {
 		return duration;
 	}
-	public void setDuration(Integer duration) {
+	public void setDuration(String duration) {
 		this.duration = duration;
 	}
-	public Long getDelta() {
+	public String getDelta() {
 		return delta;
 	}
-	public void setDelta(Long delta) {
+	public void setDelta(String delta) {
 		this.delta = delta;
 	}
-	public Integer getVbus() {
+	public String getVbus() {
 		return vbus;
 	}
-	public void setVbus(Integer vbus) {
+	public void setVbus(String vbus) {
 		this.vbus = vbus;
 	}
 	public String getData() {
@@ -100,5 +97,17 @@ public class MainViewRow {
 	}
 	public void setData(String data) {
 		this.data = data;
+	}
+	public String getStime() {
+		return stime;
+	}
+	public void setStime(String stime) {
+		this.stime = stime;
+	}
+	public String getEtime() {
+		return etime;
+	}
+	public void setEtime(String etime) {
+		this.etime = etime;
 	}
 }

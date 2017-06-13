@@ -22,8 +22,9 @@ public class PageQueue {
 	}
 
 	public void clear(){
+		pageList.clear();		
 		curPage =  new DataPage();
-		pageList.clear();
+		publishPageChangeEvent(curPage);
 	}
 
 	public boolean isEmpty(){

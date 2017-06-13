@@ -21,6 +21,7 @@ import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableRow;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -55,7 +56,7 @@ public class MainWindowController implements Initializable{
     private TableView<MainViewRow> tViewMain;
 
     @FXML
-    private TableColumn<MainViewRow, Integer> tColMViewSno;
+    private TableColumn<MainViewRow, String> tColMViewSno;
 
     @FXML
     private TableColumn<MainViewRow, String> tColMViewOk;
@@ -67,7 +68,7 @@ public class MainWindowController implements Initializable{
     private TableColumn<MainViewRow, String> tColMViewMsg;
 
     @FXML
-    private TableColumn<MainViewRow, Integer> tColMViewId;
+    private TableColumn<MainViewRow, String> tColMViewId;
 
     @FXML
     private TableColumn<MainViewRow, String> tColMViewDrole;
@@ -76,22 +77,28 @@ public class MainWindowController implements Initializable{
     private TableColumn<MainViewRow, String> tColMViewProle;
 
     @FXML
-    private TableColumn<MainViewRow, Integer> tColMViewCount;
+    private TableColumn<MainViewRow, String> tColMViewCount;
 
     @FXML
-    private TableColumn<MainViewRow, Integer> tColMViewRev;
+    private TableColumn<MainViewRow, String> tColMViewRev;
 
     @FXML
-    private TableColumn<MainViewRow, Integer> tColMViewDuration;
+    private TableColumn<MainViewRow, String> tColMViewDuration;
 
     @FXML
-    private TableColumn<MainViewRow, Long> tColMViewDelta;
+    private TableColumn<MainViewRow, String> tColMViewDelta;
 
     @FXML
-    private TableColumn<MainViewRow, Integer> tColMViewVbus;
+    private TableColumn<MainViewRow, String> tColMViewVbus;
 
     @FXML
     private TableColumn<MainViewRow, String> tColMViewData;
+
+    @FXML
+    private TableColumn<MainViewRow, String> tColMViewStartTime;
+
+    @FXML
+    private TableColumn<MainViewRow, String> tColMViewEndTime;
 
     @FXML // fx:id="ttViewParseViewer"
     private TreeTableView<DetailsRow> ttViewParseViewer; // Value injected by FXMLLoader
@@ -204,9 +211,11 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="cBoxMsgClass"
     private ComboBox<String> cBoxMsgClass; // Value injected by FXMLLoader
 
-    USBControl usbcontrol;
+    private USBControl usbcontrol;
     private Stage myStage;
-    Cordinator cordinator = new Cordinator();
+    private Cordinator cordinator;
+    private ObservableList<File> partFileList;
+    private int partListIdx = 0;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -295,6 +304,22 @@ public class MainWindowController implements Initializable{
             return cell;
         });
 
+	    tColMViewSno.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("sno"));
+	    tColMViewOk.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("ok"));
+	    tColMViewSop.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("sop"));
+	    tColMViewMsg.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("msg"));
+	    tColMViewId.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("id"));
+	    tColMViewDrole.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("drole"));
+	    tColMViewProle.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("prole"));
+	    tColMViewCount.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("count"));
+	    tColMViewRev.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("rev"));
+	    tColMViewDuration.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("duration"));
+	    tColMViewDelta.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("delta"));
+	    tColMViewVbus.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("vbus"));
+	    tColMViewData.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("data"));
+	    tColMViewStartTime.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("stime"));
+	    tColMViewEndTime.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("etime"));
+
 	    cBoxMsgClass.getItems().addAll(PDUtils.MSG_CLASS);
 	    cBoxMsgClass.getSelectionModel().select(0);
 	    cBoxMsgType.getItems().addAll(PDUtils.CTRL_MSG_TYPE);
@@ -304,6 +329,7 @@ public class MainWindowController implements Initializable{
 
 
 	    usbcontrol = new USBControl(cBoxDeviceList, statusBar);
+	    cordinator = new Cordinator(usbcontrol, tViewMain);
 	}
 
     @FXML
@@ -337,7 +363,63 @@ public class MainWindowController implements Initializable{
 
     @FXML
     void openRecord(ActionEvent event) {
-    	OpenRecord.open(bPaneMainWindow.getScene().getWindow(), usbcontrol, statusBar);
+    	partFileList = OpenRecord.open(bPaneMainWindow.getScene().getWindow(), usbcontrol, statusBar);
+    	if(partFileList != null){
+	    	partListIdx = 0;
+	    	cordinator.openPage(partFileList.get(partListIdx));
+    		bFirstPage.setDisable(false);
+    		bLastPage.setDisable(false);
+    		bPrevPage.setDisable(false);
+    		bNextPage.setDisable(false);
+    	}
+    }
+
+    @FXML
+    void gotoFirstPage(ActionEvent event) {
+    	if(partFileList != null){
+	    	partListIdx = 0;
+	    	cordinator.openPage(partFileList.get(partListIdx));
+	    	statusBar.setText("First Page-> Page 0");
+    	}
+    }
+
+    @FXML
+    void gotoLastPage(ActionEvent event) {
+    	if(partFileList != null){
+	    	partListIdx = partFileList.size() - 1;
+	    	cordinator.openPage(partFileList.get(partListIdx));
+	    	statusBar.setText("Last Page-> Page "+ partListIdx);
+    	}    	
+    }
+
+    @FXML
+    void gotoNextPage(ActionEvent event) {
+    	if(partFileList != null){
+	    	partListIdx++;
+	    	if(partListIdx >= partFileList.size()){
+	    		partListIdx = partFileList.size() - 1;
+	    		statusBar.setText("Last Page-> Page "+ partListIdx);
+	    	}
+	    	else{
+	    		statusBar.setText("Page: " + partListIdx);
+	    	}
+	    	cordinator.openPage(partFileList.get(partListIdx));
+    	}
+    }
+
+    @FXML
+    void gotoPreviousPage(ActionEvent event) {
+    	if(partFileList != null){
+	    	partListIdx--;
+	    	if(partListIdx < 0){
+	    		partListIdx = 0;
+	    		statusBar.setText("First Page-> Page 0");
+	    	}
+	    	else{
+	    		statusBar.setText("Page: " + partListIdx);
+	    	}
+	    	cordinator.openPage(partFileList.get(partListIdx));
+    	}
     }
 
     @FXML
@@ -347,6 +429,18 @@ public class MainWindowController implements Initializable{
 
     @FXML
     void startStopCapture(ActionEvent event) {
+    	if(usbcontrol.isHwCapturing() == false){
+    		bFirstPage.setDisable(true);
+    		bLastPage.setDisable(true);
+    		bPrevPage.setDisable(true);
+    		bNextPage.setDisable(true);
+    	}
+    	else{
+    		bFirstPage.setDisable(false);
+    		bLastPage.setDisable(false);
+    		bPrevPage.setDisable(false);
+    		bNextPage.setDisable(false);
+    	}
     	usbcontrol.startStopCapture();
     }
 

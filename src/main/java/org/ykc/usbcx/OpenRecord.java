@@ -94,6 +94,7 @@ public class OpenRecord {
 
 	           fos.close();
 	           ze = zis.getNextEntry();
+	           partFilelist.add(newFile);
 	    	}
 
 	        zis.closeEntry();
