@@ -92,7 +92,19 @@ public class MainViewPktParser {
 		String data = "0x" + Long.toHexString(get16bitValue(pkt, PktCollecter.HEADER_BYTE0_IDX)).toUpperCase();
 		
 		if(PDUtils.get_field_extended(hdr)){
+			int extdHdr = Utils.get_uint16(pkt[PktCollecter.EXTD_HEADER_BYTE0_IDX], pkt[PktCollecter.EXTD_HEADER_BYTE0_IDX + 1]);
+			Integer byteCount = PDUtils.get_field_extended_count(extdHdr);
 			data += " 0x" + Long.toHexString(get16bitValue(pkt, PktCollecter.EXTD_HEADER_BYTE0_IDX)).toUpperCase();
+			data += " " + byteCount.toString() + " bytes";
+			if(PDUtils.get_field_is_chunked(extdHdr)){
+				data += " Chunk " + PDUtils.get_field_extended_chunk_no(extdHdr);
+				if(PDUtils.get_field_is_request_chunk(extdHdr)){
+					data += " req";
+				}
+			}
+			else{
+				data += " Unchunked";
+			}
 		}
 		else{
 			int count = PDUtils.get_field_msg_count(hdr);

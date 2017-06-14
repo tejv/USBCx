@@ -49,10 +49,10 @@ public class PktCollecter {
 		}
 
 		int pkt_count = size / CC_PACKET_SIZE;
-		logger.info("Pkt_cnt: " + Integer.toString(pkt_count));
+//		logger.info("Pkt_cnt: " + Integer.toString(pkt_count));
         for (int i = 0; i < pkt_count; i++)
         {
-        	logger.info("Loop i: " + Integer.toString(i));
+//        	logger.info("Loop i: " + Integer.toString(i));
         	int dataBytes = CC_PACKET_NON_DATA_SIZE;
         	int arrayIndex = i* CC_PACKET_SIZE;
         	int hdrIdx = arrayIndex + HEADER_BYTE0_IDX;
@@ -62,16 +62,16 @@ public class PktCollecter {
         	if((PDUtils.get_field_extended(hdr) == true) &&
         	   (PDUtils.get_field_is_chunked(extdHdr) == false) && (PDUtils.get_field_chunk_no(hdr) == 0))
         	{
-        		logger.info("Ext unchunked Msg");
+//        		logger.info("Ext unchunked Msg");
         		int extdBytes = PDUtils.get_field_extended_count(extdHdr);
         		int pCount = Utils.roundUp(extdBytes, CC_PACKET_DATA_SIZE);
-        		logger.info("chunks: " + Integer.toString(pCount));
+//        		logger.info("chunks: " + Integer.toString(pCount));
         		if(pCount <= 1){
             		dataBytes += extdBytes;
             		pQueue.add(Arrays.copyOfRange(dataArray, arrayIndex, arrayIndex + dataBytes + EXTD_HDR_SIZE));
         		}
         		else if(pkt_count >= (i + pCount) ){
-        			logger.info("Enough chunks");
+//        			logger.info("Enough chunks");
         			int curIndex = i;
         			byte[] tempPkt = new byte[1000];
         			int tempPktIdx = 0;
@@ -107,7 +107,7 @@ public class PktCollecter {
         		}
         	}
         	else{
-        		logger.info("Data or ext chunked msg");
+//        		logger.info("Data or ext chunked msg");
         		dataBytes += PDUtils.get_field_msg_count(hdr) * 4;
         		pQueue.add(Arrays.copyOfRange(dataArray, arrayIndex, arrayIndex + dataBytes));
         	}

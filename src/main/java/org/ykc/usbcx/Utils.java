@@ -184,6 +184,10 @@ public class Utils {
 	
 	public static long getUnsignedInt(short x) {
 		return x & 0x000000000000ffffL;
+	}
+	
+	public static long getUnsignedInt(byte x) {
+		return x & 0x000000000000ffL;
 	}	
 }
 

@@ -4,3 +4,9 @@ Add hints to button
 Each entry should contain full message. Combine message at USB transfer level.
 Start delta
 Cleanup logger or set desired level for production
+
+Add details parser
+Solve mainview scroll to last problem
+Add page moves while running as well
+Delta between page changes
+Add color codes

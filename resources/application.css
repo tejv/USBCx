@@ -1,34 +1,62 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
-.thebackground {
-    -fx-background-color : #B3E5FC;
-    }
 
-.sectionTitle {
-    -fx-text-fill   : #01579B;
-    -fx-font-weight : bolder;
-    -fx-font-size   : 14px;
-    }
-
-.warningText {
-    -fx-fill : #0277BD;
-    }
-
-.inputSection {
-    -fx-background-color : #E1F5FE;
-    }
-
+.root {
+-fx-base: rgb(50, 50, 50);
+-fx-background: rgb(50, 50, 50);
+-fx-control-inner-background:  rgb(50, 50, 50);
+}
+ 
+.tab {
+-fx-background-color: linear-gradient(to top, -fx-base, derive(-fx-base,30%));
+}
+ 
+.menu-bar {
+-fx-background-color: linear-gradient(to bottom, -fx-base, derive(-fx-base,30%));
+}
+ 
+.tool-bar:horizontal {
+-fx-background-color:
+linear-gradient(to bottom, derive(-fx-base,+50%), derive(-fx-base,-40%), derive(-fx-base,-20%));
+}
+ 
 .button {
-    -fx-background-color : #e0ffff;
-    -fx-text-fill        : #808080;
-    -fx-font-weight      : 900;
-    }
- /*
-.label {
-    -fx-background-color : #e0ffff;
-    -fx-text-fill        : #808080;
-    -fx-font-weight      : 900;
-    }
-*/
+-fx-background-color: #d3d3d3;
+-fx-text-fill: #1d1d1d;
+}
+ 
 .button:hover {
-    -fx-background-color : #87cefa;
-    }
+-fx-background-color: #87cefa;
+-fx-color: -fx-hover-base;
+}
+ 
+.table-view {
+-fx-table-cell-border-color:derive(-fx-base,+10%);
+-fx-table-header-border-color:derive(-fx-base,+20%);
+}
+ 
+.split-pane:horizontal > * > .split-pane-divider {
+-fx-border-color: transparent -fx-base transparent -fx-base;
+-fx-background-color: transparent, derive(-fx-base,20%);
+-fx-background-insets: 0, 0 1 0 1;
+}
+ 
+.my-gridpane {
+-fx-background-color: radial-gradient(radius 100%, derive(-fx-base,20%), derive(-fx-base,-20%));
+}
+ 
+.separator-label {
+-fx-text-fill: orange;
+}
+
+.status-bar {
+	-fx-padding: 4px;
+	-fx-pref-height: 30px;
+	-fx-background-color: -fx-body-color;
+	-fx-border-color: rgb(50, 50, 50);
+}
+
+.check-box .box {
+    -fx-background-color: #808080;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 2, 2, 1, 1;
+    -fx-padding: 0.25em; /* 3 -- padding from the outside edge to the mark */
+}

@@ -17,11 +17,13 @@ public class Cordinator implements IPageChangeListener{
 	private USBControl usbControl;
 	private TableView<MainViewRow> tViewMain;
 	private PageQueue pageQueue;
+	private TableView<DataViewRow> tViewData;
 
-	public Cordinator(USBControl usbcontrol, TableView<MainViewRow> tViewMain) {
+	public Cordinator(USBControl usbcontrol, TableView<MainViewRow> tViewMain, TableView<DataViewRow> tViewData) {
 		this.usbControl = usbcontrol;
 		this.tViewMain = tViewMain;
-		dp = new DataPresenter(tViewMain);
+		this.tViewData = tViewData;
+		dp = new DataPresenter(tViewMain, tViewData);
 		Thread presenterThread = new Thread(dp);
 		presenterThread.start();
 		pageQueue = usbcontrol.getUsbTransferTask().getPageQueue();

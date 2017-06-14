@@ -11,7 +11,6 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.TreeTableColumn?>
@@ -40,19 +39,19 @@
                                        <content>
                                           <TableView fx:id="tViewMain" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
                                             <columns>
-                                              <TableColumn fx:id="tColMViewSno" maxWidth="200.0" minWidth="90.0" prefWidth="-1.0" sortable="false" text="#" />
-                                                <TableColumn fx:id="tColMViewOk" maxWidth="100.0" minWidth="30.0" prefWidth="75.0" sortable="false" text="OK" />
-                                                <TableColumn fx:id="tColMViewSop" maxWidth="100.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="SOP" />
-                                                <TableColumn fx:id="tColMViewMsg" maxWidth="150.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="Msg" />
-                                                <TableColumn fx:id="tColMViewId" maxWidth="60.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="ID" />
-                                                <TableColumn fx:id="tColMViewDrole" maxWidth="75.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="DR" />
-                                                <TableColumn fx:id="tColMViewProle" maxWidth="75.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="PR" />
-                                                <TableColumn fx:id="tColMViewCount" maxWidth="75.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="Cnt" />
-                                                <TableColumn fx:id="tColMViewRev" maxWidth="75.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="Rev" />
-                                                <TableColumn fx:id="tColMViewDuration" maxWidth="100.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="Duration (us)" />
-                                                <TableColumn fx:id="tColMViewDelta" maxWidth="200.0" minWidth="100.0" prefWidth="100.0" sortable="false" text="Delta (us)" />
-                                                <TableColumn fx:id="tColMViewVbus" maxWidth="150.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="VBUS (mV)" />
-                                                <TableColumn fx:id="tColMViewData" prefWidth="75.0" sortable="false" text="Data" />
+                                              <TableColumn fx:id="tColMViewSno" editable="false" maxWidth="200.0" minWidth="90.0" prefWidth="-1.0" sortable="false" text="#" />
+                                                <TableColumn fx:id="tColMViewOk" editable="false" maxWidth="100.0" minWidth="30.0" prefWidth="75.0" sortable="false" text="OK" />
+                                                <TableColumn fx:id="tColMViewSop" editable="false" maxWidth="100.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="SOP" />
+                                                <TableColumn fx:id="tColMViewMsg" editable="false" maxWidth="150.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="Msg" />
+                                                <TableColumn fx:id="tColMViewId" editable="false" maxWidth="60.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="ID" />
+                                                <TableColumn fx:id="tColMViewDrole" editable="false" maxWidth="75.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="DR" />
+                                                <TableColumn fx:id="tColMViewProle" editable="false" maxWidth="75.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="PR" />
+                                                <TableColumn fx:id="tColMViewCount" editable="false" maxWidth="75.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="Cnt" />
+                                                <TableColumn fx:id="tColMViewRev" editable="false" maxWidth="75.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="Rev" />
+                                                <TableColumn fx:id="tColMViewDuration" editable="false" maxWidth="100.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="Duration (us)" />
+                                                <TableColumn fx:id="tColMViewDelta" editable="false" maxWidth="200.0" minWidth="100.0" prefWidth="100.0" sortable="false" text="Delta (us)" />
+                                                <TableColumn fx:id="tColMViewVbus" editable="false" maxWidth="150.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="VBUS (mV)" />
+                                                <TableColumn fx:id="tColMViewData" editable="false" prefWidth="75.0" sortable="false" text="Data" />
                                                 <TableColumn fx:id="tColMViewStartTime" editable="false" prefWidth="75.0" sortable="false" text="Start Time" visible="false" />
                                                 <TableColumn fx:id="tColMViewEndTime" editable="false" prefWidth="75.0" sortable="false" text="End Time" visible="false" />
                                             </columns>
@@ -66,24 +65,24 @@
                               </AnchorPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <SplitPane dividerPositions="0.6" layoutX="-48.0" orientation="VERTICAL" prefWidth="265.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <SplitPane dividerPositions="0.5" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <items>
-                                          <AnchorPane prefHeight="413.0" prefWidth="222.0">
+                                          <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="261.0">
                                              <children>
                                                 <AnchorPane prefHeight="586.0" prefWidth="222.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
                                                       <VBox AnchorPane.bottomAnchor="541.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
-                                                            <ToolBar prefHeight="45.0" prefWidth="985.0">
+                                                            <ToolBar prefHeight="45.0" prefWidth="985.0" VBox.vgrow="NEVER">
                                                                <items>
                                                                   <Label text="Details" />
                                                                </items>
                                                             </ToolBar>
                                                          </children>
                                                       </VBox>
-                                                      <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="44.0" prefHeight="594.0" prefWidth="985.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0">
+                                                      <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="34.0" prefHeight="539.0" prefWidth="261.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0">
                                                          <content>
-                                                            <TreeTableView fx:id="ttViewParseViewer" prefHeight="542.0" prefWidth="985.0" showRoot="false" tableMenuButtonVisible="true">
+                                                            <TreeTableView fx:id="ttViewParseViewer" prefHeight="250.0" prefWidth="259.0" showRoot="false" tableMenuButtonVisible="true">
                                                                <columns>
                                                                   <TreeTableColumn fx:id="ttColPVName" editable="false" prefWidth="75.0" sortable="false" text="Name" />
                                                                   <TreeTableColumn fx:id="ttColPVValue" editable="false" prefWidth="75.0" sortable="false" text="Value" />
@@ -103,9 +102,30 @@
                                                 </AnchorPane>
                                              </children>
                                           </AnchorPane>
-                                          <AnchorPane prefHeight="86.0" prefWidth="222.0">
+                                          <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="222.0">
                                              <children>
-                                                <TextArea fx:id="txtAreaDataView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                      <ToolBar prefHeight="30.0" prefWidth="261.0" VBox.vgrow="NEVER">
+                                                         <items>
+                                                            <Label text="Data Payload" />
+                                                         </items>
+                                                      </ToolBar>
+                                                   </children>
+                                                </VBox>
+                                                <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="34.0" prefHeight="233.0" prefWidth="261.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0">
+                                                   <content>
+                                                      <TableView fx:id="tViewData" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" tableMenuButtonVisible="true">
+                                                         <columns>
+                                                            <TableColumn fx:id="tColDataViewIndex" editable="false" prefWidth="75.0" sortable="false" text="Byte Index" />
+                                                            <TableColumn fx:id="tColDataViewValue" editable="false" prefWidth="100.0" sortable="false" text="Value" />
+                                                         </columns>
+                                                         <columnResizePolicy>
+                                                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                         </columnResizePolicy>
+                                                      </TableView>
+                                                   </content>
+                                                </ScrollPane>
                                              </children>
                                           </AnchorPane>
                                        </items>

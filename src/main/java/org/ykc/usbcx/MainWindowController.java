@@ -124,8 +124,14 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="ttColPVLength"
     private TreeTableColumn<DetailsRow, String> ttColPVLength; // Value injected by FXMLLoader
 
-    @FXML // fx:id="txtAreaDataView"
-    private TextArea txtAreaDataView; // Value injected by FXMLLoader
+    @FXML
+    private TableView<DataViewRow> tViewData;
+
+    @FXML
+    private TableColumn<DataViewRow, Integer> tColDataViewIndex;
+
+    @FXML
+    private TableColumn<DataViewRow, String> tColDataViewValue;
 
     @FXML
     private Button bOpen;
@@ -320,6 +326,9 @@ public class MainWindowController implements Initializable{
 	    tColMViewStartTime.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("stime"));
 	    tColMViewEndTime.setCellValueFactory(new PropertyValueFactory<MainViewRow,String>("etime"));
 
+	    tColDataViewIndex.setCellValueFactory(new PropertyValueFactory<DataViewRow,Integer>("index"));
+	    tColDataViewValue.setCellValueFactory(new PropertyValueFactory<DataViewRow,String>("value"));
+
 	    cBoxMsgClass.getItems().addAll(PDUtils.MSG_CLASS);
 	    cBoxMsgClass.getSelectionModel().select(0);
 	    cBoxMsgType.getItems().addAll(PDUtils.CTRL_MSG_TYPE);
@@ -329,7 +338,7 @@ public class MainWindowController implements Initializable{
 
 
 	    usbcontrol = new USBControl(cBoxDeviceList, statusBar);
-	    cordinator = new Cordinator(usbcontrol, tViewMain);
+	    cordinator = new Cordinator(usbcontrol, tViewMain, tViewData);
 	}
 
     @FXML
@@ -389,7 +398,7 @@ public class MainWindowController implements Initializable{
 	    	partListIdx = partFileList.size() - 1;
 	    	cordinator.openPage(partFileList.get(partListIdx));
 	    	statusBar.setText("Last Page-> Page "+ partListIdx);
-    	}    	
+    	}
     }
 
     @FXML

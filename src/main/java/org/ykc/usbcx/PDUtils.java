@@ -780,6 +780,11 @@ public class PDUtils {
             return 0;
         }
     }
+    
+    public static int get_field_extended_chunk_no(int ext_hdr)
+    {
+    	return (int)((ext_hdr >>> 11) & 0xF);
+    }
 
     public static int get_pd_hdr(Long hdr)
     {
@@ -802,6 +807,18 @@ public class PDUtils {
             return true;
         }
     }
+    
+    public static boolean get_field_is_request_chunk(int ext_hdr)
+    {
+        if (((ext_hdr >>> 10) & 0x1) == 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }    
 }
 
 
