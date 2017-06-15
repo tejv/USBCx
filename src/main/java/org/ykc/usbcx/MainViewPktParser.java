@@ -12,12 +12,12 @@ import javafx.scene.control.TableView;
 
 public class MainViewPktParser {
 	public static final Logger logger = LoggerFactory.getLogger(MainViewPktParser.class.getName());
-	
+
 	public static MainViewRow getRow(byte[] pkt, TableView<MainViewRow> tViewMain){
 		MainViewRow row = new MainViewRow();
 		logger.info("Pkt length: " + pkt.length);
 		/* Start Time */
-		Long startTime = get32bitValue(pkt, PktCollecter.TIME_START_BYTE0_IDX);
+		Long startTime = PDUtils.get32bitValue(pkt, PktCollecter.TIME_START_BYTE0_IDX);
 		row.setStime(Long.toString(startTime));
 
 		/* Delta */
@@ -38,7 +38,7 @@ public class MainViewPktParser {
 		}
 
 		/* End Time */
-		Long endTime = get32bitValue(pkt, PktCollecter.TIME_END_BYTE0_IDX);
+		Long endTime = PDUtils.get32bitValue(pkt, PktCollecter.TIME_END_BYTE0_IDX);
 		row.setEtime(Long.toString(endTime));
 
 		/* Duration */
@@ -46,13 +46,13 @@ public class MainViewPktParser {
 		row.setDuration(NumberFormat.getNumberInstance(Locale.US).format(duration));
 
 		/* VBus */
-		Long vbus =  get32bitValue(pkt, PktCollecter.VBUS_BYTE0_IDX) ;
+		Long vbus =  PDUtils.get32bitValue(pkt, PktCollecter.VBUS_BYTE0_IDX) ;
 		vbus = (vbus  * 5000 * 11) / 255;
 		row.setVbus(NumberFormat.getNumberInstance(Locale.US).format(vbus));
 
 		/* Sno */
-		Long hdr = get32bitValue(pkt, PktCollecter.HEADER_BYTE0_IDX);
-		Long sno = get32bitValue(pkt, PktCollecter.SNO_BYTE0_IDX);
+		Long hdr = PDUtils.get32bitValue(pkt, PktCollecter.HEADER_BYTE0_IDX);
+		Long sno = PDUtils.get32bitValue(pkt, PktCollecter.SNO_BYTE0_IDX);
 		int sno_int = (int)(sno & 0xFFFFFFFF);
 		if(PDUtils.get_field_pkt_type(hdr) == PDUtils.enumPktType.VOLT_PKT)
 		{
@@ -89,17 +89,20 @@ public class MainViewPktParser {
 		}
 
 		/* TODO: Data */
-		String data = "0x" + Long.toHexString(get16bitValue(pkt, PktCollecter.HEADER_BYTE0_IDX)).toUpperCase();
-		
+		String data = "0x" + Long.toHexString(PDUtils.get16bitValue(pkt, PktCollecter.HEADER_BYTE0_IDX)).toUpperCase();
+
 		if(PDUtils.get_field_extended(hdr)){
 			int extdHdr = Utils.get_uint16(pkt[PktCollecter.EXTD_HEADER_BYTE0_IDX], pkt[PktCollecter.EXTD_HEADER_BYTE0_IDX + 1]);
 			Integer byteCount = PDUtils.get_field_extended_count(extdHdr);
-			data += " 0x" + Long.toHexString(get16bitValue(pkt, PktCollecter.EXTD_HEADER_BYTE0_IDX)).toUpperCase();
+			data += " 0x" + Long.toHexString(PDUtils.get16bitValue(pkt, PktCollecter.EXTD_HEADER_BYTE0_IDX)).toUpperCase();
 			data += " " + byteCount.toString() + " bytes";
 			if(PDUtils.get_field_is_chunked(extdHdr)){
 				data += " Chunk " + PDUtils.get_field_extended_chunk_no(extdHdr);
 				if(PDUtils.get_field_is_request_chunk(extdHdr)){
 					data += " req";
+				}
+				else{
+					data += " resp";
 				}
 			}
 			else{
@@ -109,10 +112,10 @@ public class MainViewPktParser {
 		else{
 			int count = PDUtils.get_field_msg_count(hdr);
 			for(int i = 0; i < count; i++){
-				data += " 0x" + Long.toHexString(get32bitValue(pkt, PktCollecter.DATA_BYTE0_IDX + i *4)).toUpperCase();
+				data += " 0x" + Long.toHexString(PDUtils.get32bitValue(pkt, PktCollecter.DATA_BYTE0_IDX + i *4)).toUpperCase();
 			}
 		}
-		
+
 		row.setData(data);
 
 		/* Message */
@@ -134,13 +137,5 @@ public class MainViewPktParser {
 		row.setRev(PDUtils.get_field_spec_rev(hdr).toString());
 
 		return row;
-	}
-
-	private static Long get32bitValue(byte[] pkt, int idx){
-		return Utils.getUnsignedInt(Utils.get_uint32(pkt[idx], pkt[idx + 1], pkt[idx + 2], pkt[idx + 3]));
-	}
-
-	private static Long get16bitValue(byte[] pkt, int idx){
-		return Utils.getUnsignedInt(Utils.get_uint16(pkt[idx], pkt[idx + 1]));
 	}
 }

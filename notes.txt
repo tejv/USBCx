@@ -10,3 +10,6 @@ Solve mainview scroll to last problem
 Add page moves while running as well
 Delta between page changes
 Add color codes
+
+combo box symetrix to textfield color scheme
+Start with app -. open app directly for .ucx1 files.

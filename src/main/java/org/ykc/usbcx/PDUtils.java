@@ -10,7 +10,7 @@ public class PDUtils {
 	public static final String[] EXTD_MSG_TYPE = {"E_RSVD0", "SRC_CAP_EXT", "STATUS", "GET_BAT_CAP", "GET_BAT_STATUS", "BAT_CAP", "GET_MANU_INFO", "MANU_INFO", "SECURITY_REQ", "SECURITY_RESP", "FW_UPDT_REQ", "FW_UPDT_RESP", "PPS_STATUS", "CNTRY_INFO", "CNTRY_CODES", "E_RSVD15", "E_RSVD16", "E_RSVD17", "E_RSVD18", "E_RSVD19", "E_RSVD20", "E_RSVD21", "E_RSVD22", "E_RSVD23", "E_RSVD24", "E_RSVD25", "E_RSVD26", "E_RSVD27", "E_RSVD28", "E_RSVD29", "E_RSVD30", "E_RSVD31" };
 	public static final String[] MSG_CLASS = {"CONTROL","DATA","EXTENDED"};
 	public static final String[] SOP_TYPE = {"SOP", "SOP_PRIME", "SOP_DRPIME", "SOP_P_DBG", "SOP_DP_DBG", "HARD_RESET", "CABLE_RESET"};
-	
+
 	public enum PDMsgClass
 	{
 		CTRL_MESSAGE,
@@ -151,9 +151,9 @@ public class PDUtils {
 
     public enum enumSpecRev
     {
-        REV1,
-        REV2,
-        REV3,
+        v1,
+        v2,
+        v3,
         RSVD
     };
 
@@ -780,7 +780,7 @@ public class PDUtils {
             return 0;
         }
     }
-    
+
     public static int get_field_extended_chunk_no(int ext_hdr)
     {
     	return (int)((ext_hdr >>> 11) & 0xF);
@@ -807,7 +807,7 @@ public class PDUtils {
             return true;
         }
     }
-    
+
     public static boolean get_field_is_request_chunk(int ext_hdr)
     {
         if (((ext_hdr >>> 10) & 0x1) == 0)
@@ -818,7 +818,16 @@ public class PDUtils {
         {
             return true;
         }
-    }    
+    }
+    
+	public static Long get32bitValue(byte[] pkt, int idx){
+		return Utils.getUnsignedInt(Utils.get_uint32(pkt[idx], pkt[idx + 1], pkt[idx + 2], pkt[idx + 3]));
+	}
+	
+
+	public static Long get16bitValue(byte[] pkt, int idx){
+		return Utils.getUnsignedInt(Utils.get_uint16(pkt[idx], pkt[idx + 1]));
+	}	
 }
 
 

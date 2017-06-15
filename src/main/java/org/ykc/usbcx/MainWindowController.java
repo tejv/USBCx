@@ -336,9 +336,13 @@ public class MainWindowController implements Initializable{
 	    cBoxSop.getItems().addAll(PDUtils.SOP_TYPE);
 	    cBoxSop.getSelectionModel().select(0);
 
-
+		bFirstPage.setDisable(true);
+		bLastPage.setDisable(true);
+		bPrevPage.setDisable(true);
+		bNextPage.setDisable(true);
+		
 	    usbcontrol = new USBControl(cBoxDeviceList, statusBar);
-	    cordinator = new Cordinator(usbcontrol, tViewMain, tViewData);
+	    cordinator = new Cordinator(usbcontrol, tViewMain, tViewData, ttViewParseViewer, lblStartDelta);
 	}
 
     @FXML
@@ -376,28 +380,41 @@ public class MainWindowController implements Initializable{
     	if(partFileList != null){
 	    	partListIdx = 0;
 	    	cordinator.openPage(partFileList.get(partListIdx));
-    		bFirstPage.setDisable(false);
-    		bLastPage.setDisable(false);
-    		bPrevPage.setDisable(false);
-    		bNextPage.setDisable(false);
+	    	if(partFileList.size() >= 1){
+	    		bLastPage.setDisable(false);
+	    		bNextPage.setDisable(false);
+	    	}
+	    	statusBar.setText("First Page-> Page 0 of " + (partFileList.size() - 1) + " pages.");
     	}
     }
 
     @FXML
     void gotoFirstPage(ActionEvent event) {
     	if(partFileList != null){
-	    	partListIdx = 0;
-	    	cordinator.openPage(partFileList.get(partListIdx));
-	    	statusBar.setText("First Page-> Page 0");
+    		if(partListIdx != 0){
+		    	partListIdx = 0;
+		    	cordinator.openPage(partFileList.get(partListIdx));
+		    	statusBar.setText("First Page-> Page 0 of " + (partFileList.size() - 1) + " pages.");
+	    		bFirstPage.setDisable(true);
+	    		bPrevPage.setDisable(true);    		
+	    		bLastPage.setDisable(false);
+	    		bNextPage.setDisable(false);
+    		}
     	}
     }
 
     @FXML
     void gotoLastPage(ActionEvent event) {
     	if(partFileList != null){
-	    	partListIdx = partFileList.size() - 1;
-	    	cordinator.openPage(partFileList.get(partListIdx));
-	    	statusBar.setText("Last Page-> Page "+ partListIdx);
+    		if(partListIdx != partFileList.size() - 1){
+		    	partListIdx = partFileList.size() - 1;
+		    	cordinator.openPage(partFileList.get(partListIdx));
+		    	statusBar.setText("Last Page-> Page "+ partListIdx);
+	    		bFirstPage.setDisable(false);
+	    		bPrevPage.setDisable(false);    		
+	    		bLastPage.setDisable(true);
+	    		bNextPage.setDisable(true);	   
+    		}
     	}
     }
 
@@ -405,14 +422,14 @@ public class MainWindowController implements Initializable{
     void gotoNextPage(ActionEvent event) {
     	if(partFileList != null){
 	    	partListIdx++;
-	    	if(partListIdx >= partFileList.size()){
-	    		partListIdx = partFileList.size() - 1;
-	    		statusBar.setText("Last Page-> Page "+ partListIdx);
-	    	}
-	    	else{
-	    		statusBar.setText("Page: " + partListIdx);
-	    	}
-	    	cordinator.openPage(partFileList.get(partListIdx));
+    		cordinator.openPage(partFileList.get(partListIdx));
+    		statusBar.setText("Page: " + partListIdx + " of " + (partFileList.size() - 1) + " pages.");
+    		if(partListIdx == partFileList.size()-1){  
+        		bLastPage.setDisable(true);
+        		bNextPage.setDisable(true);		    			
+    		}
+    		bFirstPage.setDisable(false);
+    		bPrevPage.setDisable(false); 	    	
     	}
     }
 
@@ -420,13 +437,13 @@ public class MainWindowController implements Initializable{
     void gotoPreviousPage(ActionEvent event) {
     	if(partFileList != null){
 	    	partListIdx--;
-	    	if(partListIdx < 0){
-	    		partListIdx = 0;
-	    		statusBar.setText("First Page-> Page 0");
-	    	}
-	    	else{
-	    		statusBar.setText("Page: " + partListIdx);
-	    	}
+    		statusBar.setText("Page: " + partListIdx + " of " + (partFileList.size() - 1) + " pages.");
+    		if(partListIdx == 0){
+        		bFirstPage.setDisable(true);
+        		bPrevPage.setDisable(true);    		
+    		}
+    		bLastPage.setDisable(false);
+    		bNextPage.setDisable(false);	    	
 	    	cordinator.openPage(partFileList.get(partListIdx));
     	}
     }

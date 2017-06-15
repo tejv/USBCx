@@ -4,48 +4,73 @@
 -fx-background: rgb(50, 50, 50);
 -fx-control-inner-background:  rgb(50, 50, 50);
 }
- 
+
 .tab {
 -fx-background-color: linear-gradient(to top, -fx-base, derive(-fx-base,30%));
 }
- 
+
 .menu-bar {
--fx-background-color: linear-gradient(to bottom, -fx-base, derive(-fx-base,30%));
+-fx-background-color: rgb(50, 50, 50);
 }
- 
+
 .tool-bar:horizontal {
--fx-background-color:
-linear-gradient(to bottom, derive(-fx-base,+50%), derive(-fx-base,-40%), derive(-fx-base,-20%));
+-fx-background-color: rgb(50, 50, 50);
 }
- 
+
 .button {
+-fx-font-weight: bold;
 -fx-background-color: #d3d3d3;
 -fx-text-fill: #1d1d1d;
 }
- 
+
 .button:hover {
 -fx-background-color: #87cefa;
 -fx-color: -fx-hover-base;
 }
- 
+
 .table-view {
--fx-table-cell-border-color:derive(-fx-base,+10%);
--fx-table-header-border-color:derive(-fx-base,+20%);
+-fx-table-cell-border-color:derive(-fx-base,+20%);
+-fx-table-header-border-color:derive(-fx-base,+30%);
 }
- 
+
+/* 
+.table-row-cell{
+    -fx-background-color: -fx-table-cell-border-color, #616161;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; 
+}
+*/
+
+.table-row-cell:odd{
+    -fx-background-color: derive(-fx-base,+5%);
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; 
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #00bfff;
+    -fx-background-insets: 0;
+    -fx-background-radius: 1;
+}
+
+
 .split-pane:horizontal > * > .split-pane-divider {
 -fx-border-color: transparent -fx-base transparent -fx-base;
 -fx-background-color: transparent, derive(-fx-base,20%);
 -fx-background-insets: 0, 0 1 0 1;
 }
- 
+
 .my-gridpane {
 -fx-background-color: radial-gradient(radius 100%, derive(-fx-base,20%), derive(-fx-base,-20%));
 }
- 
+
 .separator-label {
 -fx-text-fill: orange;
 }
+
+.split-pane > .split-pane-divider {  
+    -fx-padding: 0 0.1em 0 0.1em;  
+} 
 
 .status-bar {
 	-fx-padding: 4px;
@@ -59,4 +84,88 @@ linear-gradient(to bottom, derive(-fx-base,+50%), derive(-fx-base,-40%), derive(
     -fx-background-insets: 0 0 -1 0, 0, 1, 2;
     -fx-background-radius: 2, 2, 1, 1;
     -fx-padding: 0.25em; /* 3 -- padding from the outside edge to the mark */
+}
+
+.radio-button > .radio  {
+   -fx-background-color: #808080;
+   -fx-background-insets: 0 0 -1 0,  0,  1,  2;
+   -fx-background-radius: 1.0em; /* large value to make sure this remains circular */
+   -fx-padding: 0.333333em; /* 4 -- padding from outside edge to the inner black dot */
+}
+
+
+.text-field {
+	-fx-font-family: Consolas;
+	-fx-font-size: 18;
+    -fx-background-color: #d3d3d3;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 3, 2, 2;
+    -fx-border-color: #1d1d1d;
+    -fx-padding: 0.25em 0.416667em  0.333333em 0.416667em; /* 3 5 4 5 */
+    -fx-text-fill: #1d1d1d;
+    -fx-prompt-text-fill: #1d1d1d;
+    -fx-cursor: text;
+}
+
+.text-field:focused {
+    -fx-background-color: #1d1d1d;
+    -fx-background-insets: -0.4, 1, 2;
+    -fx-background-radius: 3.4, 2, 2;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #4169e1;
+}
+
+.text-field:disabled {
+    -fx-opacity: -fx-disabled-opacity;
+}
+
+.textfield-line{
+-fx-background-color: #1d1d1d;
+-fx-scale-y: 250%;
+}
+.textfield-focused-line{
+-fx-background-color: transparent;
+-fx-scale-y: 125%;
+}
+
+.text-area {
+	-fx-font-family: Consolas;
+	-fx-font-size: 18;
+    -fx-background-color: #1d1d1d;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 3, 2, 2;
+    -fx-padding: 1;
+    -fx-text-fill: #ffffff;
+    -fx-prompt-text-fill: #ffffff;
+}
+
+.text-area > .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .content {
+    -fx-padding: 3 5 3 5;
+    -fx-cursor: text;
+}
+
+.text-area:focused {
+    -fx-background-color: #1d1d1d;
+    -fx-background-insets: -0.4, 1, 2;
+    -fx-background-radius: 3.4, 2, 2;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #4169e1;
+}
+
+.text-area:disabled {
+    -fx-opacity: -fx-disabled-opacity;
+}
+
+
+.scroll-bar:horizontal > .thumb {
+    -fx-background-color: #d3d3d3;
+
+}
+
+.scroll-bar:vertical > .thumb {
+    -fx-background-color: #d3d3d3;
 }

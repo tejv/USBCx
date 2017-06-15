@@ -33,25 +33,25 @@
                      <content>
                         <SplitPane dividerPositions="0.7452290076335878">
                            <items>
-                              <AnchorPane prefHeight="586.0" prefWidth="742.0">
+                              <AnchorPane minWidth="0.0" prefHeight="586.0" prefWidth="742.0">
                                  <children>
                                     <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <content>
                                           <TableView fx:id="tViewMain" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
                                             <columns>
-                                              <TableColumn fx:id="tColMViewSno" editable="false" maxWidth="200.0" minWidth="90.0" prefWidth="-1.0" sortable="false" text="#" />
-                                                <TableColumn fx:id="tColMViewOk" editable="false" maxWidth="100.0" minWidth="30.0" prefWidth="75.0" sortable="false" text="OK" />
-                                                <TableColumn fx:id="tColMViewSop" editable="false" maxWidth="100.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="SOP" />
+                                              <TableColumn fx:id="tColMViewSno" editable="false" maxWidth="200.0" minWidth="50.0" prefWidth="-1.0" sortable="false" text="#" />
+                                                <TableColumn fx:id="tColMViewOk" editable="false" maxWidth="80.0" minWidth="30.0" prefWidth="75.0" sortable="false" text="OK" />
+                                                <TableColumn fx:id="tColMViewSop" editable="false" maxWidth="80.0" minWidth="30.0" prefWidth="75.0" sortable="false" text="SOP" />
                                                 <TableColumn fx:id="tColMViewMsg" editable="false" maxWidth="150.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="Msg" />
-                                                <TableColumn fx:id="tColMViewId" editable="false" maxWidth="60.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="ID" />
-                                                <TableColumn fx:id="tColMViewDrole" editable="false" maxWidth="75.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="DR" />
-                                                <TableColumn fx:id="tColMViewProle" editable="false" maxWidth="75.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="PR" />
-                                                <TableColumn fx:id="tColMViewCount" editable="false" maxWidth="75.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="Cnt" />
-                                                <TableColumn fx:id="tColMViewRev" editable="false" maxWidth="75.0" minWidth="50.0" prefWidth="75.0" sortable="false" text="Rev" />
-                                                <TableColumn fx:id="tColMViewDuration" editable="false" maxWidth="100.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="Duration (us)" />
-                                                <TableColumn fx:id="tColMViewDelta" editable="false" maxWidth="200.0" minWidth="100.0" prefWidth="100.0" sortable="false" text="Delta (us)" />
-                                                <TableColumn fx:id="tColMViewVbus" editable="false" maxWidth="150.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="VBUS (mV)" />
-                                                <TableColumn fx:id="tColMViewData" editable="false" prefWidth="75.0" sortable="false" text="Data" />
+                                                <TableColumn fx:id="tColMViewId" editable="false" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" sortable="false" text="ID" />
+                                                <TableColumn fx:id="tColMViewDrole" editable="false" maxWidth="50.0" minWidth="40.0" prefWidth="40.0" sortable="false" text="DR" />
+                                                <TableColumn fx:id="tColMViewProle" editable="false" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" sortable="false" text="PR" />
+                                                <TableColumn fx:id="tColMViewCount" editable="false" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" sortable="false" text="CN" />
+                                                <TableColumn fx:id="tColMViewRev" editable="false" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" sortable="false" text="Rev" />
+                                                <TableColumn fx:id="tColMViewDuration" editable="false" maxWidth="80.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="Duration" />
+                                                <TableColumn fx:id="tColMViewDelta" editable="false" maxWidth="120.0" minWidth="50.0" prefWidth="90.0" sortable="false" text="Delta" />
+                                                <TableColumn fx:id="tColMViewVbus" editable="false" maxWidth="55.0" minWidth="55.0" prefWidth="55.0" sortable="false" text="VBUS" />
+                                                <TableColumn fx:id="tColMViewData" editable="false" prefWidth="100.0" sortable="false" text="Data" />
                                                 <TableColumn fx:id="tColMViewStartTime" editable="false" prefWidth="75.0" sortable="false" text="Start Time" visible="false" />
                                                 <TableColumn fx:id="tColMViewEndTime" editable="false" prefWidth="75.0" sortable="false" text="End Time" visible="false" />
                                             </columns>
@@ -63,7 +63,7 @@
                                     </ScrollPane>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                              <AnchorPane minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                  <children>
                                     <SplitPane dividerPositions="0.5" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <items>
@@ -142,7 +142,7 @@
                            <center>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <GridPane hgap="5.0" prefHeight="258.0" prefWidth="597.0" vgap="5.0" AnchorPane.bottomAnchor="286.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="451.0" AnchorPane.topAnchor="0.0">
+                                    <GridPane hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="258.0" prefWidth="597.0" vgap="5.0" AnchorPane.bottomAnchor="286.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="451.0" AnchorPane.topAnchor="0.0">
                                       <columnConstraints>
                                         <ColumnConstraints hgrow="NEVER" maxWidth="531.0" minWidth="10.0" prefWidth="112.0" />
                                         <ColumnConstraints hgrow="NEVER" maxWidth="940.0" minWidth="10.0" prefWidth="417.0" />
@@ -163,10 +163,10 @@
                                           <CheckBox fx:id="chkMsgId" mnemonicParsing="false" text="Msg ID" GridPane.rowIndex="6" />
                                           <CheckBox fx:id="chkCount" mnemonicParsing="false" text="Count" GridPane.rowIndex="5" />
                                           <CheckBox fx:id="chkMsgType" mnemonicParsing="false" text="Msg Type" GridPane.rowIndex="4" />
-                                          <TextField fx:id="txtStartSno" text="0" GridPane.columnIndex="1" />
-                                          <TextField fx:id="txtEndSno" prefHeight="31.0" prefWidth="535.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                          <TextField fx:id="txtCount" text="0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                          <TextField fx:id="txtMsgId" text="0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <TextField fx:id="txtStartSno" maxWidth="-Infinity" prefHeight="31.0" prefWidth="486.0" text="0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" />
+                                          <TextField fx:id="txtEndSno" maxWidth="-Infinity" prefHeight="31.0" prefWidth="486.0" text="0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1" />
+                                          <TextField fx:id="txtCount" maxWidth="-Infinity" prefWidth="486.0" text="0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="5" />
+                                          <TextField fx:id="txtMsgId" maxWidth="-Infinity" prefWidth="486.0" text="0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="6" />
                                           <ComboBox fx:id="cBoxSop" prefHeight="31.0" prefWidth="486.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
                                           <ComboBox fx:id="cBoxMsgType" prefHeight="31.0" prefWidth="486.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                           <ComboBox fx:id="cBoxMsgClass" onAction="#trgMsgClassChanged" prefHeight="31.0" prefWidth="486.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -221,7 +221,7 @@
                   <Button fx:id="bNextPage" mnemonicParsing="false" onAction="#gotoNextPage" />
                   <Button fx:id="bLastPage" mnemonicParsing="false" onAction="#gotoLastPage" />
                   <Label text="Start Delta: " />
-                  <Label fx:id="lblStartDelta" text="0" />
+                  <Label fx:id="lblStartDelta" text="0 us" />
               </items>
             </ToolBar>
          </children>

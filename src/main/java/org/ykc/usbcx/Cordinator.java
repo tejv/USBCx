@@ -9,7 +9,9 @@ import java.io.ObjectInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TreeTableView;
 
 public class Cordinator implements IPageChangeListener{
 	public static final Logger logger = LoggerFactory.getLogger(Cordinator.class.getName());
@@ -18,12 +20,17 @@ public class Cordinator implements IPageChangeListener{
 	private TableView<MainViewRow> tViewMain;
 	private PageQueue pageQueue;
 	private TableView<DataViewRow> tViewData;
+	private TreeTableView<DetailsRow> ttViewParseViewer;
+	private Label lblStartDelta;
 
-	public Cordinator(USBControl usbcontrol, TableView<MainViewRow> tViewMain, TableView<DataViewRow> tViewData) {
+	public Cordinator(USBControl usbcontrol, TableView<MainViewRow> tViewMain, TableView<DataViewRow> tViewData,
+			TreeTableView<DetailsRow> ttViewParseViewer, Label lblStartDelta) {
 		this.usbControl = usbcontrol;
 		this.tViewMain = tViewMain;
 		this.tViewData = tViewData;
-		dp = new DataPresenter(tViewMain, tViewData);
+		this.ttViewParseViewer = ttViewParseViewer;
+		this.lblStartDelta = lblStartDelta;
+		dp = new DataPresenter(tViewMain, tViewData, ttViewParseViewer, lblStartDelta);
 		Thread presenterThread = new Thread(dp);
 		presenterThread.start();
 		pageQueue = usbcontrol.getUsbTransferTask().getPageQueue();
