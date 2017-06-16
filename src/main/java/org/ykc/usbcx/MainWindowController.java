@@ -279,27 +279,22 @@ public class MainWindowController implements Initializable{
 
                     switch(bg){
                     case RED:
-                    	style += "-fx-background-color:red;"
-                    			+ "-fx-text-fill:white;";
+                    	style += "-fx-text-fill:red;";
                     	break;
                     case GREEN:
-                    	style += "-fx-background-color:green;"
-                    			+ "-fx-text-fill:white;";
+                    	style += "-fx-text-fill:green;";
                     	break;
                     case BLUE:
-                    	style += "-fx-background-color:blue;"
-                    			+ "-fx-text-fill:white;";
+                    	style += "-fx-text-fill:blue;";
                     	break;
                     case YELLOW:
-                    	style += "-fx-background-color:yellow;"
-                    			+ "-fx-text-fill:black;";
+                    	style += "-fx-text-fill:yellow;";
                     	break;
                     case PINK:
-                    	style += "-fx-background-color:pink;"
-                    			+ "-fx-text-fill:black;";
+                    	style += "-fx-text-fill:pink;";
                     	break;
                     default:
-                    	style += "-fx-text-fill:black;"
+                    	style += "-fx-text-fill:white;"
                     			+ "-fx-highlight-fill:dodgerblue;"
                     			+ "-fx-highlight-text-fill:white";
                         break;

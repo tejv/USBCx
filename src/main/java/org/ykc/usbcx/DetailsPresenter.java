@@ -10,6 +10,11 @@ public class DetailsPresenter {
 		try {
 			ObservableList<DetailsRow> list = FXCollections.observableArrayList();
 			byte[] pkt = curPage.getItem(idx);
+			Long hdr = PDUtils.get32bitValue(pkt, PktCollecter.HEADER_BYTE0_IDX);
+			if(PDUtils.get_field_pkt_type(hdr) == PDUtils.enumPktType.VOLT_PKT){
+				ttViewParseViewer.getRoot().getChildren().clear();
+				return;
+			}
 			PDParser.run(list, pkt);
 			DetailsLoader.run(list, ttViewParseViewer);
 		} catch (Exception e) {

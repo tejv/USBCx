@@ -8,8 +8,14 @@ Cleanup logger or set desired level for production
 Add details parser
 Solve mainview scroll to last problem
 Add page moves while running as well
+curPAge should have some extra size so that page boundary is not hit immeditely means curPage always have minimum messages before moving to save queue.
+This can be done easily with diff size for curPage.
 Delta between page changes
 Add color codes
 
 combo box symetrix to textfield color scheme
 Start with app -. open app directly for .ucx1 files.
+
+Collapse/expand button in details view
+16 bit 32 bit option in dataview
+

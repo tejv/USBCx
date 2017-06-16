@@ -35,15 +35,34 @@ public class DetailsLoader {
 			lastTreeItem = x;
 			lastLevel = fLevel;
 		}
+		//expandTreeView(ttView.getRoot());
 	}
 
 	private static int findLastMatchingLevel(ObservableList<DetailsRow> list, int max_count, int expLevel){
 		for(int i = max_count; i >= 0; i--){
 			if(list.get(i).getLevel() == expLevel)
 			{
-				return i;
+	  			return i;
 			}
 		}
 		return 0;
+	}
+	
+	private static void expandTreeView(TreeItem<?> item){
+	    if(item != null && !item.isLeaf()){
+	        item.setExpanded(true);
+	        for(TreeItem<?> child:item.getChildren()){
+	            expandTreeView(child);
+	        }
+	    }
+	}
+	
+	private static void collapseTreeView(TreeItem<?> item){
+	    if(item != null && !item.isLeaf()){
+	        item.setExpanded(false);
+	        for(TreeItem<?> child:item.getChildren()){
+	            collapseTreeView(child);
+	        }
+	    }
 	}
 }

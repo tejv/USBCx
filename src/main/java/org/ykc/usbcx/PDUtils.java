@@ -23,6 +23,11 @@ public class PDUtils {
 		TRUE
 	}
 
+	public enum enumYesNo
+	{
+		No,
+		Yes
+	}
 	public enum enumCtrlMsg
     {
         C_RSVD0,
@@ -216,7 +221,15 @@ public class PDUtils {
     	FIXED_SUPPLY,
     	BATTERY_SUPPLY,
     	VARIABLE_SUPPLY,
-    	RSVD
+    	APDO
+    }
+
+    public enum enumAPDOType
+    {
+    	PPS,
+    	RSVD1,
+    	RSVD2,
+    	RSVD3
     }
 
     public enum enumSourcePeakCurrent
@@ -819,15 +832,15 @@ public class PDUtils {
             return true;
         }
     }
-    
+
 	public static Long get32bitValue(byte[] pkt, int idx){
 		return Utils.getUnsignedInt(Utils.get_uint32(pkt[idx], pkt[idx + 1], pkt[idx + 2], pkt[idx + 3]));
 	}
-	
+
 
 	public static Long get16bitValue(byte[] pkt, int idx){
 		return Utils.getUnsignedInt(Utils.get_uint16(pkt[idx], pkt[idx + 1]));
-	}	
+	}
 }
 
 

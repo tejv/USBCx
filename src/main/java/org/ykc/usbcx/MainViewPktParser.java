@@ -12,7 +12,8 @@ import javafx.scene.control.TableView;
 
 public class MainViewPktParser {
 	public static final Logger logger = LoggerFactory.getLogger(MainViewPktParser.class.getName());
-
+	public static int[] lastSupplyType = new int[7];
+	
 	public static MainViewRow getRow(byte[] pkt, TableView<MainViewRow> tViewMain){
 		MainViewRow row = new MainViewRow();
 		logger.info("Pkt length: " + pkt.length);
@@ -111,8 +112,14 @@ public class MainViewPktParser {
 		}
 		else{
 			int count = PDUtils.get_field_msg_count(hdr);
+			int msg = (int)(((hdr) & 0x0000000f) >> 0);
 			for(int i = 0; i < count; i++){
-				data += " 0x" + Long.toHexString(PDUtils.get32bitValue(pkt, PktCollecter.DATA_BYTE0_IDX + i *4)).toUpperCase();
+				Long val = PDUtils.get32bitValue(pkt, PktCollecter.DATA_BYTE0_IDX + i *4);
+				data += " 0x" + Long.toHexString(val).toUpperCase();
+				if(msg == 1){
+					/* Store last supply types */
+					lastSupplyType[i] = (int)(((val) & 0xc0000000) >> 30);
+				}
 			}
 		}
 
