@@ -401,7 +401,6 @@ public class PDParser {
 
 	private static void processSourcePDO(ObservableList<DetailsRow> list, Long pdo, int index, int rev) {
 		int supply_type = (int)(((pdo) & 0xc0000000) >> 30);
-		MainViewPktParser.lastSupplyType[index] = supply_type;
 		switch (supply_type) {
 		case 0:
 			if(index == 0){

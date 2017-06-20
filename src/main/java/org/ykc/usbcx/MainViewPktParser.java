@@ -12,7 +12,7 @@ import javafx.scene.control.TableView;
 
 public class MainViewPktParser {
 	public static final Logger logger = LoggerFactory.getLogger(MainViewPktParser.class.getName());
-	public static int[] lastSupplyType = new int[7];
+	public static int[] lastSupplyType = new int[8];
 	
 	public static MainViewRow getRow(byte[] pkt, TableView<MainViewRow> tViewMain){
 		MainViewRow row = new MainViewRow();
@@ -118,7 +118,7 @@ public class MainViewPktParser {
 				data += " 0x" + Long.toHexString(val).toUpperCase();
 				if(msg == 1){
 					/* Store last supply types */
-					lastSupplyType[i] = (int)(((val) & 0xc0000000) >> 30);
+					lastSupplyType[i+1] = (int)(((val) & 0xc0000000) >> 30);
 				}
 			}
 		}

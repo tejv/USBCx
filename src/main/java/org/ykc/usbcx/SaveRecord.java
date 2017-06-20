@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.io.FileUtils;
 import org.controlsfx.control.StatusBar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,9 @@ public class SaveRecord {
 	public static void save(Window win, USBControl usbControl, StatusBar statusBar){
 		File file = saveFile(win, "USBCx Files(*.ucx1)", "*.ucx1");
         if (file != null) {
+        	if(file.exists()){
+        		FileUtils.deleteQuietly(file);
+        	}
         	if(zipRecord(file, usbControl, statusBar) == true)
         	{
         		statusBar.setText("Save Success");

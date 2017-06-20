@@ -15,7 +15,10 @@ public class DetailsPresenter {
 				ttViewParseViewer.getRoot().getChildren().clear();
 				return;
 			}
-			PDParser.run(list, pkt);
+			try {
+				PDParser.run(list, pkt);
+				} catch (Exception e) {
+			}
 			DetailsLoader.run(list, ttViewParseViewer);
 		} catch (Exception e) {
 

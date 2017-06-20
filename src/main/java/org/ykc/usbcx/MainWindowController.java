@@ -1,6 +1,7 @@
 package org.ykc.usbcx;
 
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -640,6 +641,7 @@ public class MainWindowController implements Initializable{
 		myStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 		      public void handle(WindowEvent we) {
 		    	  appClosing();
+		    	  Platform.exit();
 		      }
 		  });
 	}
