@@ -2,6 +2,8 @@ package org.ykc.usbcx;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -188,6 +190,13 @@ public class Utils {
 	
 	public static long getUnsignedInt(byte x) {
 		return x & 0x000000000000ffL;
-	}	
+	}
+	
+	
+	public static String bytesToString(byte[] bytes) {
+	 CharBuffer cBuffer = ByteBuffer.wrap(bytes).asCharBuffer();
+	 return cBuffer.toString();
+	}
+
 }
 

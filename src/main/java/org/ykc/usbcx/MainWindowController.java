@@ -170,6 +170,12 @@ public class MainWindowController implements Initializable{
     private Button bLastPage; // Value injected by FXMLLoader
 
     @FXML
+    private Button bCollapse;
+
+    @FXML
+    private Button bExpand;
+    
+    @FXML
     private StatusBar statusBar;
 
     @FXML // fx:id="cBoxDeviceList"
@@ -251,7 +257,11 @@ public class MainWindowController implements Initializable{
 		bNextPage.setTooltip(new Tooltip("Go to Next Page"));
 		bLastPage.setGraphic(new ImageView(new Image("/double_arrow_right.png")));
 		bLastPage.setTooltip(new Tooltip("Go to Last Page"));
-
+		bCollapse.setGraphic(new ImageView(new Image("/collapse.png")));
+		bCollapse.setTooltip(new Tooltip("Collapse Items"));
+		bExpand.setGraphic(new ImageView(new Image("/expand.png")));
+		bExpand.setTooltip(new Tooltip("Expand Items"));
+		
 		ttColPVName.setCellValueFactory(new TreeItemPropertyValueFactory<DetailsRow, String>("name"));
 		ttColPVValue.setCellValueFactory(new TreeItemPropertyValueFactory<DetailsRow, String>("value"));
 		ttColPVDecimal.setCellValueFactory(new TreeItemPropertyValueFactory<DetailsRow, String>("decval"));
@@ -372,10 +382,14 @@ public class MainWindowController implements Initializable{
     @FXML
     void openRecord(ActionEvent event) {
     	partFileList = OpenRecord.open(bPaneMainWindow.getScene().getWindow(), usbcontrol, statusBar);
+		bFirstPage.setDisable(true);
+		bLastPage.setDisable(true);
+		bPrevPage.setDisable(true);
+		bNextPage.setDisable(true);
     	if(partFileList != null){
 	    	partListIdx = 0;
 	    	cordinator.openPage(partFileList.get(partListIdx));
-	    	if(partFileList.size() >= 1){
+	    	if(partFileList.size() > 1){
 	    		bLastPage.setDisable(false);
 	    		bNextPage.setDisable(false);
 	    	}
@@ -514,6 +528,16 @@ public class MainWindowController implements Initializable{
     void populate(ActionEvent event) {
     	addItems();
     }
+    
+    @FXML
+    void collapseDetailView(ActionEvent event) {
+    	DetailsLoader.collapseTreeView(ttViewParseViewer.getRoot());
+    }
+
+    @FXML
+    void expandDetailView(ActionEvent event) {
+    	DetailsLoader.expandTreeView(ttViewParseViewer.getRoot());
+    }
 
 	private void displayAboutMe() {
 		Properties prop = new Properties();
@@ -522,7 +546,7 @@ public class MainWindowController implements Initializable{
 			input = getClass().getResource("/version.properties").openStream();
 			prop.load(input);
 			String ver = prop.getProperty("MAJOR_VERSION") + "."+ prop.getProperty("MINOR_VERSION") + "." + prop.getProperty("BUILD_NO");
-			MsgBox.display("About Me", "USBCx -> USBPD Analyzer\nVersion: "+ ver +"\nAuthor: Tejender Sheoran\nEmail: tejendersheoran@gmail.com\nCopyright(C) (2016-2018) Tejender Sheoran\nThis program is free software. You can redistribute it and/or modify it\nunder the terms of the GNU General Public License Ver 3.\n<http://www.gnu.org/licenses/>");
+			MsgBox.display("About Me", "USBCx -> USBPD Analyzer\nVersion: "+ ver +"\nAuthor: Tejender Sheoran\nEmail: tejendersheoran@gmail.com, teju@cypress.com\nCopyright(C) (2016-2018) Tejender Sheoran\nThis program is free software. You can redistribute it and/or modify it\nunder the terms of the GNU General Public License Ver 3.\n<http://www.gnu.org/licenses/>");
 
 		} catch (IOException e) {
 

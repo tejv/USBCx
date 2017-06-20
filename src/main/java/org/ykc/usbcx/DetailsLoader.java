@@ -1,11 +1,16 @@
 package org.ykc.usbcx;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableView;
 
 public class DetailsLoader {
+	public static final Logger logger = LoggerFactory.getLogger(DetailsLoader.class.getName());
 	public static void run(ObservableList<DetailsRow> list, TreeTableView<DetailsRow> ttView){
 		ObservableList<TreeItem<DetailsRow>> treeList= FXCollections.observableArrayList();
 		ttView.getRoot().getChildren().clear();
@@ -47,8 +52,8 @@ public class DetailsLoader {
 		}
 		return 0;
 	}
-	
-	private static void expandTreeView(TreeItem<?> item){
+
+	public static void expandTreeView(TreeItem<?> item){
 	    if(item != null && !item.isLeaf()){
 	        item.setExpanded(true);
 	        for(TreeItem<?> child:item.getChildren()){
@@ -56,13 +61,13 @@ public class DetailsLoader {
 	        }
 	    }
 	}
-	
-	private static void collapseTreeView(TreeItem<?> item){
-	    if(item != null && !item.isLeaf()){
-	        item.setExpanded(false);
+
+	public static void collapseTreeView(TreeItem<?> item){
+		if((item != null) && (!item.isLeaf())){
 	        for(TreeItem<?> child:item.getChildren()){
-	            collapseTreeView(child);
+	        	collapseTreeView(child);
+	        	child.setExpanded(false);
 	        }
-	    }
+		}
 	}
 }

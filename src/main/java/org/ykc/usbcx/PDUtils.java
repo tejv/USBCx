@@ -48,10 +48,10 @@ public class PDUtils {
         C_RSVD15,
         NOT_SUPPORTED,
         GET_SRC_CAP_EXT,
-        GET_SRC_STATUS,
+        GET_STATUS,
         FR_SWAP,
-        C_RSVD20,
-        C_RSVD21,
+        GET_PPS_STATUS,
+        GET_COUNTRY_CODES,
         C_RSVD22,
         C_RSVD23,
         C_RSVD24,
@@ -72,8 +72,8 @@ public class PDUtils {
         BIST,
         SNK_CAP,
         BAT_STATUS,
-        SRC_ALERT,
-        D_RSVD7,
+        ALERT,
+        GET_COUNTRY_INFO,
         D_RSVD8,
         D_RSVD9,
         D_RSVD10,
@@ -104,23 +104,23 @@ public class PDUtils {
     {
         E_RSVD0,
         SRC_CAP_EXT,
-        SRC_STATUS,
+        STATUS,
         GET_BAT_CAP,
         GET_BAT_STATUS,
-        BAT_CAP,
+        BAT_CAPS,
         GET_MANU_INFO,
         MANU_INFO,
         SECURITY_REQ,
         SECURITY_RESP,
-        E_RSVD9,
-        E_RSVD10,
-        E_RSVD11,
-        E_RSVD12,
-        E_RSVD13,
-        E_RSVD14,
+        FW_UPDT_REQ,
+        FW_UPDT_RESP,
+        PPS_STATUS,
+        COUNTRY_INFO,
+        COUNTRY_CODES,
         E_RSVD15,
         E_RSVD16,
         E_RSVD17,
+        E_RSVD18,
         E_RSVD19,
         E_RSVD20,
         E_RSVD21,
@@ -286,8 +286,8 @@ public class PDUtils {
 
     public enum enumVDMType
     {
-    	UNSTRUCTURED_VDM,
-    	STRUCTURED_VDM
+    	UNSTRUCTURED,
+    	STRUCTURED
     }
 
     public enum enumSVDMVersion
@@ -300,10 +300,10 @@ public class PDUtils {
 
     public enum enumSVDMCmdType
     {
-    	INITIATOR,
-    	RESPONDER_ACK,
-    	RESPONDER_NAK,
-    	RESPONDER_BUSY
+    	REQ,
+    	ACK,
+    	NAK,
+    	BUSY
     }
 
     public enum enumSVDMCmd
@@ -352,14 +352,7 @@ public class PDUtils {
     	AMA,
     	RSVD6,
     	RSVD7,
-    	RSVD8,
-    	RSVD9,
-    	RSVD10,
-    	RSVD11,
-    	RSVD12,
-    	RSVD13,
-    	RSVD14,
-    	RSVD15,
+
     }
 
     public enum enumIDHdrProductTypeCable
@@ -372,14 +365,7 @@ public class PDUtils {
     	RSVD5,
     	RSVD6,
     	RSVD7,
-    	RSVD8,
-    	RSVD9,
-    	RSVD10,
-    	RSVD11,
-    	RSVD12,
-    	RSVD13,
-    	RSVD14,
-    	RSVD15,
+
     }
 
     public enum enumIDHdrProductTypeDFP
@@ -392,14 +378,6 @@ public class PDUtils {
     	RSVD5,
     	RSVD6,
     	RSVD7,
-    	RSVD8,
-    	RSVD9,
-    	RSVD10,
-    	RSVD11,
-    	RSVD12,
-    	RSVD13,
-    	RSVD14,
-    	RSVD15,
     }
 
     public enum enumCableVDOVersion
@@ -414,15 +392,22 @@ public class PDUtils {
     	RSVD7,
     }
 
-    public enum enumCableTCPlugToCaptive
+    public enum enumCableTCPlugToCaptiveRev2
+    {
+    	USB_TYPEA,
+    	USB_TYPEB,
+    	USB_TYPEC,
+    	CAPTIVE,
+    }
+    public enum enumCableTCPlugToCaptiveRev3
     {
     	RSVD0,
     	RSVD1,
     	USB_TYPEC,
     	CAPTIVE,
     }
-
-    public enum enumCableLatency
+    
+    public enum enumCableLatencyActive
     {
     	RSVD0,
     	LATENCY_10ns,
@@ -432,7 +417,27 @@ public class PDUtils {
     	LATENCY_40_50ns,
     	LATENCY_50_60ns,
     	LATENCY_60_70ns,
-    	LATENCY_70ns,
+    	LATENCY_1000ns,
+    	LATENCY_2000ns,
+    	LATENCY_3000ns,
+    	RSVD11,
+    	RSVD12,
+    	RSVD13,
+    	RSVD14,
+    	RSVD15,
+    }
+
+    public enum enumCableLatencyPassive
+    {
+    	RSVD0,
+    	LATENCY_10ns,
+    	LATENCY_10_20ns,
+    	LATENCY_20_30ns,
+    	LATENCY_30_40ns,
+    	LATENCY_40_50ns,
+    	LATENCY_50_60ns,
+    	LATENCY_60_70ns,
+    	LATENCY_MORE_THAN_70ns,
     	RSVD9,
     	RSVD10,
     	RSVD11,
@@ -550,7 +555,7 @@ public class PDUtils {
     	RSVD15,
     }
 
-    public enum enumDPConnStatus
+    public enum enumDPStatusConn
     {
     	DISABLED,
     	DFP_D_CONNECTED,
@@ -601,6 +606,14 @@ public class PDUtils {
     	BOTH_UFP_D_DFP_D_CAPABLE,
     }
 
+    public enum enumDPConfigureSelect
+    {
+    	USB,
+    	SET_UFP_U_AS_DFP_D,
+    	SET_UFP_U_AS_UFP_D,
+    	RSVD3,
+    }
+
     public static final HashMap<Integer, String> mapDiscModeSignal= new HashMap<Integer, String>();
     static
     {
@@ -646,6 +659,43 @@ public class PDUtils {
     	mapVIDS.put(0x04B4, "CY_VID");
     	mapVIDS.put(0x8087, "TBT_VID");
     }
+
+	public enum enumBattChargingStatus
+	{
+		CHARGING,
+		DISCHARGING,
+		IDLE,
+		RSVD3
+	}
+
+	public enum enumExtdSrcCapLoadStep{
+		LOAD_STEP_150mA_per_us,
+		LOAD_STEP_500mA_per_us,
+		RSVD2,
+		RSVD3
+	}
+
+	public enum enumExtdSrcCapIOC{
+		Percent_25,
+		Percent_90,
+	}
+
+	public enum enumStatusTemperature{
+		NOT_SUPPORTED,
+		NORMAL,
+		WARNING,
+		OVER_TEMPERATURE
+	}
+
+	public enum enumPPSStatusOMF{
+		CONSTANT_VOLTAGE,
+		CURRENT_FOLDBACK
+	}
+
+	public enum enumStatusDCAC{
+		DC,
+		AC
+	}
 
     public static boolean get_field_ok(Long hdr)
     {
@@ -840,6 +890,10 @@ public class PDUtils {
 
 	public static Long get16bitValue(byte[] pkt, int idx){
 		return Utils.getUnsignedInt(Utils.get_uint16(pkt[idx], pkt[idx + 1]));
+	}
+
+	public static Long get8bitValue(byte[] pkt, int idx){
+		return Utils.getUnsignedInt(pkt[idx]);
 	}
 }
 

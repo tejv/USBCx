@@ -73,14 +73,16 @@
                                                    <children>
                                                       <VBox AnchorPane.bottomAnchor="541.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
-                                                            <ToolBar prefHeight="45.0" prefWidth="985.0" VBox.vgrow="NEVER">
+                                                            <ToolBar prefHeight="52.0" prefWidth="261.0" VBox.vgrow="NEVER">
                                                                <items>
                                                                   <Label text="Details" />
+                                                                  <Button fx:id="bCollapse" mnemonicParsing="false" onAction="#collapseDetailView" />
+                                                                  <Button fx:id="bExpand" mnemonicParsing="false" onAction="#expandDetailView" />
                                                                </items>
                                                             </ToolBar>
                                                          </children>
                                                       </VBox>
-                                                      <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="34.0" prefHeight="539.0" prefWidth="261.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0">
+                                                      <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="44.0" prefHeight="220.0" prefWidth="261.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0">
                                                          <content>
                                                             <TreeTableView fx:id="ttViewParseViewer" prefHeight="250.0" prefWidth="259.0" showRoot="false" tableMenuButtonVisible="true">
                                                                <columns>
@@ -118,7 +120,7 @@
                                                       <TableView fx:id="tViewData" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" tableMenuButtonVisible="true">
                                                          <columns>
                                                             <TableColumn fx:id="tColDataViewIndex" editable="false" prefWidth="75.0" sortable="false" text="Byte Index" />
-                                                            <TableColumn fx:id="tColDataViewValue" editable="false" prefWidth="100.0" sortable="false" text="Value" />
+                                                            <TableColumn fx:id="tColDataViewValue" editable="false" prefWidth="75.0" sortable="false" text="Value" />
                                                          </columns>
                                                          <columnResizePolicy>
                                                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
