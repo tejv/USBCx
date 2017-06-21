@@ -1,7 +1,7 @@
-# USBCx USBC Protocol Analyzer GUI
+# USBCx - USBPD Protocol Analyzer
 
 --------------------------------------------------------------------------------
-Quick Start Guide USBCx PD Analyzer
+Quick Start Guide USBCx USBPD Protocol Analyzer
 Author: Tejender Sheoran
 Email: teju@cypress.com, tejendersheoran@gmail.com
 
@@ -39,15 +39,15 @@ Setup
 -------------------------------------------------------------------------------
 1. Make sure hw is programmed with USBCx.hex. If first time programming use Miniprog 
    header to program the board otherwise fw can be updated from GUI after step 6.
-2. Install latest JRE(Java Runtime environment) from http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html
+2. Install latest JRE(Java Runtime environment).
 3. Install Driver 
-  Windows 
+  #Windows 
     Install libusb win32 driver. By default CY4500 kit will bind to cypress driver. You need to manually reinstall libusb win32 driver.
     Note if device is plugged to different port. You need to install libusb win32 driver for that port because by default device bind to cypress driver.
     Easy way to do this is to use zadig tool from http://zadig.akeo.ie/
     Download the tool and run it.
     In Options menu click on List all devices. Then select the analyzer device and change driver to libusbk.
-  Linux
+  #Linux
     Make sure user has read/write permisssion to the usb device. 
     If not then Clicking Start/Stop menu item You will get " Start Command fail" To fix this Create a file
       /etc/udev/rules.d/99-userusbdevices.rules
