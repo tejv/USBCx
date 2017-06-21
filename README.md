@@ -2,7 +2,9 @@
 
 --------------------------------------------------------------------------------
 Quick Start Guide USBCx USBPD Protocol Analyzer
+
 Author: Tejender Sheoran
+
 Email: teju@cypress.com, tejendersheoran@gmail.com
 
 Copyright (C) <2016-2018>  <Tejender Sheoran>
@@ -41,19 +43,22 @@ Setup
    header to program the board otherwise fw can be updated from GUI after step 6.
 2. Install latest JRE(Java Runtime environment).
 3. Install Driver 
-  #Windows 
-    Install libusb win32 driver. By default CY4500 kit will bind to cypress driver. You need to manually reinstall libusb win32 driver.
-    Note if device is plugged to different port. You need to install libusb win32 driver for that port because by default device bind to cypress driver.
-    Easy way to do this is to use zadig tool from http://zadig.akeo.ie/
-    Download the tool and run it.
-    In Options menu click on List all devices. Then select the analyzer device and change driver to libusbk.
-  #Linux
-    Make sure user has read/write permisssion to the usb device. 
-    If not then Clicking Start/Stop menu item You will get " Start Command fail" To fix this Create a file
+  ### Windows 
+    . Install libusb win32 driver. By default CY4500 kit will bind to cypress driver. You need to manually reinstall libusb win32 driver.
+    . Note if device is plugged to different port. You need to install libusb win32 driver for that port because by default device bind to cypress driver.
+   .  Easy way to do this is to use zadig tool from http://zadig.akeo.ie/
+   . Download the tool and run it.
+   . In Options menu click on List all devices. Then select the analyzer device and change driver to libusbk.
+  ### Linux
+    . Make sure user has read/write permisssion to the usb device. 
+    . If not then Clicking Start/Stop menu item You will get " Start Command fail" To fix this Create a file
       /etc/udev/rules.d/99-userusbdevices.rules
+      
         with below line and replug the device.
       SUBSYSTEM=="usb",ATTR{idVendor}=="04b4",ATTR{idProduct}=="0072",MODE="0660",GROUP="plugdev"
+      
         where 04b4 is the vendor id, 0072 is product id of usb device.
+        
 4. Double click on USBCx-<version>.jar.
 5. Log window will show "USBCx HW Attached".
 6. Click start/stop button to start capturing.
