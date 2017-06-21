@@ -109,7 +109,7 @@ public class DataPresenter implements Runnable{
 	}
 
 	public void setCurPage(DataPage curPage) {
-		logger.info("Page changed");
+//		logger.info("Page changed");
 		tViewMain.getItems().clear();
 		this.curPage = curPage;
 		pageIdx = 0;
@@ -140,8 +140,8 @@ public class DataPresenter implements Runnable{
 
 						while(pageSize > pageIdx)
 						{
-							logger.info(Integer.toString(pageSize));
-							logger.info(Integer.toString(pageIdx));
+//							logger.info(Integer.toString(pageSize));
+//							logger.info(Integer.toString(pageIdx));
 							sleep_counter++;
 							if(sleep_counter > 1000)
 							{
@@ -157,7 +157,7 @@ public class DataPresenter implements Runnable{
 					}
 				}
 				catch (Exception e) {
-					logger.info("Error in adding data to MainView model");
+//					logger.info("Error in adding data to MainView model");
 				}
 			}
 

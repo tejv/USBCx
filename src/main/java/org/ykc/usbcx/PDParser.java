@@ -428,7 +428,10 @@ public class PDParser {
 	}
 
     private static void addFIXED_5V_SRC_PDO_REV2(ObservableList<DetailsRow> list, Long input) {
-        list.add(new DetailsRow.Builder().name("FIXED_5V_SRC_PDO_REV2").value("0x" + Long.toHexString(input)).level(0).build());
+    	Long valCur = ((input) & 0x000003ff) >> 0;
+		Long valVolt = ((input) & 0x000ffc00) >> 10;
+        list.add(new DetailsRow.Builder().name("FIXED_5V_SRC_PDO_REV2->" + Long.toString(valVolt * 50) + " mV, " + Long.toString(valCur * 10) + " mA").value("0x" + Long.toHexString(input)).level(0).build());
+
         Long val;
         Integer valInt;
         String valString;
@@ -461,16 +464,19 @@ public class PDParser {
         valInt = (int)(((input) & 0x00300000) >> 20);
         valString = enumSourcePeakCurrent.values()[valInt].name();
         list.add(new DetailsRow.Builder().name("peak_cur").value(valString).level(1).build());
-        val = ((input) & 0x000ffc00) >> 10;
-        valString = "0x" + Long.toHexString(val) + " (" + Long.toString(val * 50) + " mV)";
+
+        valString = "0x" + Long.toHexString(valVolt) + " (" + Long.toString(valVolt * 50) + " mV)";
         list.add(new DetailsRow.Builder().name("volt_50mv").value(valString).level(1).build());
-        val = ((input) & 0x000003ff) >> 0;
-        valString = "0x" + Long.toHexString(val) + " (" + Long.toString(val * 10) + " mA)";
+
+        valString = "0x" + Long.toHexString(valCur) + " (" + Long.toString(valCur * 10) + " mA)";
         list.add(new DetailsRow.Builder().name("max_cur_10ma").value(valString).level(1).build());
     }
 
     private static void addFIXED_5V_SRC_PDO_REV3(ObservableList<DetailsRow> list, Long input) {
-        list.add(new DetailsRow.Builder().name("FIXED_5V_SRC_PDO_REV3").value("0x" + Long.toHexString(input)).level(0).build());
+    	Long valCur = ((input) & 0x000003ff) >> 0;
+		Long valVolt = ((input) & 0x000ffc00) >> 10;
+
+        list.add(new DetailsRow.Builder().name("FIXED_5V_SRC_PDO_REV3->" + Long.toString(valVolt * 50) + " mV, " + Long.toString(valCur * 10) + " mA").value("0x" + Long.toHexString(input)).level(0).build());
         Long val;
         Integer valInt;
         String valString;
@@ -506,16 +512,19 @@ public class PDParser {
         valInt = (int)(((input) & 0x00300000) >> 20);
         valString = enumSourcePeakCurrent.values()[valInt].name();
         list.add(new DetailsRow.Builder().name("peak_cur").value(valString).level(1).build());
-        val = ((input) & 0x000ffc00) >> 10;
-        valString = "0x" + Long.toHexString(val) + " (" + Long.toString(val * 50) + " mV)";
+
+        valString = "0x" + Long.toHexString(valVolt) + " (" + Long.toString(valVolt * 50) + " mV)";
         list.add(new DetailsRow.Builder().name("volt_50mv").value(valString).level(1).build());
-        val = ((input) & 0x000003ff) >> 0;
-        valString = "0x" + Long.toHexString(val) + " (" + Long.toString(val * 10) + " mA)";
+
+        valString = "0x" + Long.toHexString(valCur) + " (" + Long.toString(valCur * 10) + " mA)";
         list.add(new DetailsRow.Builder().name("max_cur_10ma").value(valString).level(1).build());
     }
 
     private static void addFIXED_SRC_PDO(ObservableList<DetailsRow> list, Long input) {
-        list.add(new DetailsRow.Builder().name("FIXED_SRC_PDO").value("0x" + Long.toHexString(input)).level(0).build());
+    	Long valCur = ((input) & 0x000003ff) >> 0;
+		Long valVolt = ((input) & 0x000ffc00) >> 10;
+
+        list.add(new DetailsRow.Builder().name("FIXED_SRC_PDO->" + Long.toString(valVolt * 50) + " mV, " + Long.toString(valCur * 10) + " mA").value("0x" + Long.toHexString(input)).level(0).build());
         Long val;
         Integer valInt;
         String valString;
@@ -533,11 +542,11 @@ public class PDParser {
         valInt = (int)(((input) & 0x00300000) >> 20);
         valString = enumSourcePeakCurrent.values()[valInt].name();
         list.add(new DetailsRow.Builder().name("peak_cur").value(valString).level(1).build());
-        val = ((input) & 0x000ffc00) >> 10;
-        valString = "0x" + Long.toHexString(val) + " (" + Long.toString(val * 50) + " mV)";
+
+        valString = "0x" + Long.toHexString(valVolt) + " (" + Long.toString(valVolt * 50) + " mV)";
         list.add(new DetailsRow.Builder().name("volt_50mv").value(valString).level(1).build());
-        val = ((input) & 0x000003ff) >> 0;
-        valString = "0x" + Long.toHexString(val) + " (" + Long.toString(val * 10) + " mA)";
+
+        valString = "0x" + Long.toHexString(valCur) + " (" + Long.toString(valCur * 10) + " mA)";
         list.add(new DetailsRow.Builder().name("max_cur_10ma").value(valString).level(1).build());
     }
 
@@ -941,7 +950,7 @@ public class PDParser {
         valString = valInt.toString();
         list.add(new DetailsRow.Builder().name("object_pos").value(valString).level(1).build());
         int gvBack = (int)(((input) & 0x08000000) >> 27);
-        valString = enumYesNo.values()[valInt].name();
+        valString = enumYesNo.values()[gvBack].name();
         list.add(new DetailsRow.Builder().name("giveback_flag").value(valString).level(1).build());
         valInt = (int)(((input) & 0x04000000) >> 26);
         valString = enumYesNo.values()[valInt].name();
@@ -1850,7 +1859,7 @@ public class PDParser {
 	private static void addSTRUCT_VDM_HDR(ObservableList<DetailsRow> list, Long input, Integer valCommand, Integer valCtype, Integer svid) {
         String cmdString = enumSVDMCmd.values()[valCommand].name();
         String ctypeString = enumSVDMCmdType.values()[valCtype].name();
-        list.add(new DetailsRow.Builder().name("STRUCT_VDM_HDR-" + cmdString + " " + ctypeString).value("0x" + Long.toHexString(input)).level(0).build());
+        list.add(new DetailsRow.Builder().name("STRUCT_VDM_HDR-" + cmdString.toLowerCase() + " " + ctypeString.toLowerCase()).value("0x" + Long.toHexString(input)).level(0).build());
         Long val;
         Integer valInt;
         String valString;
@@ -1959,7 +1968,7 @@ public class PDParser {
 	private static void processDPStatusUpdate(ObservableList<DetailsRow> list, byte[] pkt, Integer valCtype, int count,
 			Integer svid) {
 		int i = 1;
-		if((svid == 0xFF01) && (valCtype == 1)){
+		if((svid == 0xFF01) && ((valCtype == 1) || (valCtype == 0))){
 			i = 2;
 			Long input = PDUtils.get32bitValue(pkt, PktCollecter.DATA_BYTE0_IDX + 4);
 			addDP_STATUS(list, input);
@@ -2021,10 +2030,17 @@ public class PDParser {
 	}
 
     private static void addDP_STATUS(ObservableList<DetailsRow> list, Long input) {
-        list.add(new DetailsRow.Builder().name("DP_STATUS").value("0x" + Long.toHexString(input)).level(0).build());
+
         Long val;
         Integer valInt;
         String valString;
+
+        valInt = (int)(((input) & 0x00000080) >> 7);
+        String valHPD = enumDPStatusHPD.values()[valInt].name();
+        valInt = (int)(((input) & 0x00000100) >> 8);
+        String valIRQ = enumDPStatusIRQ.values()[valInt].name();
+        list.add(new DetailsRow.Builder().name("DP_STATUS-" + valHPD.toLowerCase() + "-" + valIRQ.toLowerCase()).value("0x" + Long.toHexString(input)).level(0).build());
+
         val = ((input) & 0xfffffe00) >> 9;
         valString = "0x" + Long.toHexString(val);
         if(val == 0){
@@ -2033,12 +2049,9 @@ public class PDParser {
         else{
             list.add(new DetailsRow.Builder().name("rsvd").value(valString).level(1).bcolor(BG.RED).build());
         }
-        valInt = (int)(((input) & 0x00000100) >> 8);
-        valString = enumDPStatusIRQ.values()[valInt].name();
-        list.add(new DetailsRow.Builder().name("irq").value(valString).level(1).build());
-        valInt = (int)(((input) & 0x00000080) >> 7);
-        valString = enumDPStatusHPD.values()[valInt].name();
-        list.add(new DetailsRow.Builder().name("hpd_state").value(valString).level(1).build());
+
+        list.add(new DetailsRow.Builder().name("irq").value(valIRQ).level(1).build());
+        list.add(new DetailsRow.Builder().name("hpd_state").value(valHPD).level(1).build());
         valInt = (int)(((input) & 0x00000040) >> 6);
         valString = enumYesNo.values()[valInt].name();
         list.add(new DetailsRow.Builder().name("exit_dp_mode_req").value(valString).level(1).build());
@@ -2197,7 +2210,7 @@ public class PDParser {
 	private static void processDiscoverIdentity(ObservableList<DetailsRow> list, byte[] pkt, Integer valCtype,
 			int count, Integer svid, enumSOPType sopType, int rev) {
 		int i = 1;
-		if((svid == 0xFF01) && (valCtype == 1)){
+		if((svid == 0xFF00) && (valCtype == 1)){
 			Long input = PDUtils.get32bitValue(pkt, PktCollecter.DATA_BYTE0_IDX + 4);
 			String productType = "";
 			Integer valInt = (int)(((input) & 0x38000000) >> 27);
@@ -2256,7 +2269,7 @@ public class PDParser {
 	        list.add(new DetailsRow.Builder().name("DATA_OBJ" + (i + 1)).value("0x" + Long.toHexString(input)).level(0).build());
 		}
 	}
-	
+
     private static void addID_HDR_VDO_REV2(ObservableList<DetailsRow> list, Long input, String productType) {
         list.add(new DetailsRow.Builder().name("ID_HDR_VDO_REV2").value("0x" + Long.toHexString(input)).level(0).build());
         Long val;
@@ -2284,7 +2297,7 @@ public class PDParser {
         valString = "0x" + Long.toHexString(val) + " (" + Long.toString(val) + ")";
         list.add(new DetailsRow.Builder().name("usb_vendor_id").value(valString).level(1).build());
     }
-    
+
     private static void addID_HDR_VDO_REV3(ObservableList<DetailsRow> list, Long input, String productType) {
         list.add(new DetailsRow.Builder().name("ID_HDR_VDO_REV3").value("0x" + Long.toHexString(input)).level(0).build());
         Long val;
@@ -2314,8 +2327,8 @@ public class PDParser {
         val = ((input) & 0x0000ffff) >> 0;
         valString = "0x" + Long.toHexString(val) + " (" + Long.toString(val) + ")";
         list.add(new DetailsRow.Builder().name("usb_vendor_id").value(valString).level(1).build());
-    } 
-    
+    }
+
     private static void addPRODUCT_VDO(ObservableList<DetailsRow> list, Long input) {
         list.add(new DetailsRow.Builder().name("PRODUCT_VDO").value("0x" + Long.toHexString(input)).level(0).build());
         Long val;
@@ -2328,7 +2341,7 @@ public class PDParser {
         valString = "0x" + Long.toHexString(val) + " (" + Long.toString(val) + ")";
         list.add(new DetailsRow.Builder().name("bcddevice").value(valString).level(1).build());
     }
-    
+
     private static void addPASSIVE_CBL_VDO_REV2(ObservableList<DetailsRow> list, Long input) {
         list.add(new DetailsRow.Builder().name("PASSIVE_CBL_VDO_REV2").value("0x" + Long.toHexString(input)).level(0).build());
         Long val;
@@ -2395,7 +2408,7 @@ public class PDParser {
         valString = enumCableSSSupport.values()[valInt].name();
         list.add(new DetailsRow.Builder().name("usb_superspeed").value(valString).level(1).build());
     }
-    
+
     private static void addPASSIVE_CBL_VDO_REV3(ObservableList<DetailsRow> list, Long input) {
         list.add(new DetailsRow.Builder().name("PASSIVE_CBL_VDO_REV3").value("0x" + Long.toHexString(input)).level(0).build());
         Long val;
@@ -2461,7 +2474,7 @@ public class PDParser {
         valString = enumCableSSSupport.values()[valInt].name();
         list.add(new DetailsRow.Builder().name("usb_superspeed").value(valString).level(1).build());
     }
-    
+
     private static void addACTIVE_CBL_VDO_REV2(ObservableList<DetailsRow> list, Long input) {
         list.add(new DetailsRow.Builder().name("ACTIVE_CBL_VDO_REV2").value("0x" + Long.toHexString(input)).level(0).build());
         Long val;
@@ -2522,8 +2535,8 @@ public class PDParser {
         	}
         }
         else{
-            
-            list.add(new DetailsRow.Builder().name("vbus_cur_cap").value(valString).level(1).build());        	
+
+            list.add(new DetailsRow.Builder().name("vbus_cur_cap").value(valString).level(1).build());
         }
         valString = enumYesNo.values()[valInt].name();
         list.add(new DetailsRow.Builder().name("vbus_thu_cable").value(valString).level(1).build());
@@ -2534,7 +2547,7 @@ public class PDParser {
         valString = enumCableSSSupport.values()[valInt].name();
         list.add(new DetailsRow.Builder().name("usb_superspeed").value(valString).level(1).build());
     }
-    
+
     private static void addACTIVE_CBL_VDO_REV3(ObservableList<DetailsRow> list, Long input) {
         list.add(new DetailsRow.Builder().name("ACTIVE_CBL_VDO_REV3").value("0x" + Long.toHexString(input)).level(0).build());
         Long val;
@@ -2597,8 +2610,8 @@ public class PDParser {
         	}
         }
         else{
-            
-            list.add(new DetailsRow.Builder().name("vbus_cur_cap").value(valString).level(1).build());        	
+
+            list.add(new DetailsRow.Builder().name("vbus_cur_cap").value(valString).level(1).build());
         }
 
 
@@ -2611,7 +2624,7 @@ public class PDParser {
         valString = enumCableSSSupport.values()[valInt].name();
         list.add(new DetailsRow.Builder().name("usb_superspeed").value(valString).level(1).build());
     }
-    
+
     private static void addAMA_VDO_REV2(ObservableList<DetailsRow> list, Long input) {
         list.add(new DetailsRow.Builder().name("AMA_VDO_REV2").value("0x" + Long.toHexString(input)).level(0).build());
         Long val;
@@ -2693,6 +2706,6 @@ public class PDParser {
         list.add(new DetailsRow.Builder().name("usb_superspeed").value(valString).level(1).build());
     }
 
-    
-    
+
+
 }

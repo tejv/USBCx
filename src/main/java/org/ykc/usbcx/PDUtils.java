@@ -635,8 +635,8 @@ public class PDUtils {
 
     public enum enumDPStatusIRQ
     {
-    	NO_IRQ,
-    	IRQ_HPD,
+    	IRQ_CLEAR,
+    	IRQ_SET,
     }
 
     public enum enumDPStatusExitDPMode
