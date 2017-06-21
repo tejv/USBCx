@@ -1,8 +1,9 @@
 # USBCx - USBPD Protocol Analyzer
 ![alt text](https://github.com/tejv/USBCx/blob/master/gui_image.png)
+
 --------------------------------------------------------------------------------
 Quick Start Guide USBCx USBPD Protocol Analyzer
-
+--------------------------------------------------------------------------------
 Author: Tejender Sheoran
 
 Email: teju@cypress.com, tejendersheoran@gmail.com
