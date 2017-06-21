@@ -44,14 +44,14 @@ Setup
 2. Install latest JRE(Java Runtime environment).
 3. Install Driver 
   ### Windows
-  . Install libusb win32 driver. By default CY4500 kit will bind to cypress driver. You need to manually reinstall libusb win32 driver.
-  . Note if device is plugged to different port. You need to install libusb win32 driver for that port because by default device bind to cypress driver.
-  . Easy way to do this is to use zadig tool from http://zadig.akeo.ie/
-  . Download the tool and run it.
-  . In Options menu click on List all devices. Then select the analyzer device and change driver to libusbk.
+   . Install libusb win32 driver. By default CY4500 kit will bind to cypress driver. You need to manually reinstall libusb win32 driver.
+   . Note if device is plugged to different port. You need to install libusb win32 driver for that port because by default device bind to cypress driver.
+   . Easy way to do this is to use zadig tool from http://zadig.akeo.ie/
+   . Download the tool and run it.
+   . In Options menu click on List all devices. Then select the analyzer device and change driver to libusbk.
   ### Linux
-   . Make sure user has read/write permisssion to the usb device. 
-   . If not then Clicking Start/Stop menu item You will get " Start Command fail" To fix this Create a file
+    . Make sure user has read/write permisssion to the usb device. 
+    . If not then Clicking Start/Stop menu item You will get " Start Command fail" To fix this Create a file
       /etc/udev/rules.d/99-userusbdevices.rules
       
         with below line and replug the device.
