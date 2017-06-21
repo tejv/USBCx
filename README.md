@@ -40,11 +40,10 @@ Overview
 --------------------------------------------------------------------------------
 Setup
 -------------------------------------------------------------------------------
-1. Make sure hw is programmed with USBCx.hex. If first time programming use Miniprog 
-   header to program the board otherwise fw can be updated from GUI after step 6.
+1. Get the latest version entire folder from release folder. Make sure hw is programmed with USBCx.hex. If first time programming use Miniprog header to program the board otherwise fw can be updated from GUI after step 6.
 2. Install latest JRE(Java Runtime environment).
 3. Install Driver 
-  ### Windows 
+  ### Windows
    . Install libusb win32 driver. By default CY4500 kit will bind to cypress driver. You need to manually reinstall libusb win32 driver.
    . Note if device is plugged to different port. You need to install libusb win32 driver for that port because by default device bind to cypress driver.
    . Easy way to do this is to use zadig tool from http://zadig.akeo.ie/
