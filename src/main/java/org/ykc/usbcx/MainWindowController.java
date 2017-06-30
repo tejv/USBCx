@@ -355,7 +355,7 @@ public class MainWindowController implements Initializable{
     void openOnDragOver(DragEvent event) {
     	 Dragboard db = event.getDragboard();
          if (db.hasFiles()) {
-             event.acceptTransferModes(TransferMode.ANY);
+             event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
          } else {
              event.consume();
          }
@@ -371,7 +371,8 @@ public class MainWindowController implements Initializable{
             for (File file:db.getFiles()) {
             	if(Utils.getFileExtension(file).equals("ucx1")){
             		success = true;
-            		OpenRecord.open(file, usbcontrol, statusBar);
+            		partFileList = OpenRecord.open(file, usbcontrol, statusBar);
+            		loadRecord();
             		break;
             	}
             }
@@ -379,10 +380,8 @@ public class MainWindowController implements Initializable{
         event.setDropCompleted(success);
         event.consume();
     }
-
-    @FXML
-    void openRecord(ActionEvent event) {
-    	partFileList = OpenRecord.open(bPaneMainWindow.getScene().getWindow(), usbcontrol, statusBar);
+    
+    void loadRecord(){
 		bFirstPage.setDisable(true);
 		bLastPage.setDisable(true);
 		bPrevPage.setDisable(true);
@@ -395,7 +394,13 @@ public class MainWindowController implements Initializable{
 	    		bNextPage.setDisable(false);
 	    	}
 	    	statusBar.setText("First Page-> Page 0 of " + (partFileList.size() - 1) + " pages.");
-    	}
+    	}    	
+    }
+
+    @FXML
+    void openRecord(ActionEvent event) {
+    	partFileList = OpenRecord.open(bPaneMainWindow.getScene().getWindow(), usbcontrol, statusBar);
+    	loadRecord();
     }
 
     @FXML
