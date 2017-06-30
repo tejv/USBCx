@@ -1,4 +1,4 @@
-# USBCx - USBPD Protocol Analyzer
+# USBCx - USB Power Delivery Protocol Analyzer
 ![alt text](https://github.com/tejv/USBCx/blob/master/gui_image.png)
 
 --------------------------------------------------------------------------------
