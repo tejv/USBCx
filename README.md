@@ -40,7 +40,7 @@ Overview
 --------------------------------------------------------------------------------
 Setup
 -------------------------------------------------------------------------------
-1. Get the latest version entire folder from output folder. Make sure hw is programmed with USBCx.hex. If first time programming use Miniprog header to program the board otherwise fw can be updated from GUI after step 6.
+1. Get the latest version entire folder from output folder. Make sure hw is programmed with USBCx.hex. If first time programming use Miniprog header to program the board otherwise fw can be bootloaded from GUI after step 6.
 2. Install latest JRE(Java Runtime environment).
 3. Install Driver 
   ### Windows
