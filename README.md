@@ -29,7 +29,7 @@ Overview
 --------------------------------------------------------------------------------
 1. This analyzer uses CY4500 TypeC PD Anlyzer kit as low level hardware. Although CY8CKIT-059
    can also be used.
-2. USBCxPD Analyzer GUI( USBCx-<version>.jar ) is used to present data to user. GUI
+2. USBCxPD Analyzer GUI( USBCx-version.jar ) is used to present data to user. GUI
    is written in Java.
 3. USB interface is used for data logging from hw to PC.
 4. Tool works on both Windows and Linux. I have tested it on Windows 7/10 and Ubuntu.
