@@ -119,9 +119,9 @@ Working
 --------------------------------------------------------------------------------   
 Other Features
 --------------------------------------------------------------------------------
-1. Duration field show the total duration a a packet.
-2. Delta field show time difference between end of last packet and start of current packet.
-3. Start Delta : show the start time difference of last 2 selected messages.
+1. Duration field show the total duration a packet in us.
+2. Delta field show time difference between end of last packet and start of current packet in us.
+3. Start Delta : show the start time difference of last 2 selected messages in us.
 4. You can hide/show an column by right clicking on data view table header.
 5. You can rearrange columns as per your convenience by dragging column headers.
 6. Drag and drop a .ucx1 file onto data view will also open the file.
