@@ -51,7 +51,7 @@ Setup
     . In Options menu click on List all devices. Then select the analyzer device and change driver to libusbk.
   ### Linux
     . Make sure user has read/write permisssion to the usb device. 
-    . If not then Clicking Start/Stop menu item You will get " Start Command fail" To fix this Create a file
+    . If not then Clicking Start/Stop menu item You will get " Start Command fail". To fix this create a file
       /etc/udev/rules.d/99-userusbdevices.rules
       
         with below line and replug the device.
@@ -59,8 +59,8 @@ Setup
       
         where 04b4 is the vendor id, 0072 is product id of usb device.
         
-4. Double click on USBCx-<version>.jar.
-5. Log window will show "USBCx HW Attached".
+4. Run USBCx-version.jar.
+5. If HW is atatched status bar will show "USBCx HW Attached".
 6. Click start/stop button to start capturing.
 
 --------------------------------------------------------------------------------
