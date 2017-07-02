@@ -13,6 +13,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 apply plugin: 'java'
 apply plugin: 'javafx-gradle-plugin'
 apply plugin: 'application'
+mainClassName = 'org.ykc.usbcx.Main'
 apply plugin: 'maven'
 
 def maj_ver
