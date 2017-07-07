@@ -6,9 +6,9 @@ Quick Start Guide USBCx USBPD Protocol Analyzer
 --------------------------------------------------------------------------------
 Author: Tejender Sheoran
 
-Email: tejendersheoran@gmail.com, teju@cypress.com
+Email: teju@cypress.com, tejendersheoran@gmail.com
 
-Copyright (C) <2017>  <Tejender Sheoran>
+Copyright (C) <2016-2018>  <Tejender Sheoran>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ Overview
 --------------------------------------------------------------------------------
 1. This analyzer uses CY4500 TypeC PD Anlyzer kit as low level hardware. Although CY8CKIT-059
    can also be used.
-2. USBCxPD Analyzer GUI( USBCx-<version>.jar ) is used to present data to user. GUI
+2. USBCxPD Analyzer GUI( USBCx-version.jar ) is used to present data to user. GUI
    is written in Java.
 3. USB interface is used for data logging from hw to PC.
 4. Tool works on both Windows and Linux. I have tested it on Windows 7/10 and Ubuntu.
@@ -40,39 +40,30 @@ Overview
 --------------------------------------------------------------------------------
 Setup
 -------------------------------------------------------------------------------
-1. Get the latest version folder(entire folder) from output folder.
+1. Get the latest version entire folder from output folder. Make sure hw is programmed with USBCx.hex. If first time programming use Miniprog header to program the board otherwise fw can be bootloaded from GUI after step 6.
 2. Install latest JRE(Java Runtime environment).
 3. Install Driver 
   ### Windows
-    . Install libusb win32 driver. By default CY4500 kit will bind to cypress driver. You need to manually reinstall libusb win32 driver.
-    . Note if device is plugged to different port. You need to install libusb win32 driver for that port because by default device bind to cypress driver.
+    . Install libusb win32 driver. By default CY4500 kit will bind to cypress driver. 
+      You need to manually reinstall libusb win32 driver.
+    . Note if device is plugged to different port. You need to install libusb win32 driver
+      for that port because by default device bind to cypress driver.
     . Easy way to do this is to use zadig tool from http://zadig.akeo.ie/
     . Download the tool and run it.
-    . In Options menu click on List all devices. Then select the analyzer device and replace driver(not install WICD driver) to libusbk.
+    . In Options menu click on List all devices. Then select the analyzer device and change driver to libusbk.
   ### Linux
     . Make sure user has read/write permisssion to the usb device. 
-    . If not then Clicking Start/Stop menu item You will get " Start Command fail" To fix this Create a file
+    . If not then Clicking Start/Stop menu item You will get " Start Command fail". To fix this create a file
       /etc/udev/rules.d/99-userusbdevices.rules
       
         with below line and replug the device.
-      SUBSYSTEM=="usb",ATTR{idVendor}=="04b4",ATTR{idProduct}=="0078",MODE="0660",GROUP="plugdev"
-      SUBSYSTEM=="usb",ATTR{idVendor}=="04b4",ATTR{idProduct}=="b71d",MODE="0660",GROUP="plugdev"
+      SUBSYSTEM=="usb",ATTR{idVendor}=="04b4",ATTR{idProduct}=="0072",MODE="0660",GROUP="plugdev"
       
-        where 04b4 is the vendor id, 0078 is product id of usb device, b71d is product id of boot device.
+        where 04b4 is the vendor id, 0072 is product id of usb device.
         
-4. Double click on USBCx-<version>.jar.
-5. Log window will show "USBCx HW Attached".
-6. Boot the FW image USBCx-version.cyacd using download button(Do not start capture before bootloading).
-   This will put HW in boot mode.
-   And this will open a new CyBootloaderHost application. Make sure libusb driver is bind
-   for boot device( Boot mode use different PID hence libusb driver for main application won't work,
-   use zadig tool again to replace driver to libusb if not so).
-   Open cyacd file and click download. After download is over close bootload application.
-   If CyBootloaderHost application does not open then run it yourself. Its in BootloaderHost folder
-   with name CyBootloaderHost-1.1.0.jar.
-7. On main application, click version icon to check version match to that of cyacd file. 
-8. On main application, Click start/stop button to start capturing. You will success message in 
-   status bar if correctly configured.
+4. Run USBCx-version.jar.
+5. If HW is atatched status bar will show "USBCx HW Attached".
+6. Click start/stop button to start capturing.
 
 --------------------------------------------------------------------------------
 HW LED INDICATORS
@@ -130,9 +121,9 @@ Working
 --------------------------------------------------------------------------------   
 Other Features
 --------------------------------------------------------------------------------
-1. Duration field show the total duration a a packet.
-2. Delta field show time difference between end of last packet and start of current packet.
-3. Start Delta : show the start time difference of last 2 selected messages.
+1. Duration field show the total duration a packet in us.
+2. Delta field show time difference between end of last packet and start of current packet in us.
+3. Start Delta : show the start time difference of last 2 selected messages in us.
 4. You can hide/show an column by right clicking on data view table header.
 5. You can rearrange columns as per your convenience by dragging column headers.
 6. Drag and drop a .ucx1 file onto data view will also open the file.
