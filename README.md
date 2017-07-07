@@ -6,9 +6,9 @@ Quick Start Guide USBCx USBPD Protocol Analyzer
 --------------------------------------------------------------------------------
 Author: Tejender Sheoran
 
-Email: teju@cypress.com, tejendersheoran@gmail.com
+Email: tejendersheoran@gmail.com, teju@cypress.com
 
-Copyright (C) <2016-2018>  <Tejender Sheoran>
+Copyright (C) <2017>  <Tejender Sheoran>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ Overview
 --------------------------------------------------------------------------------
 Setup
 -------------------------------------------------------------------------------
-1. Get the latest version entire folder from output folder. Make sure hw is programmed with USBCx.hex. If first time programming use Miniprog header to program the board otherwise fw can be updated from GUI after step 6.
+1. Get the latest version folder(entire folder) from output folder.
 2. Install latest JRE(Java Runtime environment).
 3. Install Driver 
   ### Windows
@@ -48,20 +48,31 @@ Setup
     . Note if device is plugged to different port. You need to install libusb win32 driver for that port because by default device bind to cypress driver.
     . Easy way to do this is to use zadig tool from http://zadig.akeo.ie/
     . Download the tool and run it.
-    . In Options menu click on List all devices. Then select the analyzer device and change driver to libusbk.
+    . In Options menu click on List all devices. Then select the analyzer device and replace driver(not install WICD driver) to libusbk.
   ### Linux
     . Make sure user has read/write permisssion to the usb device. 
     . If not then Clicking Start/Stop menu item You will get " Start Command fail" To fix this Create a file
       /etc/udev/rules.d/99-userusbdevices.rules
       
         with below line and replug the device.
-      SUBSYSTEM=="usb",ATTR{idVendor}=="04b4",ATTR{idProduct}=="0072",MODE="0660",GROUP="plugdev"
+      SUBSYSTEM=="usb",ATTR{idVendor}=="04b4",ATTR{idProduct}=="0078",MODE="0660",GROUP="plugdev"
+      SUBSYSTEM=="usb",ATTR{idVendor}=="04b4",ATTR{idProduct}=="b71d",MODE="0660",GROUP="plugdev"
       
-        where 04b4 is the vendor id, 0072 is product id of usb device.
+        where 04b4 is the vendor id, 0078 is product id of usb device, b71d is product id of boot device.
         
 4. Double click on USBCx-<version>.jar.
 5. Log window will show "USBCx HW Attached".
-6. Click start/stop button to start capturing.
+6. Boot the FW image USBCx-version.cyacd using download button(Do not start capture before bootloading).
+   This will put HW in boot mode.
+   And this will open a new CyBootloaderHost application. Make sure libusb driver is bind
+   for boot device( Boot mode use different PID hence libusb driver for main application won't work,
+   use zadig tool again to replace driver to libusb if not so).
+   Open cyacd file and click download. After download is over close bootload application.
+   If CyBootloaderHost application does not open then run it yourself. Its in BootloaderHost folder
+   with name CyBootloaderHost-1.1.0.jar.
+7. On main application, click version icon to check version match to that of cyacd file. 
+8. On main application, Click start/stop button to start capturing. You will success message in 
+   status bar if correctly configured.
 
 --------------------------------------------------------------------------------
 HW LED INDICATORS

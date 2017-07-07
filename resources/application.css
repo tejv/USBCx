@@ -33,18 +33,18 @@
 -fx-table-header-border-color:derive(-fx-base,+30%);
 }
 
-/* 
+/*
 .table-row-cell{
     -fx-background-color: -fx-table-cell-border-color, #616161;
     -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em; 
+    -fx-padding: 0.0em;
 }
 */
 
 .table-row-cell:odd{
     -fx-background-color: derive(-fx-base,+5%);
     -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em; 
+    -fx-padding: 0.0em;
 }
 
 .table-row-cell:selected {
@@ -68,9 +68,9 @@
 -fx-text-fill: orange;
 }
 
-.split-pane > .split-pane-divider {  
-    -fx-padding: 0 0.1em 0 0.1em;  
-} 
+.split-pane > .split-pane-divider {
+    -fx-padding: 0 0.1em 0 0.1em;
+}
 
 .status-bar {
 	-fx-padding: 4px;
@@ -149,7 +149,7 @@
 }
 
 .text-area:focused {
-    -fx-background-color: #1d1d1d;
+	-fx-background-color: -fx-focus-color, -fx-text-box-border, -fx-control-inner-background;
     -fx-background-insets: -0.4, 1, 2;
     -fx-background-radius: 3.4, 2, 2;
     -fx-text-fill: #ffffff;

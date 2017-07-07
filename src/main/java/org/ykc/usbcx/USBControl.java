@@ -1,6 +1,9 @@
 package org.ykc.usbcx;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.usb.UsbDevice;
@@ -14,8 +17,10 @@ import org.ykc.usbmanager.USBManListener;
 import org.ykc.usbmanager.USBManager;
 
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class USBControl implements USBManListener{
@@ -30,6 +35,12 @@ public class USBControl implements USBManListener{
 	static private USBTransfer usbTransferTask;
 	private ComboBox<String> cBoxDeviceList;
 	private StatusBar statusBar;
+    private Label lblVolt;
+    private Label lblCur;
+    private Label lblCC1;
+    private Label lblCC2;
+    private VoltAmpUpdater vaUpdater;
+    private boolean flip;
 
 
 	public boolean isHwCapturing() {
@@ -40,13 +51,18 @@ public class USBControl implements USBManListener{
 		return usbTransferTask;
 	}
 
-	public USBControl(ComboBox<String> cBoxDeviceList, StatusBar statusBar) {
+	public USBControl(ComboBox<String> cBoxDeviceList, StatusBar statusBar, Label lblVolt, Label lblCur, Label lblCC1, Label lblCC2) {
 		try {
 			usbm = USBManager.getInstance();
 			usbTransferTask = new USBTransfer();
+			vaUpdater = new VoltAmpUpdater(this, lblVolt, lblCur, lblCC1, lblCC2);
 
 			this.statusBar = statusBar;
 			this.cBoxDeviceList = cBoxDeviceList;
+			this.lblCur = lblCur;
+			this.lblVolt = lblVolt;
+			this.lblCC1 = lblCC1;
+			this.lblCC2 = lblCC2;
 
 			updateDeviceList();
 
@@ -63,6 +79,8 @@ public class USBControl implements USBManListener{
 
 			Thread usbTransferThread = new Thread(usbTransferTask);
 			usbTransferThread.start();
+			Thread vaThread = new Thread(vaUpdater);
+			vaThread.start();
 
 			isUSBControllerStarted = true;
 
@@ -115,6 +133,7 @@ public class USBControl implements USBManListener{
 			{
 				if(USBManager.isDevicePresent(USBManager.filterDeviceList(e.getDeviceList(), USBTransfer.VID, USBTransfer.PID), dev) == false)
 				{
+					vaUpdater.pause();
 					usbTransferTask.pause();
 					isHwAttached = false;
 					isHwCapturing = false;
@@ -136,6 +155,7 @@ public class USBControl implements USBManListener{
 		{
 			isHwCapturing = true;
 			usbTransferTask.resume();
+			vaUpdater.resume();
 			statusBar.setText("Start Command Success.");
 		}
 		else
@@ -149,6 +169,7 @@ public class USBControl implements USBManListener{
 			statusBar.setText("USBCx HW not attached: Command failed.");
 			return;
 		}
+		vaUpdater.pause();
 		usbTransferTask.pause();
 
 		try {
@@ -210,6 +231,16 @@ public class USBControl implements USBManListener{
 		}
 	}
 
+	public static String toAbsolutePath(String maybeRelative) {
+	    Path path = Paths.get(maybeRelative);
+	    Path effectivePath = path;
+	    if (!path.isAbsolute()) {
+	        Path base = Paths.get("");
+	        effectivePath = base.resolve(path).toAbsolutePath();
+	    }
+	    return effectivePath.normalize().toString();
+	}
+
 	public void downloadFW() {
 		if(isHwAttached == false){
 			statusBar.setText("USBCx HW not attached: Command failed.");
@@ -222,7 +253,10 @@ public class USBControl implements USBManListener{
 		{
 			statusBar.setText("Device in Bootload mode.");
 			try {
-				Process process = new ProcessBuilder(".\\BootloaderHost\\USBBootloaderHost.exe").start();
+				String absPath = toAbsolutePath(".\\BootloaderHost\\CyBootloaderHost-1.1.0.jar");
+				logger.info(absPath);
+				ProcessBuilder pb = new ProcessBuilder("java", "-jar", absPath);
+				Process p = pb.start();
 			} catch (IOException e) {
 
 				statusBar.setText("Failed to find bootload exe.");
@@ -305,7 +339,15 @@ public class USBControl implements USBManListener{
 	        /* Send trigger command */
 	        if (usbTransferTask.setTigger(cmd) == true)
 	        {
-	        	statusBar.setText("Trigger Set Successful.");
+	        	if(flip == false){
+	        		flip = true;
+	        		statusBar.setText("Trigger Set Success.");
+	        	}
+	        	else{
+	        		flip = false;
+	        		statusBar.setText("Trigger Set Successful.");
+	        	}
+
 	        }
 	        else
 	        {
@@ -316,5 +358,33 @@ public class USBControl implements USBManListener{
 	    {
 	    	statusBar.setText("Trigger Set Failed. Hint : Textboxes must have valid numeric value.");
 	    }
+	}
+
+	public void setTerm(byte cc1, byte cc2) {
+		if(isHwAttached == false){
+			statusBar.setText("USBCx HW not attached: Command failed.");
+			return;
+		}
+		byte[] cmd = new byte[12];
+		cmd[0] = 7;
+		cmd[4] = cc1;
+		cmd[8] = cc2;
+		boolean result;
+		result = usbTransferTask.setTerm(cmd);
+		if(result == true)
+		{
+			statusBar.setText("Term set success (" + Integer.toString(cc1) + ", "+ Integer.toString(cc2) +").");
+		}
+		else
+		{
+			statusBar.setText("Term set fail.");
+		}
+	}
+
+	public boolean getVoltAmp(byte[] voltAmp) {
+		if(isHwAttached == false){
+			return false;
+		}
+		return usbTransferTask.getVoltCur(voltAmp);
 	}
 }

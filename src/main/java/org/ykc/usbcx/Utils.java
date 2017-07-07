@@ -179,24 +179,23 @@ public class Utils {
 	public static int roundUp(int num, int divisor) {
 	    return (num + divisor - 1) / divisor;
 	}
-	
+
 	public static long getUnsignedInt(int x) {
 		return x & 0x00000000ffffffffL;
 	}
-	
+
 	public static long getUnsignedInt(short x) {
 		return x & 0x000000000000ffffL;
 	}
-	
+
 	public static long getUnsignedInt(byte x) {
 		return x & 0x000000000000ffL;
 	}
-	
-	
+
+
 	public static String bytesToString(byte[] bytes) {
 	 CharBuffer cBuffer = ByteBuffer.wrap(bytes).asCharBuffer();
 	 return cBuffer.toString();
 	}
-
 }
 

@@ -20,7 +20,7 @@ public class Main extends Application {
 			BorderPane root = (BorderPane) loader.load();
 			MainWindowController controller = (MainWindowController)loader.getController();
 			controller.setStage(primaryStage);
-			Scene scene = new Scene(root,900,700);
+			Scene scene = new Scene(root,1096,719);
 			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("USBCx");

@@ -247,18 +247,18 @@ task major_release_skip_ver_inc() {
 // Deploy to local maven-repo. If want to put on github push as a seprate step.
 // Path of local maven-repo needs to be specified in gradle.properties file and changed
 //   as per machine.
-uploadArchives {
+//uploadArchives {
 
-    repositories.mavenDeployer {
+//    repositories.mavenDeployer {
 
-		repository(url: LOCAL_MAVEN_REPO_PATH)
-        uniqueVersion = false
+//		repository(url: LOCAL_MAVEN_REPO_PATH)
+//        uniqueVersion = false
 
-        pom.project {
-            groupId = 'org.ykc'
-            version = jar.version
-            artifactId = 'USBCx'
-            packaging = 'jar'
-        }
-    }
-}
+//        pom.project {
+//            groupId = 'org.ykc'
+//            version = jar.version
+//            artifactId = 'USBCx'
+//            packaging = 'jar'
+//        }
+//    }
+//}

@@ -20,9 +20,10 @@ import org.ykc.usbmanager.*;
 public class USBTransfer implements Runnable{
 	public static final Logger logger = LoggerFactory.getLogger(USBTransfer.class.getName());
 	public static  final short VID = 0x04B4;
-	public static  final short PID = 0x0072;
+	public static  final short PID = 0x0078;
 	static  final byte IN_EP_CC_DATA = (byte)0x81;
-	static  final byte OUT_EP_CMD = (byte)0x3;
+	static  final byte OUT_EP_CMD = (byte)0x2;
+	static  final byte IN_EP_MEASURE = (byte)0x83;
 	static  final byte IN_EP_CMD_RESP = (byte)0x84;
 	static  final int MAX_READ_SIZE = 65535;
 	private final int SHORT_PKT_SIZE = 8;
@@ -38,10 +39,10 @@ public class USBTransfer implements Runnable{
 	public PageSave getPageSave() {
 		return pageSave;
 	}
-	
+
 	public PageQueue getPageQueue() {
 		return pageQueue;
-	}	
+	}
 
 	USBTransfer()
 	{
@@ -53,7 +54,7 @@ public class USBTransfer implements Runnable{
 		dev = newDev;
 		Thread saveThread = new Thread(pageSave);
 		saveThread.start();
-		startSaving();		
+		startSaving();
 	}
 
 	public void setDevice(UsbDevice newDev)
@@ -84,9 +85,9 @@ public class USBTransfer implements Runnable{
 		}
 		String logFileName = "USBCx_" + timeString;
 		logger.info("Log File Name: " + logFileName);
-		pageSave.start(logDir.getAbsolutePath(), logFileName, pageQueue);	
+		pageSave.start(logDir.getAbsolutePath(), logFileName, pageQueue);
 	}
-	
+
 	public boolean start(boolean attachDetachEnable, long detachDebounce)
 	{
 		pageQueue.clear();
@@ -95,7 +96,7 @@ public class USBTransfer implements Runnable{
 		startSaving();
 		byte[] command = new byte[8];
 
-		command[0] = 6;
+		command[0] = 16;
 		if(attachDetachEnable == true)
 		{
 			command[4] = 1;
@@ -155,7 +156,7 @@ public class USBTransfer implements Runnable{
 	public boolean putDeviceInBootloadMode()
 	{
 		byte[] command = new byte[4];
-		command[0] = 0x10;
+		command[0] = 0x5;
 
 		if(USBManager.epXfer(dev, OUT_EP_CMD, command) == 4)
 		{
@@ -237,6 +238,35 @@ public class USBTransfer implements Runnable{
 	public boolean isTransferStopped()
 	{
 		return dataTransferStopped;
+	}
+
+	public boolean setTerm(byte[] cmd) {
+		if(USBManager.epXfer(dev, OUT_EP_CMD, cmd) <= 0)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	public boolean getVoltCur(byte[] readBuf)
+	{
+		byte[] command = new byte[4];
+		command[0] = 17;
+
+		if(USBManager.epXfer(dev, OUT_EP_CMD, command) <= 0)
+		{
+			return false;
+		}
+		try {
+			Thread.sleep(5);
+		} catch (InterruptedException e) {
+		}
+
+		if(USBManager.epXfer(dev, IN_EP_CMD_RESP, readBuf) == 8)
+		{
+			return true;
+		}
+		return false;
 	}
 }
 

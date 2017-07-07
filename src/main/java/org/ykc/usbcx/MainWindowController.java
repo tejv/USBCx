@@ -12,10 +12,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableCell;
@@ -175,7 +177,7 @@ public class MainWindowController implements Initializable{
 
     @FXML
     private Button bExpand;
-    
+
     @FXML
     private StatusBar statusBar;
 
@@ -184,6 +186,18 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="lblStartDelta"
     private Label lblStartDelta; // Value injected by FXMLLoader
+
+    @FXML
+    private Label lblVolt;
+
+    @FXML
+    private Label lblCur;
+
+    @FXML
+    private Label lblCC1;
+
+    @FXML
+    private Label lblCC2;
 
     @FXML // fx:id="chkStartSno"
     private CheckBox chkStartSno; // Value injected by FXMLLoader
@@ -224,6 +238,39 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="cBoxMsgClass"
     private ComboBox<String> cBoxMsgClass; // Value injected by FXMLLoader
 
+    @FXML
+    private RadioButton rbCC1Rp;
+
+    @FXML
+    private ToggleGroup tgGroupCC1;
+
+    @FXML
+    private RadioButton rbCC1Rd;
+
+    @FXML
+    private RadioButton rbCC2Rp;
+
+    @FXML
+    private ToggleGroup tgGroupCC2;
+
+    @FXML
+    private RadioButton rbCC1Ra;
+
+    @FXML
+    private RadioButton rbCC2Ra;
+
+    @FXML
+    private RadioButton rbCC2Rd;
+
+    @FXML
+    private RadioButton rbCC1None;
+
+    @FXML
+    private RadioButton rbCC2None;
+
+    @FXML
+    private Button bSetTerm;
+
     private USBControl usbcontrol;
     private Stage myStage;
     private Cordinator cordinator;
@@ -262,7 +309,7 @@ public class MainWindowController implements Initializable{
 		bCollapse.setTooltip(new Tooltip("Collapse Items"));
 		bExpand.setGraphic(new ImageView(new Image("/expand.png")));
 		bExpand.setTooltip(new Tooltip("Expand Items"));
-		
+
 		ttColPVName.setCellValueFactory(new TreeItemPropertyValueFactory<DetailsRow, String>("name"));
 		ttColPVValue.setCellValueFactory(new TreeItemPropertyValueFactory<DetailsRow, String>("value"));
 		ttColPVDecimal.setCellValueFactory(new TreeItemPropertyValueFactory<DetailsRow, String>("decval"));
@@ -346,8 +393,8 @@ public class MainWindowController implements Initializable{
 		bLastPage.setDisable(true);
 		bPrevPage.setDisable(true);
 		bNextPage.setDisable(true);
-		
-	    usbcontrol = new USBControl(cBoxDeviceList, statusBar);
+
+	    usbcontrol = new USBControl(cBoxDeviceList, statusBar, lblVolt, lblCur, lblCC1, lblCC2);
 	    cordinator = new Cordinator(usbcontrol, tViewMain, tViewData, ttViewParseViewer, lblStartDelta);
 	}
 
@@ -380,7 +427,7 @@ public class MainWindowController implements Initializable{
         event.setDropCompleted(success);
         event.consume();
     }
-    
+
     void loadRecord(){
 		bFirstPage.setDisable(true);
 		bLastPage.setDisable(true);
@@ -394,7 +441,7 @@ public class MainWindowController implements Initializable{
 	    		bNextPage.setDisable(false);
 	    	}
 	    	statusBar.setText("First Page-> Page 0 of " + (partFileList.size() - 1) + " pages.");
-    	}    	
+    	}
     }
 
     @FXML
@@ -411,7 +458,7 @@ public class MainWindowController implements Initializable{
 		    	cordinator.openPage(partFileList.get(partListIdx));
 		    	statusBar.setText("First Page-> Page 0 of " + (partFileList.size() - 1) + " pages.");
 	    		bFirstPage.setDisable(true);
-	    		bPrevPage.setDisable(true);    		
+	    		bPrevPage.setDisable(true);
 	    		bLastPage.setDisable(false);
 	    		bNextPage.setDisable(false);
     		}
@@ -426,9 +473,9 @@ public class MainWindowController implements Initializable{
 		    	cordinator.openPage(partFileList.get(partListIdx));
 		    	statusBar.setText("Last Page-> Page "+ partListIdx);
 	    		bFirstPage.setDisable(false);
-	    		bPrevPage.setDisable(false);    		
+	    		bPrevPage.setDisable(false);
 	    		bLastPage.setDisable(true);
-	    		bNextPage.setDisable(true);	   
+	    		bNextPage.setDisable(true);
     		}
     	}
     }
@@ -439,12 +486,12 @@ public class MainWindowController implements Initializable{
 	    	partListIdx++;
     		cordinator.openPage(partFileList.get(partListIdx));
     		statusBar.setText("Page: " + partListIdx + " of " + (partFileList.size() - 1) + " pages.");
-    		if(partListIdx == partFileList.size()-1){  
+    		if(partListIdx == partFileList.size()-1){
         		bLastPage.setDisable(true);
-        		bNextPage.setDisable(true);		    			
+        		bNextPage.setDisable(true);
     		}
     		bFirstPage.setDisable(false);
-    		bPrevPage.setDisable(false); 	    	
+    		bPrevPage.setDisable(false);
     	}
     }
 
@@ -455,10 +502,10 @@ public class MainWindowController implements Initializable{
     		statusBar.setText("Page: " + partListIdx + " of " + (partFileList.size() - 1) + " pages.");
     		if(partListIdx == 0){
         		bFirstPage.setDisable(true);
-        		bPrevPage.setDisable(true);    		
+        		bPrevPage.setDisable(true);
     		}
     		bLastPage.setDisable(false);
-    		bNextPage.setDisable(false);	    	
+    		bNextPage.setDisable(false);
 	    	cordinator.openPage(partFileList.get(partListIdx));
     	}
     }
@@ -531,11 +578,6 @@ public class MainWindowController implements Initializable{
     }
 
     @FXML
-    void populate(ActionEvent event) {
-    	addItems();
-    }
-    
-    @FXML
     void collapseDetailView(ActionEvent event) {
     	DetailsLoader.collapseTreeView(ttViewParseViewer.getRoot());
     }
@@ -567,47 +609,31 @@ public class MainWindowController implements Initializable{
 		}
 	}
 
-	private void addItems(){
-		ObservableList<DetailsRow> xFields = FXCollections.observableArrayList();
-		xFields.add(new DetailsRow.Builder()
-				.name("Dead")
-				.value("1")
-				.level(0)
-				.bcolor(BG.NORMAL)
-				.bold(true)
-				.build());
-		xFields.add(new DetailsRow.Builder()
-				.name("Beef")
-				.value("1")
-				.level(1)
-				.bcolor(BG.RED)
-				.build());
-		xFields.add(new DetailsRow.Builder()
-				.name("Holy")
-				.value("1")
-				.level(0)
-				.bcolor(BG.GREEN)
-				.build());
-		xFields.add(new DetailsRow.Builder()
-				.name("Cow")
-				.value("1")
-				.level(1)
-				.bcolor(BG.YELLOW)
-				.build());
-		xFields.add(new DetailsRow.Builder()
-				.name("Dead")
-				.value("1")
-				.level(0)
-				.bcolor(BG.BLUE)
-				.build());
-		xFields.add(new DetailsRow.Builder()
-				.name("Ninza")
-				.value("1")
-				.level(1)
-				.bcolor(BG.PINK)
-				.build());
-		DetailsLoader.run(xFields, ttViewParseViewer);
-	}
+    @FXML
+    void setTerminations(ActionEvent event) {
+    	byte cc1 = 4;
+    	byte cc2 = 4;
+    	if(rbCC1Rp.isSelected()){
+    		cc1 = 1;
+    	}
+    	else if(rbCC1Ra.isSelected()){
+    		cc1 =2;
+    	}
+    	else if(rbCC1Rd.isSelected()){
+    		cc1 =3;
+    	}
+
+    	if(rbCC2Rp.isSelected()){
+    		cc2 = 1;
+    	}
+    	else if(rbCC2Ra.isSelected()){
+    		cc2 =2;
+    	}
+    	else if(rbCC2Rd.isSelected()){
+    		cc2 =3;
+    	}
+    	usbcontrol.setTerm(cc1, cc2);
+    }
 
 	private void cleanUpTempFiles(){
 		try {

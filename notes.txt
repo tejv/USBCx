@@ -19,3 +19,5 @@ Start with app -. open app directly for .ucx1 files.
 Collapse/expand button in details view
 16 bit 32 bit option in dataview
 
+Properly close all threads
+
