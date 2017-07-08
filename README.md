@@ -130,6 +130,7 @@ GUI Controls
 6. Save - Saves the accumulated data to .uc file. 
 7. Open - Open a .uc file and load it on display.
 8. Drag and drop a .ucx1 file onto dataview will also open the file.
+9. Terminations tab can be used to apply Rp/Rd/Ra on cc lines.
 
 --------------------------------------------------------------------------------   
 Working
