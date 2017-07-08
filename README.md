@@ -68,14 +68,18 @@ Setup
 6. Boot the FW image USBCx-version.cyacd using download button(Do not start capture before bootloading).
    This will put HW in boot mode and led will stop blinking. If download command failed then driver
    is not properly installed.
-   Next automatically new window will open CyBootloaderHost application. Make sure libusb driver is bind
-   for boot device in Windows PC.( Boot mode use different PID hence libusb driver for main application won't work,
+   
+   Next automatically new window will open CyBootloaderHost application.
+   Make sure libusb driver is bind
+   for boot device in Windows PC( Boot mode use different PID hence libusb driver for main application won't work,
    use zadig tool again to replace driver to libusb if not so).
+   
    Open cyacd file(in output folder)and click download. After download is over close bootload application.
+   
    If CyBootloaderHost application does not open, then run it yourself. Its in BootloaderHost folder
    with name CyBootloaderHost-1.1.0.jar.
 7. On main application, click version icon to check FW version match to that of cyacd file. 
-8. On main application, Click start/stop button to start capturing. You will success message in 
+8. On main application, Click start/stop button to start capturing. You will get success message in 
    status bar if correctly configured.
 9. If CC1/CC2 voltages are not correct then HW does not support this feature. Even if HW supports
    this feature CC1/CC2 readings will saturate above 3.3V. 
