@@ -303,7 +303,7 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblCC1" alignment="CENTER_RIGHT" text="20,000">
+                        <Label fx:id="lblCC1" alignment="CENTER_RIGHT" text="0">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -322,7 +322,7 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblCC2" alignment="CENTER_RIGHT" text="20,000">
+                        <Label fx:id="lblCC2" alignment="CENTER_RIGHT" text="0">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -345,7 +345,7 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblVolt" alignment="CENTER_RIGHT" text="20,000">
+                        <Label fx:id="lblVolt" alignment="CENTER_RIGHT" text="0">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -364,7 +364,7 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblCur" alignment="CENTER_RIGHT" text="20,000">
+                        <Label fx:id="lblCur" alignment="CENTER_RIGHT" text="0">
                            <font>
                               <Font size="24.0" />
                            </font>

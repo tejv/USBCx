@@ -52,9 +52,9 @@ public class VoltAmpUpdater implements Runnable{
                     	cur = ((2048 - cur) * 100)/ 36;
                     else
                     	cur = ((cur - 2048) * 100)/ 36;
-					vbus = (vbus  * 2048 * 11) / 4096;
-					cc1 = (cc1  * 2048 * 11) / 4096;
-					cc2 = (cc2  * 2048 * 11) / 4096;
+					vbus = (vbus  * 3296 * 11) / 4096;
+					cc1 = (cc1  * 3296 ) / 4096;
+					cc2 = (cc2  * 3296 ) / 4096;
 					voltString = NumberFormat.getNumberInstance(Locale.US).format(vbus);
 					curString = NumberFormat.getNumberInstance(Locale.US).format(cur);
 					cc1String = NumberFormat.getNumberInstance(Locale.US).format(cc1);

@@ -48,7 +48,7 @@ public class MainViewPktParser {
 
 		/* VBus */
 		Long vbus =  PDUtils.get32bitValue(pkt, PktCollecter.VBUS_BYTE0_IDX) ;
-		vbus = (vbus  * 2048 * 11) / 4096;
+		vbus = (vbus  * 3296 * 11) / 4096;
 		row.setVbus(NumberFormat.getNumberInstance(Locale.US).format(vbus));
 
 		/* Sno */

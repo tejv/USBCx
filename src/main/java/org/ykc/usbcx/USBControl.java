@@ -219,9 +219,9 @@ public class USBControl implements USBManListener{
 		result = usbTransferTask.getVersion(ver);
 		if(result == true)
 		{
-			statusBar.setText("Version read success: " +
+			statusBar.setText("Version read success: " + "HW-> " +
 					Utils.getUnsignedInt(ver[3]) + "." +
-					Utils.getUnsignedInt(ver[2]) + "." +
+					Utils.getUnsignedInt(ver[2]) +  " FW-> " +
 					Utils.getUnsignedInt(ver[1]) + "." +
 					Utils.getUnsignedInt(ver[0]));
 		}

@@ -28,8 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Overview
 --------------------------------------------------------------------------------
 1. This analyzer uses CY4500 TypeC PD Anlyzer kit as low level hardware. Although CY8CKIT-059
-   can also be used.
-2. USBCxPD Analyzer GUI( USBCx-version.jar ) is used to present data to user. GUI
+   or other PSoC5 kits can also be used.
+2. USBCx PD Analyzer GUI( USBCx-version.jar ) is used to present data to user. GUI
    is written in Java.
 3. USB interface is used for data logging from hw to PC.
 4. Tool works on both Windows and Linux. I have tested it on Windows 7/10 and Ubuntu.
@@ -40,7 +40,7 @@ Overview
 --------------------------------------------------------------------------------
 Setup
 -------------------------------------------------------------------------------
-1. Get the latest version folder(entire folder) from output folder.
+1. Get the latest version (entire folder) from output folder.
 2. Install latest JRE(Java Runtime environment).
 3. Install Driver 
   ### Windows
@@ -50,31 +50,35 @@ Setup
       for that port because by default device bind to cypress driver.
     . Easy way to do this is to use zadig tool from http://zadig.akeo.ie/
     . Download the tool and run it.
-    . In Options menu click on List all devices. Then select the analyzer device and replace driver(not install WICD driver) to libusbk.
+    . In Options menu click on List all devices. Then select the analyzer device and
+      replace driver(not install WICD driver) to libusbk.
   ### Linux
     . Make sure user has read/write permisssion to the usb device. 
     . If not then Clicking Start/Stop menu item You will get " Start Command fail". To fix this create a file
       /etc/udev/rules.d/99-userusbdevices.rules
       
-        with below line and replug the device.
+        with below lines and replug the device.
       SUBSYSTEM=="usb",ATTR{idVendor}=="04b4",ATTR{idProduct}=="0078",MODE="0660",GROUP="plugdev"
       SUBSYSTEM=="usb",ATTR{idVendor}=="04b4",ATTR{idProduct}=="b71d",MODE="0660",GROUP="plugdev"
       
         where 04b4 is the vendor id, 0078 is product id of usb device, b71d is product id of boot device.
         
-4. Double click on USBCx-<version>.jar.
+4. Double click on USBCx-<version>.jar. In linux PC make sure to make this file executable.
 5. Log window will show "USBCx HW Attached".
 6. Boot the FW image USBCx-version.cyacd using download button(Do not start capture before bootloading).
-   This will put HW in boot mode.
-   And this will open a new CyBootloaderHost application. Make sure libusb driver is bind
-   for boot device( Boot mode use different PID hence libusb driver for main application won't work,
+   This will put HW in boot mode and led will stop blinking. If download command failed then driver
+   is not properly installed.
+   Next automatically new window will open CyBootloaderHost application. Make sure libusb driver is bind
+   for boot device in Windows PC.( Boot mode use different PID hence libusb driver for main application won't work,
    use zadig tool again to replace driver to libusb if not so).
-   Open cyacd file and click download. After download is over close bootload application.
-   If CyBootloaderHost application does not open then run it yourself. Its in BootloaderHost folder
+   Open cyacd file(in output folder)and click download. After download is over close bootload application.
+   If CyBootloaderHost application does not open, then run it yourself. Its in BootloaderHost folder
    with name CyBootloaderHost-1.1.0.jar.
-7. On main application, click version icon to check version match to that of cyacd file. 
+7. On main application, click version icon to check FW version match to that of cyacd file. 
 8. On main application, Click start/stop button to start capturing. You will success message in 
    status bar if correctly configured.
+9. If CC1/CC2 voltages are not correct then HW does not support this feature. Even if HW supports
+   this feature CC1/CC2 readings will saturate above 3.3V. 
 
 --------------------------------------------------------------------------------
 HW LED INDICATORS
