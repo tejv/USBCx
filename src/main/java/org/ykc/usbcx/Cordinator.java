@@ -22,6 +22,7 @@ public class Cordinator implements IPageChangeListener{
 	private TableView<DataViewRow> tViewData;
 	private TreeTableView<DetailsRow> ttViewParseViewer;
 	private Label lblStartDelta;
+	Thread presenterThread;
 
 	public Cordinator(USBControl usbcontrol, TableView<MainViewRow> tViewMain, TableView<DataViewRow> tViewData,
 			TreeTableView<DetailsRow> ttViewParseViewer, Label lblStartDelta) {
@@ -31,7 +32,7 @@ public class Cordinator implements IPageChangeListener{
 		this.ttViewParseViewer = ttViewParseViewer;
 		this.lblStartDelta = lblStartDelta;
 		dp = new DataPresenter(tViewMain, tViewData, ttViewParseViewer, lblStartDelta);
-		Thread presenterThread = new Thread(dp);
+		presenterThread = new Thread(dp);
 		presenterThread.start();
 		pageQueue = usbcontrol.getUsbTransferTask().getPageQueue();
 		pageQueue.addListener(this);
@@ -82,5 +83,10 @@ public class Cordinator implements IPageChangeListener{
 	@Override
 	public void pageChanged(DataPage newPage) {
 		openPage(newPage);
+	}
+
+	public void terminate() {
+		dp.stop();
+		dp.terminate();
 	}
 }

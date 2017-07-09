@@ -8,16 +8,17 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Stop;
 
 public class VoltAmpUpdater implements Runnable{
-	boolean isRunning;
-	USBControl usbControl;
+	private volatile boolean isRunning;
+	private volatile boolean isTerminated = false;
+	private USBControl usbControl;
     private Label lblVolt;
     private Label lblCur;
     private Label lblCC1;
     private Label lblCC2;
-	String voltString = "0";
-	String curString = "0";
-	String cc1String = "0";
-	String cc2String = "0";
+    private String voltString = "0";
+    private String curString = "0";
+    private String cc1String = "0";
+    private String cc2String = "0";
 
 	public VoltAmpUpdater(USBControl usbControl, Label lblVolt, Label lblCur, Label lblCC1, Label lblCC2) {
 		this.usbControl = usbControl;
@@ -41,6 +42,9 @@ public class VoltAmpUpdater implements Runnable{
 	@Override
 	public void run() {
 		while(true){
+			if(isTerminated){
+				break;
+			}
 			if(isRunning == true){
 				byte[] voltAmp = new byte[8];
 				if(usbControl.getVoltAmp(voltAmp) == true){
@@ -73,6 +77,11 @@ public class VoltAmpUpdater implements Runnable{
 			}
 		}
 
+	}
+	
+	public void terminate() {
+		isTerminated = true;
+		
 	}
 
 }

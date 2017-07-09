@@ -41,6 +41,9 @@ public class USBControl implements USBManListener{
     private Label lblCC2;
     private VoltAmpUpdater vaUpdater;
     private boolean flip;
+    Thread usbTransferThread;
+    Thread vaThread;
+
 
 
 	public boolean isHwCapturing() {
@@ -77,9 +80,9 @@ public class USBControl implements USBManListener{
 
 			usbm.addUSBManListener(this);
 
-			Thread usbTransferThread = new Thread(usbTransferTask);
+			usbTransferThread = new Thread(usbTransferTask);
 			usbTransferThread.start();
-			Thread vaThread = new Thread(vaUpdater);
+			vaThread = new Thread(vaUpdater);
 			vaThread.start();
 
 			isUSBControllerStarted = true;
@@ -253,7 +256,7 @@ public class USBControl implements USBManListener{
 		{
 			statusBar.setText("Device in Bootload mode.");
 			try {
-				String absPath = toAbsolutePath(".\\BootloaderHost\\CyBootloaderHost-1.1.0.jar");
+				String absPath = toAbsolutePath(".\\BootloaderHost\\CyBootloaderHost-1.2.0.jar");
 				logger.info(absPath);
 				ProcessBuilder pb = new ProcessBuilder("java", "-jar", absPath);
 				Process p = pb.start();
@@ -386,5 +389,12 @@ public class USBControl implements USBManListener{
 			return false;
 		}
 		return usbTransferTask.getVoltCur(voltAmp);
+	}
+
+	public void terminate() {
+		vaUpdater.pause();
+		usbTransferTask.pause();
+		vaUpdater.terminate();
+		usbTransferTask.terminate();
 	}
 }

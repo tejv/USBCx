@@ -28,7 +28,8 @@ public class USBTransfer implements Runnable{
 	static  final int MAX_READ_SIZE = 65535;
 	private final int SHORT_PKT_SIZE = 8;
 	private byte[] tempDataArray = new byte[MAX_READ_SIZE];
-	private boolean isRunning = false;
+	private volatile boolean isRunning = false;
+	private volatile boolean isTerminated = false;
 	private UsbDevice dev = null;
 	private boolean dataTransferStopped = true;
 	private PageQueue pageQueue = new PageQueue();
@@ -206,6 +207,9 @@ public class USBTransfer implements Runnable{
 
 		while(true)
 		{
+			if(isTerminated){
+				break;
+			}
 			if(isRunning)
 			{
 				try {
@@ -267,6 +271,11 @@ public class USBTransfer implements Runnable{
 			return true;
 		}
 		return false;
+	}
+
+	public void terminate() {
+		isTerminated = true;
+		
 	}
 }
 

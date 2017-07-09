@@ -668,15 +668,21 @@ public class MainWindowController implements Initializable{
 	}
 
 	public void setStage(Stage stage) {
-	    myStage = stage;
+		myStage = stage;
 		myStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-		      public void handle(WindowEvent we) {
-		    	  appClosing();
-		    	  Platform.exit();
-		      }
+	    public void handle(WindowEvent we) {
+			appClosing();
+			usbcontrol.terminate();
+			cordinator.terminate();
+			try {
+				Thread.sleep(50);
+			  } catch (InterruptedException e) {
+			 }
+			Platform.exit();
+			System.exit(0);
+	     }
 		  });
 	}
-
 }
 
 

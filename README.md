@@ -77,7 +77,7 @@ Setup
    Open cyacd file(in output folder)and click download. After download is over close bootload application.
    
    If CyBootloaderHost application does not open, then run it yourself. Its in BootloaderHost folder
-   with name CyBootloaderHost-1.1.0.jar (in linux PC make it executable).
+   with name CyBootloaderHost-version.jar (in linux PC make it executable).
 7. On main application, click version icon to check FW version match to that of cyacd file. 
 8. On main application, Click start/stop button to start capturing. You will get success message in 
    status bar if correctly configured.

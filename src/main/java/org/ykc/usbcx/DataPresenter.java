@@ -19,7 +19,8 @@ import javafx.util.Callback;
 
 public class DataPresenter implements Runnable{
 	public static final Logger logger = LoggerFactory.getLogger(DataPresenter.class.getName());
-	private boolean isRunning = false;
+	private volatile boolean isRunning = false;
+	private volatile boolean isTerminated = false;
 	private DataPage curPage;
 	private TableView<MainViewRow> tViewMain;
 	private TableView<DataViewRow> tViewData;
@@ -96,7 +97,7 @@ public class DataPresenter implements Runnable{
 	                default:
 	                	break;
 	                }
-	                
+
 	            }
 	        };
 	    });
@@ -132,6 +133,9 @@ public class DataPresenter implements Runnable{
 		int sleep_counter = 0;
 		while(true)
 		{
+			if(isTerminated){
+				break;
+			}
 			if(isRunning)
 			{
 				try {
@@ -172,6 +176,9 @@ public class DataPresenter implements Runnable{
 		tViewMain.getItems().add(MainViewPktParser.getRow(pkt, tViewMain));
 	}
 
+	public void terminate() {
+		isTerminated = true;
 
+	}
 
 }
