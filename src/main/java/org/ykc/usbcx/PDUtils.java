@@ -207,12 +207,9 @@ public class PDUtils {
     	NONE,
     	VBUS_DN,
     	VBUS_UP,
-    	CC1_DEF,
-        CC1_1_5A,
-        CC1_3A,
-    	CC2_DEF,
-        CC2_1_5A,
-        CC2_3A,
+    	CC_DEF,
+        CC_1_5A,
+        CC_3A,
     	DETACH
     }
 
@@ -406,7 +403,7 @@ public class PDUtils {
     	USB_TYPEC,
     	CAPTIVE,
     }
-    
+
     public enum enumCableLatencyActive
     {
     	RSVD0,

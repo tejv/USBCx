@@ -83,12 +83,9 @@ public class DataPresenter implements Runnable{
 	                	cell.setStyle("-fx-text-fill: cyan");
 	                	break;
 
-	                case "CC1_DEF":
-	                case "CC1_1_5A":
-	                case "CC1_3A":
-	                case "CC2_DEF":
-	                case "CC2_1_5A":
-	                case "CC2_3A":
+	                case "CC_DEF":
+	                case "CC_1_5A":
+	                case "CC_3A":
 	                	cell.setStyle("-fx-text-fill: pink");
 	            		break;
 	                case "DETACH":

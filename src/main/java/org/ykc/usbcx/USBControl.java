@@ -148,12 +148,12 @@ public class USBControl implements USBManListener{
         });
 	}
 
-	public void sendStartCommand(){
+	public void sendStartCommand(Long config){
 		if(isHwAttached == false){
 			statusBar.setText("USBCx HW not attached: Command failed.");
 			return;
 		}
-		Boolean result = usbTransferTask.start(false, 8000);
+		Boolean result = usbTransferTask.start(config);
 		if(result == true)
 		{
 			isHwCapturing = true;
@@ -192,23 +192,23 @@ public class USBControl implements USBManListener{
 		}
 	}
 
-	public void startStopCapture() {
+	public void startStopCapture(Long config) {
     	if(isHwCapturing){
     		sendStopCommand();
     	}
     	else{
-    		sendStartCommand();
+    		sendStartCommand(config);
     	}
 	}
 
-	public void resetCapture(){
+	public void resetCapture(Long config){
 		if(isHwAttached == false){
 			statusBar.setText("USBCx HW not attached: Command failed.");
 			return;
 		}
 		sendStopCommand();
 		usbTransferTask.resetQueue();
-		sendStartCommand();
+		sendStartCommand(config);
 
 	}
 

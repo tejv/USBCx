@@ -89,7 +89,7 @@ public class USBTransfer implements Runnable{
 		pageSave.start(logDir.getAbsolutePath(), logFileName, pageQueue);
 	}
 
-	public boolean start(boolean attachDetachEnable, long detachDebounce)
+	public boolean start(Long config)
 	{
 		pageQueue.clear();
 		pageSave.stop();
@@ -98,12 +98,10 @@ public class USBTransfer implements Runnable{
 		byte[] command = new byte[8];
 
 		command[0] = 16;
-		if(attachDetachEnable == true)
-		{
-			command[4] = 1;
-		}
-		command[6] = Utils.uint32_get_b0(detachDebounce);
-		command[7] = Utils.uint32_get_b1(detachDebounce);
+		command[4] = Utils.uint32_get_b0(config);
+		command[5] = Utils.uint32_get_b1(config);
+		command[6] = Utils.uint32_get_b2(config);
+		command[7] = Utils.uint32_get_b3(config);
 
 
 		if(USBManager.epXfer(dev, OUT_EP_CMD, command) > 0)
@@ -275,7 +273,7 @@ public class USBTransfer implements Runnable{
 
 	public void terminate() {
 		isTerminated = true;
-		
+
 	}
 }
 

@@ -1,8 +1,6 @@
 package org.ykc.usbcx;
 
-
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,9 +11,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
@@ -55,6 +53,9 @@ public class MainWindowController implements Initializable{
     @FXML
     private BorderPane bPaneMainWindow;
 
+    @FXML
+    private TabPane tabPaneMain;
+    
 	 @FXML
     private TableView<MainViewRow> tViewMain;
 
@@ -269,7 +270,25 @@ public class MainWindowController implements Initializable{
     private RadioButton rbCC2None;
 
     @FXML
+    private RadioButton rbCC1Select;
+
+    @FXML
+    private ToggleGroup tgGroupCCSelect;
+
+    @FXML
+    private RadioButton rbCC2Select;
+
+    @FXML
+    private RadioButton rbEnableRpMonitor;
+
+    @FXML
+    private TextField txtCCDebounce;
+
+    @FXML
     private Button bSetTerm;
+
+    @FXML
+    private Button bClearTerm;
 
     private USBControl usbcontrol;
     private Stage myStage;
@@ -396,9 +415,25 @@ public class MainWindowController implements Initializable{
 
 	    usbcontrol = new USBControl(cBoxDeviceList, statusBar, lblVolt, lblCur, lblCC1, lblCC2);
 	    cordinator = new Cordinator(usbcontrol, tViewMain, tViewData, ttViewParseViewer, lblStartDelta);
+
+		Platform.runLater(() -> {
+			 handleArgs();
+        });
 	}
 
-    @FXML
+    private void handleArgs() {
+		if(Main.arg.length > 0){
+			File f = new File(Main.arg[0]);
+			if(f.exists()){
+				if(Utils.getFileExtension(f).equals("ucx1")){
+            		partFileList = OpenRecord.open(f, usbcontrol, statusBar);
+            		loadRecord();
+            	}
+			}
+		}
+	}
+
+	@FXML
     void openOnDragOver(DragEvent event) {
     	 Dragboard db = event.getDragboard();
          if (db.hasFiles()) {
@@ -515,6 +550,23 @@ public class MainWindowController implements Initializable{
     	SaveRecord.save(bPaneMainWindow.getScene().getWindow(), usbcontrol, statusBar);
     }
 
+    Long getStartConfig(){
+    	Long config = 0L;
+    	if(rbEnableRpMonitor.isSelected()){
+    		short debounce = Utils.uint16_get_lsb(Utils.castLongtoUInt(Utils.parseStringtoNumber(txtCCDebounce.getText())));
+    		if(debounce == 0){
+    			debounce = 3;
+    		}
+    		debounce = (short) (debounce * 200); 
+    		config |= 1;
+    		if(rbCC2Select.isSelected()){
+    			config |= 2;
+    		}
+    		config |= debounce << 16;
+    	}
+    	return config;
+    }
+
     @FXML
     void startStopCapture(ActionEvent event) {
     	if(usbcontrol.isHwCapturing() == false){
@@ -529,13 +581,16 @@ public class MainWindowController implements Initializable{
     		bPrevPage.setDisable(false);
     		bNextPage.setDisable(false);
     	}
-    	usbcontrol.startStopCapture();
-    }
 
+    	usbcontrol.startStopCapture(getStartConfig());
+    }
 
     @FXML
     void resetCapture(ActionEvent event) {
-    	usbcontrol.resetCapture();
+    	tViewData.getItems().clear();
+    	ttViewParseViewer.getRoot().getChildren().clear();
+    	usbcontrol.resetCapture(getStartConfig());
+    	tabPaneMain.getSelectionModel().select(0);
     }
 
     @FXML
@@ -632,6 +687,13 @@ public class MainWindowController implements Initializable{
     	else if(rbCC2Rd.isSelected()){
     		cc2 =3;
     	}
+    	usbcontrol.setTerm(cc1, cc2);
+    }
+
+    @FXML
+    void clearTerminations(ActionEvent event) {
+    	byte cc1 = 4;
+    	byte cc2 = 4;
     	usbcontrol.setTerm(cc1, cc2);
     }
 

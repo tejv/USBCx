@@ -1,0 +1,24 @@
+--------------------------------------------------------------------------------
+USBCx PD Analyzer Release notes
+Author: Tejender Sheoran
+Email: tejendersheoran@gmail.com, teju@cypress.com
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+USBCx PD Analyzer Version 1.1.0
+--------------------------------------------------------------------------------
+1. Added args handling so .ucx1 file can be opened with application as argument.
+2. No change in FW.
+
+--------------------------------------------------------------------------------
+USBCx PD Analyzer Version 1.1.0
+--------------------------------------------------------------------------------
+1. Fixed application threads running in background even on close.
+2. No change in FW.
+
+--------------------------------------------------------------------------------
+USBCx PD Analyzer Version 1.0.0
+--------------------------------------------------------------------------------
+1. Initial release
+
+

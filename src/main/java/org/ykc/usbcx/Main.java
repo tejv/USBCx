@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 
 public class Main extends Application {
 	public static final Logger logger = LoggerFactory.getLogger(Main.class.getName());
+	public static String[] arg;
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -33,7 +34,7 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
-		logger.info("Application starting");
+		arg = args;
 		launch(args);
 	}
 }

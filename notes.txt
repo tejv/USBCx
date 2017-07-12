@@ -21,3 +21,5 @@ Collapse/expand button in details view
 
 Properly close all threads
 
+why device list combo get cleared
+

@@ -59,7 +59,6 @@ public class MainViewPktParser {
 		{
 			PDUtils.enumVoltPktEvt pevt =  PDUtils.enumVoltPktEvt.values()[sno_int];
 			row.setOk(pevt.name());
-			row.setDuration("");
 			return row;
 		}
 		row.setSno(Long.toString(sno));

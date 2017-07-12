@@ -81,8 +81,8 @@ Setup
 7. On main application, click version icon to check FW version match to that of cyacd file. 
 8. On main application, Click start/stop button to start capturing. You will get success message in 
    status bar if correctly configured.
-9. If CC1/CC2 voltages are not correct then HW does not support this feature. Even if HW supports
-   this feature CC1/CC2 readings will saturate above 3.3V. 
+9. If CC1/CC2 voltages are not correct then HW (it need rev5 or greater) does not support this feature.
+   Even if HW supports this feature, CC1/CC2 readings will saturate above 3.3V. 
 
 --------------------------------------------------------------------------------
 HW LED INDICATORS
@@ -119,6 +119,22 @@ To enable Triggers. Go to Triggers tab.
    a particular event.   
    Click Set Trigger button. If everything is fine you will get a message "Trigger Set Successful".    
 
+   --------------------------------------------------------------------------------
+Advanced options
+--------------------------------------------------------------------------------
+The sniffer( HW Rev5 or greater) supports monitoring active cc channel for 
+attach, detach, Rp change events. To enable this feature. 
+1. Go to Advanced Options tab.
+2. Check Rp monitoring feature and set debounce in ms. Default debounce is 15ms.
+3. Select active cc channel radio button close to CC1/CC2 voltage readings on in top right corner of GUI.
+   This can be done based on CC1/2 voltage readings or guess work.
+4. Next click reset button.
+
+After this analyzer will report all events.
+Note: If you see "DETACH" event after "VBUS DN" that's because it is debouncing.
+Actual detach happened before "VBUS DN". Just check delta field to see diff between
+events.
+   
 --------------------------------------------------------------------------------  
 GUI Controls
 --------------------------------------------------------------------------------
