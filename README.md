@@ -119,7 +119,7 @@ To enable Triggers. Go to Triggers tab.
    a particular event.   
    Click Set Trigger button. If everything is fine you will get a message "Trigger Set Successful".    
 
-   --------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 Advanced options
 --------------------------------------------------------------------------------
 The sniffer( HW Rev5 or greater) supports monitoring active cc channel for 
