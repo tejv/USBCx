@@ -1,6 +1,7 @@
 package org.ykc.usbcx;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -16,13 +17,16 @@ public class PageQueue {
 	private ConcurrentLinkedQueue<DataPage> pageList = new ConcurrentLinkedQueue<DataPage>();
 	private DataPage curPage = new DataPage();
 	private ObservableList<IPageChangeListener> listenerList = FXCollections.observableArrayList();
+	private ArrayList<DataNode> scopeBuffer = new ArrayList<DataNode>();
+	private final int MAX_SCOPE_SAMPLES = 300000;
 
 	public PageQueue() {
 
 	}
 
 	public void clear(){
-		pageList.clear();		
+		scopeBuffer.clear();
+		pageList.clear();
 		curPage =  new DataPage();
 		publishPageChangeEvent(curPage);
 	}
@@ -60,5 +64,25 @@ public class PageQueue {
 
 	public DataPage getCurPage(){
 		return curPage;
+	}
+
+	public boolean isScopeBufferFull() {
+		if(scopeBuffer.size() >= MAX_SCOPE_SAMPLES){
+			return true;
+		}
+		return false;
+	}
+
+	public boolean addScopeSample(DataNode node){
+		if(scopeBuffer.size() == 0){
+			scopeBuffer.add(new DataNode(node.getTimeStamp()-2, (short)0, (short)0, (short)0, (short)0));
+			scopeBuffer.add(new DataNode(node.getTimeStamp()-1, node.getCc1(), node.getCc2(), node.getVolt(), node.getAmp()));
+		}
+		scopeBuffer.add(node);
+		return true;
+	}
+
+	public ArrayList<DataNode> getScopeSamples(){
+		return scopeBuffer;
 	}
 }

@@ -18,7 +18,7 @@ public class PageSave implements Runnable{
 	private PageQueue pQueue;
 	private int index = 0;
 	private boolean isRunning = false;
-	
+
 	public String getLogDir() {
 		return logDir;
 	}
@@ -47,25 +47,25 @@ public class PageSave implements Runnable{
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
-			}			
+			}
 		}
 	}
-	
+
 	public void stop(){
 		isRunning = false;
 	}
-	
+
 	public boolean isAllDataWritten(){
 		if(pQueue.isEmpty()){
 			return true;
 		}
 		return false;
 	}
-	
+
 	public void saveLastPage(){
 		savePage(pQueue.getCurPage());
 	}
-	
+
 	private void savePage(DataPage page){
 	    try {
 	        String filePath = logDir + "/" + logFileName + "_" + index + ".part";
@@ -81,6 +81,24 @@ public class PageSave implements Runnable{
 	    } catch (IOException e) {
 	    	logger.error("IO exception while saving part file");
 	    }
-	}	
-	
+	}
+
+	public void saveScopeData() {
+	    try {
+	        String filePath = logDir + "/" + logFileName + "_" + index + ".scope";
+	        logger.info(filePath);
+	        FileOutputStream fos = new FileOutputStream(filePath);
+	        ObjectOutputStream oos = new ObjectOutputStream(fos);
+	        oos.writeObject(pQueue.getScopeSamples());
+	        oos.close();
+	        index++;
+
+	    } catch (FileNotFoundException e) {
+	        logger.error("File Not found while saving part file");
+	    } catch (IOException e) {
+	    	logger.error("IO exception while saving part file");
+	    }
+
+	}
+
 }

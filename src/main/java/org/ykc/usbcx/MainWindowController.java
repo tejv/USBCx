@@ -1,11 +1,14 @@
 package org.ykc.usbcx;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -45,6 +48,7 @@ import org.controlsfx.control.StatusBar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.ykc.usbcx.DetailsRow.BG;
+import org.ykc.usbcx.XScope;
 
 public class MainWindowController implements Initializable{
 
@@ -55,7 +59,7 @@ public class MainWindowController implements Initializable{
 
     @FXML
     private TabPane tabPaneMain;
-    
+
 	 @FXML
     private TableView<MainViewRow> tViewMain;
 
@@ -290,11 +294,61 @@ public class MainWindowController implements Initializable{
     @FXML
     private Button bClearTerm;
 
+    @FXML
+    private RadioButton rbEnablexScope;
+
+    // xScope
+    XScope lGraph;
+
+    @FXML
+    private LineChart<Number,Number> lchartData;
+
+    @FXML
+    private NumberAxis xAxis ;
+
+    @FXML
+    private NumberAxis yAxis ;
+
+    @FXML
+    private CheckBox chkGraphCC1;
+
+    @FXML
+    private CheckBox chkGraphCC2;
+
+    @FXML
+    private CheckBox chkGraphVbus;
+
+    @FXML
+    private CheckBox chkGraphAmp;
+
+    @FXML
+    private ComboBox<String> cboxGraphXScale;
+
+    @FXML
+    private Label lblGraphYValue;
+
+    @FXML
+    private Label lblGraphXValue;
+
+    @FXML
+    private Label lblGraphDeltaY;
+
+    @FXML
+    private Label lblGraphDeltaX;
+
+    @FXML
+    private Button bGraphScrollLeft;
+
+    @FXML
+    private Button bGraphScrollRight;
+    // xScope
+
     private USBControl usbcontrol;
     private Stage myStage;
     private Cordinator cordinator;
     private ObservableList<File> partFileList;
     private int partListIdx = 0;
+    private File scopeFile;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -328,6 +382,10 @@ public class MainWindowController implements Initializable{
 		bCollapse.setTooltip(new Tooltip("Collapse Items"));
 		bExpand.setGraphic(new ImageView(new Image("/expand.png")));
 		bExpand.setTooltip(new Tooltip("Expand Items"));
+		bGraphScrollLeft.setGraphic(new ImageView(new Image("/arrow_left.png")));
+		bGraphScrollLeft.setTooltip(new Tooltip("Previous plot"));
+		bGraphScrollRight.setGraphic(new ImageView(new Image("/arrow_right.png")));
+		bGraphScrollRight.setTooltip(new Tooltip("Next plot"));
 
 		ttColPVName.setCellValueFactory(new TreeItemPropertyValueFactory<DetailsRow, String>("name"));
 		ttColPVValue.setCellValueFactory(new TreeItemPropertyValueFactory<DetailsRow, String>("value"));
@@ -413,8 +471,13 @@ public class MainWindowController implements Initializable{
 		bPrevPage.setDisable(true);
 		bNextPage.setDisable(true);
 
+		lGraph = new XScope(lchartData, xAxis, yAxis, cboxGraphXScale, bGraphScrollLeft, bGraphScrollRight,
+				chkGraphCC1, chkGraphCC2, chkGraphVbus, chkGraphAmp, lblGraphYValue, lblGraphXValue, lblGraphDeltaY,
+				lblGraphDeltaX);
+
 	    usbcontrol = new USBControl(cBoxDeviceList, statusBar, lblVolt, lblCur, lblCC1, lblCC2);
-	    cordinator = new Cordinator(usbcontrol, tViewMain, tViewData, ttViewParseViewer, lblStartDelta);
+	    cordinator = new Cordinator(usbcontrol, tViewMain, tViewData, ttViewParseViewer, lblStartDelta, lGraph);
+
 
 		Platform.runLater(() -> {
 			 handleArgs();
@@ -463,11 +526,34 @@ public class MainWindowController implements Initializable{
         event.consume();
     }
 
+    void filterScopeData(){
+    	ObservableList<File> pktList = FXCollections.observableArrayList();
+    	if(partFileList != null){
+    		for(int i = 0 ; i < partFileList.size(); i++){
+    			File xFile = partFileList.get(i);
+    			if(Utils.getFileExtension(xFile).contains("part")){
+    				pktList.add(xFile);
+    			}
+    			else{
+    				scopeFile = xFile;
+    			}
+    		}
+    		partFileList = pktList;
+    	}
+    }
+
     void loadRecord(){
+    	tViewData.getItems().clear();
+    	ttViewParseViewer.getRoot().getChildren().clear();
+    	lGraph.clear();
 		bFirstPage.setDisable(true);
 		bLastPage.setDisable(true);
 		bPrevPage.setDisable(true);
 		bNextPage.setDisable(true);
+		filterScopeData();
+		if(scopeFile != null){
+			cordinator.openScopeData(scopeFile);
+		}
     	if(partFileList != null){
 	    	partListIdx = 0;
 	    	cordinator.openPage(partFileList.get(partListIdx));
@@ -557,12 +643,15 @@ public class MainWindowController implements Initializable{
     		if(debounce == 0){
     			debounce = 3;
     		}
-    		debounce = (short) (debounce * 200); 
+    		debounce = (short) (debounce * 200);
     		config |= 1;
     		if(rbCC2Select.isSelected()){
     			config |= 2;
     		}
     		config |= debounce << 16;
+    	}
+    	if(rbEnablexScope.isSelected()){
+    		config |= 4;
     	}
     	return config;
     }
@@ -570,25 +659,32 @@ public class MainWindowController implements Initializable{
     @FXML
     void startStopCapture(ActionEvent event) {
     	if(usbcontrol.isHwCapturing() == false){
+        	ttViewParseViewer.getRoot().getChildren().clear();
+        	lGraph.clear();
+        	tViewData.getItems().clear();
     		bFirstPage.setDisable(true);
     		bLastPage.setDisable(true);
     		bPrevPage.setDisable(true);
     		bNextPage.setDisable(true);
     	}
     	else{
-    		bFirstPage.setDisable(false);
-    		bLastPage.setDisable(false);
-    		bPrevPage.setDisable(false);
-    		bNextPage.setDisable(false);
+//    		bFirstPage.setDisable(false);
+//    		bLastPage.setDisable(false);
+//    		bPrevPage.setDisable(false);
+//    		bNextPage.setDisable(false);
     	}
 
     	usbcontrol.startStopCapture(getStartConfig());
+    	if(usbcontrol.isHwCapturing() == false){
+    		cordinator.openScopeLiveData();
+    	}
     }
 
     @FXML
     void resetCapture(ActionEvent event) {
     	tViewData.getItems().clear();
     	ttViewParseViewer.getRoot().getChildren().clear();
+    	lGraph.clear();
     	usbcontrol.resetCapture(getStartConfig());
     	tabPaneMain.getSelectionModel().select(0);
     }

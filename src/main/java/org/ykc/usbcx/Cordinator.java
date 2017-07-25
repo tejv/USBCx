@@ -5,10 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeTableView;
@@ -22,16 +24,18 @@ public class Cordinator implements IPageChangeListener{
 	private TableView<DataViewRow> tViewData;
 	private TreeTableView<DetailsRow> ttViewParseViewer;
 	private Label lblStartDelta;
+	private XScope lchartData;
 	Thread presenterThread;
 
 	public Cordinator(USBControl usbcontrol, TableView<MainViewRow> tViewMain, TableView<DataViewRow> tViewData,
-			TreeTableView<DetailsRow> ttViewParseViewer, Label lblStartDelta) {
+			TreeTableView<DetailsRow> ttViewParseViewer, Label lblStartDelta, XScope lchartData) {
 		this.usbControl = usbcontrol;
 		this.tViewMain = tViewMain;
 		this.tViewData = tViewData;
 		this.ttViewParseViewer = ttViewParseViewer;
 		this.lblStartDelta = lblStartDelta;
-		dp = new DataPresenter(tViewMain, tViewData, ttViewParseViewer, lblStartDelta);
+		this.lchartData = lchartData;
+		dp = new DataPresenter(tViewMain, tViewData, ttViewParseViewer, lblStartDelta, lchartData);
 		presenterThread = new Thread(dp);
 		presenterThread.start();
 		pageQueue = usbcontrol.getUsbTransferTask().getPageQueue();
@@ -52,6 +56,17 @@ public class Cordinator implements IPageChangeListener{
 			dp.start();
 		} catch (Exception e) {
 			logger.error("Deserialization error in opening part file");
+		}
+	}
+
+	public void openScopeData(File scopeFile){
+		try {
+			ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(scopeFile));
+			ArrayList<DataNode> scopeSamples =(ArrayList<DataNode>)inputStream.readObject();
+			inputStream.close();
+			lchartData.setDataPoints(scopeSamples);
+		} catch (Exception e) {
+			logger.error("Deserialization error in opening scope file");
 		}
 	}
 
@@ -88,5 +103,9 @@ public class Cordinator implements IPageChangeListener{
 	public void terminate() {
 		dp.stop();
 		dp.terminate();
+	}
+
+	public void openScopeLiveData() {
+		lchartData.setDataPoints(pageQueue.getScopeSamples());
 	}
 }

@@ -120,7 +120,7 @@ To enable Triggers. Go to Triggers tab.
    Click Set Trigger button. If everything is fine you will get a message "Trigger Set Successful".    
 
 --------------------------------------------------------------------------------
-Advanced options
+Advanced options - Rp Monitoring
 --------------------------------------------------------------------------------
 The sniffer( HW Rev5 or greater) supports monitoring active cc channel for 
 attach, detach, Rp change events. To enable this feature. 
@@ -134,7 +134,15 @@ After this analyzer will report all events.
 Note: If you see "DETACH" event after "VBUS DN" that's because it is debouncing.
 Actual detach happened before "VBUS DN". Just check delta field to see diff between
 events.
-   
+ 
+--------------------------------------------------------------------------------
+Advanced options - xScope
+--------------------------------------------------------------------------------
+1. xScope captures CC1/CC2/VBUS voltages and VBUS current at 1000 samples/second.
+2. Click on a particular message will move xscope to window which contains that messsage.
+3. Use next/previous buttons in side pane to move through graphs.
+4. Delta X, Delta Y are difference between last 2 mouse clicks on xScope canvas.
+
 --------------------------------------------------------------------------------  
 GUI Controls
 --------------------------------------------------------------------------------

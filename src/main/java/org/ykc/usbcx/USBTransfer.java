@@ -26,8 +26,10 @@ public class USBTransfer implements Runnable{
 	static  final byte IN_EP_MEASURE = (byte)0x83;
 	static  final byte IN_EP_CMD_RESP = (byte)0x84;
 	static  final int MAX_READ_SIZE = 65535;
+	static  final int MAX_SCOPE_READ_SIZE = 13000;
 	private final int SHORT_PKT_SIZE = 8;
 	private byte[] tempDataArray = new byte[MAX_READ_SIZE];
+	private byte[] tempScopeArray = new byte[MAX_SCOPE_READ_SIZE];
 	private volatile boolean isRunning = false;
 	private volatile boolean isTerminated = false;
 	private UsbDevice dev = null;
@@ -35,6 +37,14 @@ public class USBTransfer implements Runnable{
 	private PageQueue pageQueue = new PageQueue();
 	private PageSave pageSave = new PageSave();
 	private PktCollecter pktCollecter = new PktCollecter();
+	boolean isScopeEnabled = false;
+	
+	private UsbDevice xferDev;
+	private byte xferEp;
+	private byte[] xferBuf;
+	private volatile boolean xferRequest = false;
+	private int xferResult;
+
 
 
 	public PageSave getPageSave() {
@@ -97,6 +107,13 @@ public class USBTransfer implements Runnable{
 		startSaving();
 		byte[] command = new byte[8];
 
+		if((Utils.castLongtoUInt(config) & 0x4) == 0){
+			isScopeEnabled = false;
+		}
+		else{
+			isScopeEnabled = true;
+		}
+
 		command[0] = 16;
 		command[4] = Utils.uint32_get_b0(config);
 		command[5] = Utils.uint32_get_b1(config);
@@ -128,7 +145,7 @@ public class USBTransfer implements Runnable{
 
 	public boolean setTigger(byte[] cmd)
 	{
-		if(USBManager.epXfer(dev, OUT_EP_CMD, cmd) > 0)
+		if(xferWrapper(dev, OUT_EP_CMD, cmd) > 0)
 		{
 			return true;
 		}
@@ -140,12 +157,12 @@ public class USBTransfer implements Runnable{
 		byte[] command = new byte[4];
 		command[0] = 4;
 
-		if(USBManager.epXfer(dev, OUT_EP_CMD, command) <= 0)
+		if(xferWrapper(dev, OUT_EP_CMD, command) <= 0)
 		{
 			return false;
 		}
 
-		if(USBManager.epXfer(dev, IN_EP_CMD_RESP, readBuf) == 4)
+		if(xferWrapper(dev, IN_EP_CMD_RESP, readBuf) == 4)
 		{
 			return true;
 		}
@@ -157,7 +174,7 @@ public class USBTransfer implements Runnable{
 		byte[] command = new byte[4];
 		command[0] = 0x5;
 
-		if(USBManager.epXfer(dev, OUT_EP_CMD, command) == 4)
+		if(xferWrapper(dev, OUT_EP_CMD, command) == 4)
 		{
 			return true;
 		}
@@ -172,7 +189,7 @@ public class USBTransfer implements Runnable{
 	{
 		byte[] command = new byte[MAX_READ_SIZE];
 
-		if(USBManager.epXfer(dev, IN_EP_CC_DATA, command) > 0)
+		if(xferWrapper(dev, IN_EP_CC_DATA, command) > 0)
 		{
 			return true;
 		}
@@ -210,6 +227,11 @@ public class USBTransfer implements Runnable{
 			}
 			if(isRunning)
 			{
+				if(xferRequest == true){
+					xferResult = USBManager.epXfer(xferDev, xferEp, xferBuf);
+					xferRequest = false;
+				}
+				
 				try {
 					int size = USBManager.epXfer(dev, IN_EP_CC_DATA, tempDataArray);
 					if (size > SHORT_PKT_SIZE)
@@ -222,6 +244,20 @@ public class USBTransfer implements Runnable{
 					e.printStackTrace();
 				}
 
+				if(isScopeEnabled && !pageQueue.isScopeBufferFull()){
+					try {
+						int size = USBManager.epXfer(dev, IN_EP_MEASURE, tempScopeArray);
+						if (size > SHORT_PKT_SIZE)
+						{
+							/* Extract scope data and store */
+							ScopeCollecter.run(tempScopeArray, pageQueue, size);
+							continue;
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+
 			}
 			else
 			{
@@ -229,7 +265,7 @@ public class USBTransfer implements Runnable{
 			}
 
 			try {
-				Thread.sleep(10);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 			}
@@ -243,7 +279,7 @@ public class USBTransfer implements Runnable{
 	}
 
 	public boolean setTerm(byte[] cmd) {
-		if(USBManager.epXfer(dev, OUT_EP_CMD, cmd) <= 0)
+		if(xferWrapper(dev, OUT_EP_CMD, cmd) <= 0)
 		{
 			return false;
 		}
@@ -255,7 +291,7 @@ public class USBTransfer implements Runnable{
 		byte[] command = new byte[4];
 		command[0] = 17;
 
-		if(USBManager.epXfer(dev, OUT_EP_CMD, command) <= 0)
+		if(xferWrapper(dev, OUT_EP_CMD, command) <= 0)
 		{
 			return false;
 		}
@@ -264,7 +300,7 @@ public class USBTransfer implements Runnable{
 		} catch (InterruptedException e) {
 		}
 
-		if(USBManager.epXfer(dev, IN_EP_CMD_RESP, readBuf) == 8)
+		if(xferWrapper(dev, IN_EP_CMD_RESP, readBuf) == 8)
 		{
 			return true;
 		}
@@ -274,6 +310,18 @@ public class USBTransfer implements Runnable{
 	public void terminate() {
 		isTerminated = true;
 
+	}
+	
+	private int xferWrapper(UsbDevice dev, byte ep, byte[] buf){
+		if(isRunning == true){
+		xferDev = dev;
+			xferEp = ep;
+			xferBuf = buf;
+			xferRequest = true;
+			while(xferRequest == true);
+			return xferResult;
+		}
+		return USBManager.epXfer(dev, ep, buf);
 	}
 }
 

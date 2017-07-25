@@ -169,3 +169,45 @@
 .scroll-bar:vertical > .thumb {
     -fx-background-color: #d3d3d3;
 }
+
+.chart-vertical-grid-lines {
+    -fx-stroke: #d3d3d3;
+}
+.chart-horizontal-grid-lines {
+    -fx-stroke: #d3d3d3;
+}
+
+.chart-series-line {
+    -fx-stroke-width: 1px;
+}
+
+/*
+.chart-plot-background {
+    -fx-background-color: #808080;
+}
+
+*/
+
+.default-color0.chart-series-line { -fx-stroke: #ff0000; }
+.default-color1.chart-series-line { -fx-stroke: #00ffff; }
+.default-color2.chart-series-line { -fx-stroke: #00ff00; }
+.default-color3.chart-series-line { -fx-stroke: #ff00ff; }
+.default-color4.chart-series-line { -fx-stroke: #ffe4c4; }
+.default-color5.chart-series-line { -fx-stroke: #ffff00; }
+
+.default-color0.chart-line-symbol { -fx-background-color: #ff0000, white; }
+.default-color1.chart-line-symbol { -fx-background-color: #00ffff, white; }
+.default-color2.chart-line-symbol { -fx-background-color: #00ff00, white; }
+.default-color3.chart-line-symbol { -fx-background-color: #ff00ff, white; }
+.default-color4.chart-line-symbol { -fx-background-color: #ffe4c4, white; }
+.default-color5.chart-line-symbol { -fx-background-color: #ffff00, white; }
+
+.axis-tick-mark {
+    -fx-fill: null;
+    -fx-stroke: #d3d3d3;
+}
+.axis-minor-tick-mark {
+    -fx-fill: null;
+    -fx-stroke: #d3d3d3;
+}
+

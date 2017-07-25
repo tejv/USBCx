@@ -71,6 +71,7 @@ public class SaveRecord {
         	}
 			PageSave saveHandler = usbControl.getUsbTransferTask().getPageSave();
 			saveHandler.saveLastPage();
+			saveHandler.saveScopeData();
 			File logDir = new File(saveHandler.getLogDir());
 			FileOutputStream fout = new FileOutputStream(file);
 			ZipOutputStream zout = new ZipOutputStream(fout);

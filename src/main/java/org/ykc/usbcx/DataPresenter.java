@@ -26,18 +26,21 @@ public class DataPresenter implements Runnable{
 	private TableView<DataViewRow> tViewData;
 	private TreeTableView<DetailsRow> ttViewParseViewer;
 	private Label lblStartDelta;
+	private XScope lchartData;
 	private int pageIdx = 0;
 
 	public DataPresenter(TableView<MainViewRow> tViewMain, TableView<DataViewRow> tViewData,
-			TreeTableView<DetailsRow> ttViewParseViewer, Label lblStartDelta){
+			TreeTableView<DetailsRow> ttViewParseViewer, Label lblStartDelta, XScope lchartData){
 		this.tViewMain = tViewMain;
 		this.tViewData = tViewData;
 		this.ttViewParseViewer = ttViewParseViewer;
 		this.lblStartDelta = lblStartDelta;
+		this.lchartData = lchartData;
+
 		tViewMain.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 		    if (newSelection != null) {
 		    	int idx = tViewMain.getSelectionModel().getSelectedIndex();
-		    	DataViewPresenter.updateDataView(idx, tViewData, curPage);
+		    	DataViewPresenter.updateDataView(idx, tViewData, curPage, lchartData);
 		    	DetailsPresenter.updateView(idx, ttViewParseViewer, curPage);
 		    	StartDeltaCalculator.setDelta(curPage.getItem(idx), lblStartDelta);
 		    }
