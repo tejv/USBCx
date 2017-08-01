@@ -160,7 +160,7 @@
                                        <content>
                                           <AnchorPane minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <SplitPane dividerPositions="0.5" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <SplitPane dividerPositions="0.5531496062992126" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <items>
                                                       <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="261.0">
                                                          <children>
@@ -176,9 +176,9 @@
                                                                         </ToolBar>
                                                                      </children>
                                                                   </VBox>
-                                                                  <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="26.0" prefHeight="553.0" prefWidth="273.0" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
-                                                                     <content>
-                                                                        <TreeTableView fx:id="ttViewParseViewer" prefHeight="250.0" prefWidth="259.0" showRoot="false" tableMenuButtonVisible="true">
+                                                                  <AnchorPane layoutY="26.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
+                                                                     <children>
+                                                                        <TreeTableView fx:id="ttViewParseViewer" prefHeight="250.0" prefWidth="259.0" showRoot="false" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                            <columns>
                                                                               <TreeTableColumn fx:id="ttColPVName" editable="false" prefWidth="75.0" sortable="false" text="Name" />
                                                                               <TreeTableColumn fx:id="ttColPVValue" editable="false" prefWidth="75.0" sortable="false" text="Value" />
@@ -192,8 +192,8 @@
                                                                               <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                                                            </columnResizePolicy>
                                                                         </TreeTableView>
-                                                                     </content>
-                                                                  </ScrollPane>
+                                                                     </children>
+                                                                  </AnchorPane>
                                                                </children>
                                                             </AnchorPane>
                                                          </children>

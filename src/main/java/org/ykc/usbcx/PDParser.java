@@ -65,7 +65,13 @@ public class PDParser {
 		Long hdr = PDUtils.get16bitValue(pkt, PktCollecter.HEADER_BYTE0_IDX);
 		int rev = (int)(((hdr) & 0x000000c0) >> 6);
 		int count = (int)(((hdr) & 0x00007000) >> 12);
-		int msg = (int)(((hdr) & 0x0000000f) >> 0);
+		int msg;
+		if(rev <= 1){
+		    msg = (int)(((hdr) & 0x0000000f) >> 0);
+		}
+		else{
+			msg = (int)(((hdr) & 0x0000001f) >> 0);
+		}
 		boolean isExtended = PDUtils.get_field_extended(hdr);
 
 		if(sopType.equals(enumSOPType.SOP)){

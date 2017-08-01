@@ -38,7 +38,7 @@ public class USBTransfer implements Runnable{
 	private PageSave pageSave = new PageSave();
 	private PktCollecter pktCollecter = new PktCollecter();
 	boolean isScopeEnabled = false;
-	
+
 	private UsbDevice xferDev;
 	private byte xferEp;
 	private byte[] xferBuf;
@@ -231,7 +231,7 @@ public class USBTransfer implements Runnable{
 					xferResult = USBManager.epXfer(xferDev, xferEp, xferBuf);
 					xferRequest = false;
 				}
-				
+
 				try {
 					int size = USBManager.epXfer(dev, IN_EP_CC_DATA, tempDataArray);
 					if (size > SHORT_PKT_SIZE)
@@ -265,7 +265,7 @@ public class USBTransfer implements Runnable{
 			}
 
 			try {
-				Thread.sleep(50);
+				Thread.sleep(5);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 			}
@@ -311,7 +311,7 @@ public class USBTransfer implements Runnable{
 		isTerminated = true;
 
 	}
-	
+
 	private int xferWrapper(UsbDevice dev, byte ep, byte[] buf){
 		if(isRunning == true){
 		xferDev = dev;

@@ -830,15 +830,7 @@ public class PDUtils {
 
     public static int get_field_extended_count(int ext_hdr)
     {
-        if((ext_hdr >>> 15) == 0)
-        {
-            int val = (ext_hdr & 0x1FF);
-            return val;
-        }
-        else
-        {
-            return 0;
-        }
+         return (ext_hdr & 0x1FF);
     }
 
     public static int get_field_extended_chunk_no(int ext_hdr)

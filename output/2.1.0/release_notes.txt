@@ -1,0 +1,46 @@
+--------------------------------------------------------------------------------
+USBCx PD Analyzer Release notes
+Author: Tejender Sheoran
+Email: tejendersheoran@gmail.com, teju@cypress.com
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+USBCx PD Analyzer Version 2.1.0
+--------------------------------------------------------------------------------
+1. Fixed some parsing bugs in GUI.
+2. Avoided blue led glow for scope buffer full as it expected to fill after 5mins.
+3. Change in FW to 6.0.
+
+--------------------------------------------------------------------------------
+USBCx PD Analyzer Version 2.0.0
+--------------------------------------------------------------------------------
+1. Added advanced option scope CC1/CC2/VBUS voltages and current. Enabled by default.
+   This provides graph at 1000 samples/sec for 5 minutes from start button is clicked.
+2. Change in FW to 5.0.
+
+--------------------------------------------------------------------------------
+USBCx PD Analyzer Version 1.3.0
+--------------------------------------------------------------------------------
+1. Added advanced option of CC line monitoring for attach/detach and Rp change events.
+   This require user to enable this option from advanced settings tab.
+   Then set active cc channel based on CC1/CC2 voltage readings or guess.
+2. Change in FW to 4.0.
+
+--------------------------------------------------------------------------------
+USBCx PD Analyzer Version 1.2.0
+--------------------------------------------------------------------------------
+1. Added args handling so .ucx1 file can be opened with application as argument.
+2. No change in FW.
+
+--------------------------------------------------------------------------------
+USBCx PD Analyzer Version 1.1.0
+--------------------------------------------------------------------------------
+1. Fixed application threads running in background even on close.
+2. No change in FW.
+
+--------------------------------------------------------------------------------
+USBCx PD Analyzer Version 1.0.0
+--------------------------------------------------------------------------------
+1. Initial release
+
+
