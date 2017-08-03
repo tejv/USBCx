@@ -6,7 +6,7 @@ Quick Start Guide USBCx USBPD Protocol Analyzer
 --------------------------------------------------------------------------------
 Author: Tejender Sheoran
 
-Email: tejendersheoran@gmail.com, teju@cypress.com
+Email: tejendersheoran@gmail.com
 
 Copyright (C) <2017>  <Tejender Sheoran>
 
@@ -27,8 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -------------------------------------------------------------------------------
 Overview
 --------------------------------------------------------------------------------
-1. This analyzer uses CY4500 TypeC PD Anlyzer kit as low level hardware. Although CY8CKIT-059
-   or other PSoC5 kits can also be used.
+1. This analyzer uses CY4500 TypeC PD Anlyzer kit as low level hardware.
 2. USBCx PD Analyzer GUI( USBCx-version.jar ) is used to present data to user. GUI
    is written in Java.
 3. USB interface is used for data logging from hw to PC.
@@ -139,9 +138,13 @@ events.
 Advanced options - xScope
 --------------------------------------------------------------------------------
 1. xScope captures CC1/CC2/VBUS voltages and VBUS current at 1000 samples/second.
-2. Click on a particular message will move xscope to window which contains that messsage.
-3. Use next/previous buttons in side pane to move through graphs.
-4. Delta X, Delta Y are difference between last 2 mouse clicks on xScope canvas.
+2. xScope will be populated when capture is stopped.
+3. Click on a particular message will move xscope to window which contains that messsage.
+   To know where message lies. Enable start time in packet window by clicking + sign in top right corner.
+   Then start time can be related to graph x axis.
+4. Use next/previous buttons in side pane to move through graphs.
+5. Delta X, Delta Y are difference between last 2 mouse clicks on xScope canvas.
+6. Mouse wheel will change resolution. 
 
 --------------------------------------------------------------------------------  
 GUI Controls
