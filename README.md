@@ -90,7 +90,7 @@ HW LED INDICATORS
 2. Green - Analyzer is capturing the data.
 3. Yellow - Analyzer has stopped capturing data
 4. Blue - Analyzer internal buffer has overflowed means data is not taken out from analyzer fast enough. 
-   Once buffer overflow happens led keep glowing as blue even if buffer is emptied. This can be cleared by reset (Ctrl + R)
+   Once buffer overflow happens led keep glowing as blue even if buffer is emptied. This can be cleared by reset button.
 
 --------------------------------------------------------------------------------
 HW Triggers Description
@@ -146,6 +146,11 @@ Advanced options - xScope
 5. Delta X, Delta Y are difference between last 2 mouse clicks on xScope canvas.
 6. Mouse wheel will change resolution. 
 
+--------------------------------------------------------------------------------
+Advanced options - Terminations
+--------------------------------------------------------------------------------
+1. Terminations tab can be used to apply Rp/Rd/Ra on cc lines.
+
 --------------------------------------------------------------------------------  
 GUI Controls
 --------------------------------------------------------------------------------
@@ -171,7 +176,7 @@ Other Features
 1. Duration field show the total duration a packet in us.
 2. Delta field show time difference between end of last packet and start of current packet in us.
 3. Start Delta : show the start time difference of last 2 selected messages in us.
-4. You can hide/show an column by right clicking on data view table header.
+4. You can hide/show any column by clicking "+" sign at top right corner of table view.
 5. You can rearrange columns as per your convenience by dragging column headers.
 6. Drag and drop a .ucx1 file onto data view will also open the file.
 7. If "OK" field is blue that means packet has EOP error.
