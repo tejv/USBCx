@@ -6,7 +6,7 @@ Quick Start Guide USBCx USBPD Protocol Analyzer
 --------------------------------------------------------------------------------
 Author: Tejender Sheoran
 
-Email: tejendersheoran@gmail.com, teju@cypress.com
+Email: tejendersheoran@gmail.com
 
 Copyright (C) <2017>  <Tejender Sheoran>
 
@@ -27,8 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -------------------------------------------------------------------------------
 Overview
 --------------------------------------------------------------------------------
-1. This analyzer uses CY4500 TypeC PD Anlyzer kit as low level hardware. Although CY8CKIT-059
-   or other PSoC5 kits can also be used.
+1. This analyzer uses CY4500 TypeC PD Anlyzer kit as low level hardware.
 2. USBCx PD Analyzer GUI( USBCx-version.jar ) is used to present data to user. GUI
    is written in Java.
 3. USB interface is used for data logging from hw to PC.
@@ -63,7 +62,7 @@ Setup
       
         where 04b4 is the vendor id, 0078 is product id of usb device, b71d is product id of boot device.
         
-4. Double click on USBCx-<version>.jar. In linux PC make sure to make this file executable.
+4. Double click on USBCx-version.jar. In linux PC make sure to make this file executable.
 5. Log window will show "USBCx HW Attached".
 6. Boot the FW image USBCx-version.cyacd using download button(do not start capture before bootloading).
    This will put HW in boot mode and led will stop blinking. If download command failed then driver
@@ -91,7 +90,7 @@ HW LED INDICATORS
 2. Green - Analyzer is capturing the data.
 3. Yellow - Analyzer has stopped capturing data
 4. Blue - Analyzer internal buffer has overflowed means data is not taken out from analyzer fast enough. 
-   Once buffer overflow happens led keep glowing as blue even if buffer is emptied. This can be cleared by reset (Ctrl + R)
+   Once buffer overflow happens led keep glowing as blue even if buffer is emptied. This can be cleared by reset button.
 
 --------------------------------------------------------------------------------
 HW Triggers Description
@@ -139,9 +138,18 @@ events.
 Advanced options - xScope
 --------------------------------------------------------------------------------
 1. xScope captures CC1/CC2/VBUS voltages and VBUS current at 1000 samples/second.
-2. Click on a particular message will move xscope to window which contains that messsage.
-3. Use next/previous buttons in side pane to move through graphs.
-4. Delta X, Delta Y are difference between last 2 mouse clicks on xScope canvas.
+2. xScope will be populated when capture is stopped.
+3. Click on a particular message will move xscope to window which contains that messsage.
+   To know where message lies. Enable start time in packet window by clicking + sign in top right corner.
+   Then start time can be related to graph x axis.
+4. Use next/previous buttons in side pane to move through graphs.
+5. Delta X, Delta Y are difference between last 2 mouse clicks on xScope canvas.
+6. Mouse wheel will change resolution. 
+
+--------------------------------------------------------------------------------
+Advanced options - Terminations
+--------------------------------------------------------------------------------
+1. Terminations tab can be used to apply Rp/Rd/Ra on cc lines.
 
 --------------------------------------------------------------------------------  
 GUI Controls
@@ -168,7 +176,7 @@ Other Features
 1. Duration field show the total duration a packet in us.
 2. Delta field show time difference between end of last packet and start of current packet in us.
 3. Start Delta : show the start time difference of last 2 selected messages in us.
-4. You can hide/show an column by right clicking on data view table header.
+4. You can hide/show any column by clicking "+" sign at top right corner of table view.
 5. You can rearrange columns as per your convenience by dragging column headers.
 6. Drag and drop a .ucx1 file onto data view will also open the file.
 7. If "OK" field is blue that means packet has EOP error.
