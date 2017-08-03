@@ -62,7 +62,7 @@ Setup
       
         where 04b4 is the vendor id, 0078 is product id of usb device, b71d is product id of boot device.
         
-4. Double click on USBCx-<version>.jar. In linux PC make sure to make this file executable.
+4. Double click on USBCx-version.jar. In linux PC make sure to make this file executable.
 5. Log window will show "USBCx HW Attached".
 6. Boot the FW image USBCx-version.cyacd using download button(do not start capture before bootloading).
    This will put HW in boot mode and led will stop blinking. If download command failed then driver
