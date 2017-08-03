@@ -289,6 +289,9 @@ public class MainWindowController implements Initializable{
     private TextField txtCCDebounce;
 
     @FXML
+    private TextField txtMaxScopeBuffer;
+
+    @FXML
     private Button bSetTerm;
 
     @FXML
@@ -655,6 +658,14 @@ public class MainWindowController implements Initializable{
     	}
     	return config;
     }
+    
+    private int getScopeCaptureMins(){
+    	int scopeCaptureMins = Utils.castLongtoUInt(Utils.parseStringtoNumber(txtMaxScopeBuffer.getText()));
+    	if(scopeCaptureMins == 0){
+    		scopeCaptureMins = 5;
+    	}
+    	return scopeCaptureMins;
+    }
 
     @FXML
     void startStopCapture(ActionEvent event) {
@@ -674,7 +685,9 @@ public class MainWindowController implements Initializable{
 //    		bNextPage.setDisable(false);
     	}
 
-    	usbcontrol.startStopCapture(getStartConfig());
+
+    	
+    	usbcontrol.startStopCapture(getStartConfig(), getScopeCaptureMins());
     	if(usbcontrol.isHwCapturing() == false){
     		cordinator.openScopeLiveData();
     	}
@@ -685,7 +698,7 @@ public class MainWindowController implements Initializable{
     	tViewData.getItems().clear();
     	ttViewParseViewer.getRoot().getChildren().clear();
     	lGraph.clear();
-    	usbcontrol.resetCapture(getStartConfig());
+    	usbcontrol.resetCapture(getStartConfig(), getScopeCaptureMins());
     	tabPaneMain.getSelectionModel().select(0);
     }
 

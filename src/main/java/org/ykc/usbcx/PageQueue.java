@@ -18,10 +18,14 @@ public class PageQueue {
 	private DataPage curPage = new DataPage();
 	private ObservableList<IPageChangeListener> listenerList = FXCollections.observableArrayList();
 	private ArrayList<DataNode> scopeBuffer = new ArrayList<DataNode>();
-	private final int MAX_SCOPE_SAMPLES = 300000;
+	private int maxScopeSamples = 300000; // 5mins
 
 	public PageQueue() {
 
+	}
+	
+	public void setMaxScopeCaptureMins(int scopeCaptureMins){
+		maxScopeSamples = scopeCaptureMins * 60000;
 	}
 
 	public void clear(){
@@ -67,7 +71,7 @@ public class PageQueue {
 	}
 
 	public boolean isScopeBufferFull() {
-		if(scopeBuffer.size() >= MAX_SCOPE_SAMPLES){
+		if(scopeBuffer.size() >= maxScopeSamples){
 			return true;
 		}
 		return false;

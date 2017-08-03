@@ -99,11 +99,12 @@ public class USBTransfer implements Runnable{
 		pageSave.start(logDir.getAbsolutePath(), logFileName, pageQueue);
 	}
 
-	public boolean start(Long config)
+	public boolean start(Long config, int scopeCaptureMins)
 	{
 		pageQueue.clear();
 		pageSave.stop();
 		pktCollecter.clear();
+		pageQueue.setMaxScopeCaptureMins(scopeCaptureMins);
 		startSaving();
 		byte[] command = new byte[8];
 
@@ -112,6 +113,7 @@ public class USBTransfer implements Runnable{
 		}
 		else{
 			isScopeEnabled = true;
+			
 		}
 
 		command[0] = 16;

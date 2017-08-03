@@ -364,6 +364,12 @@
                                           <RadioButton fx:id="rbEnableRpMonitor" mnemonicParsing="false" prefHeight="21.0" prefWidth="587.0" text="Enable Rp monitoring with debounce in ms (This require active cc select and reset)" />
                                           <TextField fx:id="txtCCDebounce" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="93.0" text="15" GridPane.columnIndex="1" />
                                           <RadioButton fx:id="rbEnablexScope" mnemonicParsing="false" prefHeight="21.0" prefWidth="587.0" selected="true" text="Enable xScope" GridPane.rowIndex="1" />
+                                          <Label text="Max scope buffer (in mins)" GridPane.rowIndex="2">
+                                             <padding>
+                                                <Insets left="27.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="txtMaxScopeBuffer" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="93.0" text="15" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                        </children>
                                        <padding>
                                           <Insets left="10.0" />
