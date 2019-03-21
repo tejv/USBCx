@@ -40,7 +40,7 @@ Overview
 Setup
 -------------------------------------------------------------------------------
 1. Get the latest version (entire folder) from output folder.
-2. Install latest JRE(Java Runtime environment).
+2. Install latest JRE 8(Java Runtime environment). For building source use JDK 8.
 3. Install Driver 
   ### Windows
     . Install libusb win32 driver. By default CY4500 kit will bind to cypress driver. 
